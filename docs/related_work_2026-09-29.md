@@ -13,3 +13,14 @@ Search for prior work on each possible framing of this paper. The closest prior 
 | **A. The best correction layer differs from the best detection layer (same model, same task)** | **Not found** | Nearest: *Dissociating Decodability and Causal Use* 2604.22128 (toy bracket transformers); the CAC timing result. Only possible if some steering method actually corrects (v2 run). |
 
 Implication: A is the only framing still open, and it needs a steering method that works (v2).
+
+## Second pass: correctability-map idea
+
+| Piece of the idea | Status | Closest prior work |
+|---|---|---|
+| Optimize a steering vector by gradient descent on a single example | Method exists | Dunefsky & Cohan, *One-shot Optimized Steering Vectors*, arXiv 2502.18862 (COLM 2025); includes recovery from fictitious information |
+| The best steering direction rotates across inputs, so rank-1 steering is hard | Exists (general concepts) | Robertson et al., *When Is Rank-1 Steering Cheap?*, arXiv 2605.16362 (May 2026); Tan et al., arXiv 2407.12404 (anti-steerability) |
+| What predicts the best steering layer (logit-lens accessibility) | Exists (24 binary concepts) | Billa, *Predicting Where Steering Vectors Succeed*, arXiv 2604.15557 (Apr 2026) |
+| Where something is localized ≠ the best layer to edit it | Exists (weight editing) | Hase et al., *Does Localization Inform Editing?*, NeurIPS 2023 |
+| Small activation perturbations are corrected by later layers (self-repair) | Exists | arXiv 2606.24964, 2609.07876 |
+| **A layer-by-layer map of the minimal activation edit that fixes each hallucination, set against where hallucination is detectable, split by knows / doesn't know (HK±), explaining why fixed steering fails in 2604.13068 / 2603.18353 / 2605.05715** | **Not found as a combination** | novelty comes from the question and the synthesis, not the tools |
