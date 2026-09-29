@@ -1,0 +1,13 @@
+### cell 5
+# src: import torch
+Device: cuda | Layers: [8, 12, 16, 20, 24]
+
+
+### cell 7
+# src: from huggingface_hub import login
+Logged in
+
+
+### cell 10
+# src: bnb = BitsAndBytesConfig(load_in_8bit=True)
+ERROR ImportError: Using `bitsandbytes` 8-bit quantization requires bitsandbytes: `pip install -U bitsandbytes>=0.46.1`

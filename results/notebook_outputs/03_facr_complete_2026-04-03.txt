@@ -1,0 +1,555 @@
+### cell 1
+# src: # ── CELL 1 — Installs ────────────────────────────────────────────
+[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m60.7/60.7 MB[0m [31m36.5 MB/s[0m eta [36m0:00:00[0m
+[?25h
+
+### cell 5
+# src: from google.colab import drive
+Mounted at /content/drive
+
+
+### cell 8
+# src: MODEL_ID    = "meta-llama/Llama-3.2-3B-Instruct"
+<torch._C.Generator at 0x7ad550179770>
+
+### cell 9
+# src: print(f"Device : {DEVICE} | {torch.cuda.get_device_name(0)}")
+Device : cuda | NVIDIA A100-SXM4-40GB
+
+
+### cell 10
+# src: tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
+config.json:   0%|          | 0.00/878 [00:00<?, ?B/s]
+tokenizer_config.json: 0.00B [00:00, ?B/s]
+tokenizer.json: 0.00B [00:00, ?B/s]
+special_tokens_map.json:   0%|          | 0.00/296 [00:00<?, ?B/s]
+
+### cell 11
+# src: model = AutoModelForCausalLM.from_pretrained(
+`torch_dtype` is deprecated! Use `dtype` instead!
+
+model.safetensors.index.json: 0.00B [00:00, ?B/s]
+Downloading (incomplete total...): 0.00B [00:00, ?B/s]
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]
+The following generation flags are not valid and may be ignored: ['output_hidden_states']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]
+generation_config.json:   0%|          | 0.00/189 [00:00<?, ?B/s]
+Model loaded ✓  |  Total layers (incl. embedding): 29
+
+
+### cell 20
+# src: print("Core framework functions loaded ✓")
+Core framework functions loaded ✓
+
+
+### cell 26
+# src: # ── Load all datasets ─────────────────────────────────────────────
+Loading datasets...
+TriviaQA  : 400 samples (from cache)
+HaluEval  : 400 samples (from cache)
+TruthfulQA: 400 samples (from cache)
+NQ-Open   : 400 samples (from cache)
+
+Dataset summary:
+  TriviaQA    :  400 samples | factual=194 (48%) | hallu=206 (52%)
+  HaluEval    :  400 samples | factual=197 (49%) | hallu=203 (51%)
+  TruthfulQA  :  400 samples | factual=200 (50%) | hallu=200 (50%)
+  NQ-Open     :  400 samples | factual=99 (25%) | hallu=301 (75%)
+
+
+### cell 27
+# src: # ── Diagnose which dataset is empty ──────────────────────────────
+TriviaQA: 400 samples
+HaluEval: 400 samples
+TruthfulQA: 400 samples
+NQ-Open: 400 samples
+
+
+### cell 29
+# src: # delete cached empty files so they regenerate cleanly
+TriviaQA  : 400 samples (from cache)
+HaluEval  : 400 samples (from cache)
+TruthfulQA: 400 samples (from cache)
+NQ-Open   : 400 samples (from cache)
+  TriviaQA    : 400 | factual=194 | hallu=206
+  HaluEval    : 400 | factual=197 | hallu=203
+  TruthfulQA  : 400 | factual=200 | hallu=200
+  NQ-Open     : 400 | factual=99 | hallu=301
+
+
+### cell 31
+# src: print("\n" + "="*60)
+
+============================================================
+  EXPERIMENT A — Full sequence, all 4 datasets
+  Automatic L* selection per dataset
+============================================================
+
+
+### cell 32
+# src: full_results = {}
+
+── TriviaQA ────────────────────────────────────────
+  Split → sel:80 | train:240 | eval:80
+  Sweeping 29 layers at cutoff=100% ...
+  L* = layer 13 (46% depth) | sel AUROC = 0.7179
+  Final AUROC = 0.8565 ± 0.0268
+
+── HaluEval ────────────────────────────────────────
+  Split → sel:80 | train:240 | eval:80
+  Sweeping 29 layers at cutoff=100% ...
+  L* = layer 1 (4% depth) | sel AUROC = 1.0000
+  Final AUROC = 0.9529 ± 0.0554
+
+── TruthfulQA ────────────────────────────────────────
+  Split → sel:80 | train:240 | eval:80
+  Sweeping 29 layers at cutoff=100% ...
+  L* = layer 12 (43% depth) | sel AUROC = 0.9222
+  Final AUROC = 0.8661 ± 0.0413
+
+── NQ-Open ────────────────────────────────────────
+  Split → sel:80 | train:240 | eval:80
+  Sweeping 29 layers at cutoff=100% ...
+  L* = layer 16 (57% depth) | sel AUROC = 0.7663
+  Final AUROC = 0.7891 ± 0.1708
+
+
+### cell 33
+# src: # check what HaluEval actually contains
+HaluEval first 3 samples:
+  Q: What was the year founded of the football team that Aaron Ga
+  A: 1928
+  Score: 1.0
+
+  Q: What is the current name of the Atlanta Mansion built for th
+  A: Lullwater Estate
+  Score: 1.0
+
+  Q: Mackenzie Davis appeared in the 2013 Canadian romantic comed
+  A: Michael Dowse
+  Score: 1.0
+
+TriviaQA first 3 samples:
+  Q: Bill Berry retired through ill health as a drummer in which 
+  A: R
+  Score: 0.5
+
+  Q: When was the Scrabble World championship first held?
+  A: 1982
+  Score: 0.0
+
+  Q: Which country has the rand as its currency?
+  A: South Africa
+  Score: 1.0
+
+
+
+### cell 34
+# src: # ── Delete broken cache ───────────────────────────────────────────
+Deleted broken cache ✓
+
+README.md: 0.00B [00:00, ?B/s]
+qa_samples/data-00000-of-00001.parquet:   0%|          | 0.00/3.43M [00:00<?, ?B/s]
+Generating data split:   0%|          | 0/10000 [00:00<?, ? examples/s]
+HaluEval  : 400 samples | factual=197 | hallu=203
+
+Verification:
+TriviaQA[0]: Bill Berry retired through ill health as a drummer
+HaluEval[0]: What was the year founded of the football team tha
+
+HaluEval distribution: factual=197 | hallu=203
+
+
+### cell 36
+# src: print("\n── Experiment A Summary ──────────────────────────────────")
+
+── Experiment A Summary ──────────────────────────────────
+Dataset          L*    Depth    AUROC     ±Std
+------------------------------------------------
+TriviaQA         13      46%   0.8565 ±0.0268
+HaluEval          1       4%   0.9529 ±0.0554
+TruthfulQA       12      43%   0.8661 ±0.0413
+NQ-Open          16      57%   0.7891 ±0.1708
+
+
+### cell 39
+# src: print("\n" + "="*60)
+
+============================================================
+  EXPERIMENT B — Early detection sweep
+  L* re-selected at each cutoff independently
+============================================================
+
+
+### cell 40
+# src: early_results = {}
+
+── TriviaQA ────────────────────────────────────────
+
+  Cutoff = 10% tokens:
+  Split → sel:80 | train:240 | eval:80
+  Sweeping 29 layers at cutoff=10% ...
+  L* = layer 20 (71% depth) | sel AUROC = 0.5394
+  Final AUROC = 0.4868 ± 0.0250
+
+  Cutoff = 20% tokens:
+  Split → sel:80 | train:240 | eval:80
+  Sweeping 29 layers at cutoff=20% ...
+  L* = layer 19 (68% depth) | sel AUROC = 0.4863
+  Final AUROC = 0.5047 ± 0.1497
+
+  Cutoff = 30% tokens:
+  Split → sel:80 | train:240 | eval:80
+  Sweeping 29 layers at cutoff=30% ...
+  L* = layer 16 (57% depth) | sel AUROC = 0.5113
+  Final AUROC = 0.4427 ± 0.1127
+
+  Cutoff = 50% tokens:
+  Split → sel:80 | train:240 | eval:80
+  Sweeping 29 layers at cutoff=50% ...
+  L* = layer 0 (0% depth) | sel AUROC = 0.6455
+  Final AUROC = 0.5107 ± 0.1462
+
+  Cutoff = 100% tokens:
+  Split → sel:80 | train:240 | eval:80
+  Sweeping 29 layers at cutoff=100% ...
+  L* = layer 13 (46% depth) | sel AUROC = 0.7179
+  Final AUROC = 0.8565 ± 0.0268
+
+── HaluEval ────────────────────────────────────────
+
+  Cutoff = 10% tokens:
+  Split → sel:80 | train:240 | eval:80
+  Sweeping 29 layers at cutoff=10% ...
+  L* = layer 13 (46% depth) | sel AUROC = 0.6850
+  Final AUROC = 0.6103 ± 0.1240
+
+  Cutoff = 20% tokens:
+  Split → sel:80 | train:240 | eval:80
+  Sweeping 29 layers at cutoff=20% ...
+  L* = layer 6 (21% depth) | sel AUROC = 0.7388
+  Final AUROC = 0.7046 ± 0.0982
+
+  Cutoff = 30% tokens:
+  Split → sel:80 | train:240 | eval:80
+  Sweeping 29 layers at cutoff=30% ...
+  L* = layer 11 (39% depth) | sel AUROC = 0.7374
+  Final AUROC = 0.6546 ± 0.1723
+
+  Cutoff = 50% tokens:
+  Split → sel:80 | train:240 | eval:80
+  Sweeping 29 layers at cutoff=50% ...
+  L* = layer 4 (14% depth) | sel AUROC = 0.7580
+  Final AUROC = 0.6480 ± 0.1387
+
+  Cutoff = 100% tokens:
+  Split → sel:80 | train:240 | eval:80
+  Sweeping 29 layers at cutoff=100% ...
+  L* = layer 1 (4% depth) | sel AUROC = 1.0000
+  Final AUROC = 0.9529 ± 0.0554
+
+
+### cell 42
+# src: print("\n── Experiment B Summary ──────────────────────────────────")
+
+── Experiment B Summary ──────────────────────────────────
+
+  TriviaQA:
+    Cutoff   L*    Depth    AUROC     ±Std
+  --------------------------------------------
+      10%    20       71%    0.4868  ±0.0250
+      20%    19       68%    0.5047  ±0.1497
+      30%    16       57%    0.4427  ±0.1127
+      50%     0        0%    0.5107  ±0.1462
+     100%    13       46%    0.8565  ±0.0268
+
+  HaluEval:
+    Cutoff   L*    Depth    AUROC     ±Std
+  --------------------------------------------
+      10%    13       46%    0.6103  ±0.1240
+      20%     6       21%    0.7046  ±0.0982
+      30%    11       39%    0.6546  ±0.1723
+      50%     4       14%    0.6480  ±0.1387
+     100%     1        4%    0.9529  ±0.0554
+
+
+### cell 44
+# src: print("\n" + "="*60)
+
+============================================================
+  EXPERIMENT C — Cross-dataset transfer
+  Probe trained on TriviaQA, tested on all datasets
+============================================================
+
+
+### cell 45
+# src: # get TriviaQA's automatically found L*
+
+TriviaQA L* = 13 (46% depth)
+
+
+### cell 46
+# src: # train probe on ALL TriviaQA data at that layer
+Training transfer probe on full TriviaQA dataset...
+Transfer probe trained ✓
+
+
+### cell 47
+# src: # test on all datasets at TriviaQA's L*
+
+Dataset          Transfer   Own L*  Own AUROC      Gap
+-------------------------------------------------------
+TriviaQA           1.0000       13     0.8565  -0.1435  ← train
+HaluEval           0.7878        1     0.9529  +0.1651  transfer
+TruthfulQA         0.3926       12     0.8661  +0.4735  transfer
+NQ-Open            0.6882       16     0.7891  +0.1008  transfer
+
+
+### cell 51
+# src: # ── Figure 1: Layer AUROC curves per dataset ──────────────────────
+<Figure size 2000x400 with 4 Axes>
+
+### cell 52
+# src: plt.suptitle(
+<Figure size 640x480 with 0 Axes>
+Figure 1 saved ✓
+
+
+### cell 53
+# src: # ── Figure 2: Where does L* fall? ────────────────────────────────
+<Figure size 800x400 with 1 Axes>
+
+### cell 55
+# src: ax.axhspan(75, 85, alpha=0.08, color='green', label='75-85% band')
+<Figure size 640x480 with 0 Axes>
+Figure 2 saved ✓
+
+
+### cell 56
+# src: # ── Figure 3: Early detection curves ─────────────────────────────
+<Figure size 1200x400 with 2 Axes>
+
+### cell 57
+# src: plt.suptitle(
+<Figure size 640x480 with 0 Axes>
+Figure 3 saved ✓
+
+
+### cell 58
+# src: # ── Figure 4: Transfer bar chart ──────────────────────────────────
+<Figure size 800x400 with 1 Axes>
+
+### cell 60
+# src: ax.axhline(0.5, color='gray', linestyle='--', alpha=0.5)
+<Figure size 640x480 with 0 Axes>
+Figure 4 saved ✓
+
+
+### cell 62
+# src: print("\n" + "="*60)
+
+============================================================
+  INTROSPECTION — What did we find?
+============================================================
+
+
+### cell 64
+# src: print(f"\n1. Does L* stay at consistent depth across datasets?")
+
+1. Does L* stay at consistent depth across datasets?
+   TriviaQA      : L*=13  (46% depth)
+   HaluEval      : L*= 1  (4% depth)
+   TruthfulQA    : L*=12  (43% depth)
+   NQ-Open       : L*=16  (57% depth)
+
+   Mean depth : 37.5% ± 20.3%
+
+
+### cell 65
+# src: if std_depth < 8:
+   ~ TASK-DEPENDENT — L* shifts significantly across datasets
+     → The shift itself is the finding
+
+
+### cell 67
+# src: print(f"\n2. Does the probe transfer across datasets?")
+
+2. Does the probe transfer across datasets?
+   HaluEval      : transfer=0.7878 own=0.9529 gap=+0.1651  ✓
+   TruthfulQA    : transfer=0.3926 own=0.8661 gap=+0.4735  ✗
+   NQ-Open       : transfer=0.6882 own=0.7891 gap=+0.1008  ✓
+
+   Mean transfer AUROC: 0.6229
+
+
+### cell 68
+# src: if mean_transfer > 0.65:
+   ~ PARTIAL — some transfer, own L* still better
+
+
+### cell 69
+# src: # finding 3: earliest reliable cutoff
+
+3. Earliest reliable detection cutoff?
+
+   TriviaQA:
+     10% tokens | L*=20 (71%) | AUROC=0.4868  ✗ not yet
+     20% tokens | L*=19 (68%) | AUROC=0.5047  ✗ not yet
+     30% tokens | L*=16 (57%) | AUROC=0.4427  ✗ not yet
+     50% tokens | L*=0 (0%) | AUROC=0.5107  ✗ not yet
+    100% tokens | L*=13 (46%) | AUROC=0.8565  ✓ reliable
+
+   HaluEval:
+     10% tokens | L*=13 (46%) | AUROC=0.6103  ✗ not yet
+     20% tokens | L*=6 (21%) | AUROC=0.7046  ✓ reliable
+     30% tokens | L*=11 (39%) | AUROC=0.6546  ✓ reliable
+     50% tokens | L*=4 (14%) | AUROC=0.6480  ✗ not yet
+    100% tokens | L*=1 (4%) | AUROC=0.9529  ✓ reliable
+
+
+### cell 70
+# src: # decision
+
+4. Decision for next step:
+   → INTERESTING: L* shifts are the contribution
+   → Proceed to Experiment D but report per-dataset L*
+
+
+### cell 71
+# src: print("\n" + "="*60)
+
+============================================================
+
+
+### cell 73
+# src: print("\n" + "="*60)
+
+============================================================
+  EXPERIMENT D — Contrastive geometry sharpening
+  Frozen model + trainable projection head at L*
+============================================================
+
+
+### cell 79
+# src: print(f"\nTarget layer: {tqa_layer} "
+
+Target layer: 13 (46% depth) [auto-selected from TriviaQA]
+
+
+### cell 80
+# src: proj_head, hidden_dim = train_projection_head(
+  Extracting hidden states at layer 13...
+  Training projection head (852,480 params) for 10 epochs...
+  Epoch  2/10 | loss=4.1270
+  Epoch  4/10 | loss=4.1033
+  Epoch  6/10 | loss=4.0477
+  Epoch  8/10 | loss=3.9874
+  Epoch 10/10 | loss=3.9571
+  Projection head trained ✓
+
+
+### cell 81
+# src: # Save projection head
+Projection head saved ✓
+
+
+### cell 83
+# src: print("\n" + "="*60)
+
+============================================================
+  EXPERIMENT E — Before vs after contrastive geometry
+============================================================
+
+
+### cell 86
+# src: print("\nEvaluating on all datasets + cutoffs...")
+
+Evaluating on all datasets + cutoffs...
+
+── TriviaQA ──────────────────────────────────────────
+  Raw hidden    : AUROC = 0.6900 ± 0.2002
+  Projected     : AUROC = 0.8417 ± 0.1094
+  Delta         : +0.1517
+
+── HaluEval ──────────────────────────────────────────
+  Raw hidden    : AUROC = 0.9667 ± 0.1000
+  Projected     : AUROC = 0.9221 ± 0.0707
+  Delta         : -0.0446
+
+── TruthfulQA ──────────────────────────────────────────
+  Raw hidden    : AUROC = 0.7104 ± 0.1880
+  Projected     : AUROC = 0.6046 ± 0.2256
+  Delta         : -0.1058
+
+── NQ-Open ──────────────────────────────────────────
+  Raw hidden    : AUROC = 0.6238 ± 0.3150
+  Projected     : AUROC = 0.7119 ± 0.2057
+  Delta         : +0.0881
+
+
+### cell 87
+# src: # early detection with projection head
+
+── Early detection: raw vs projected (TriviaQA) ─────────
+  Cutoff    Raw AUROC   Proj AUROC    Delta
+----------------------------------------------
+
+
+### cell 88
+# src: early_contrastive = {}
+     10%        0.5125       0.4875  -0.0250
+     20%        0.6596       0.5850  -0.0746
+     30%        0.6594       0.5765  -0.0829
+     50%        0.6429       0.5525  -0.0904
+    100%        0.7138       0.8417  +0.1278
+
+
+### cell 89
+# src: print(f"\n── Table 3: Cross-dataset generalization ─────────────────")
+
+── Table 3: Cross-dataset generalization ─────────────────
+Dataset        Own L*  Own AUROC   Transfer      Gap
+----------------------------------------------------
+TriviaQA           13      0.8565      1.0000   -0.1435
+HaluEval            1      0.9529      0.7878   +0.1651
+TruthfulQA         12      0.8661      0.3926   +0.4735
+NQ-Open            16      0.7891      0.6882   +0.1008
+
+
+### cell 90
+# src: print(f"\n── Table 4: Contrastive projection improvement ───────────")
+
+── Table 4: Contrastive projection improvement ───────────
+Dataset             Raw  Projected    Delta
+--------------------------------------------
+TriviaQA         0.6900      0.8417   +0.1517
+HaluEval         0.9667      0.9221   -0.0446
+TruthfulQA       0.7104      0.6046   -0.1058
+NQ-Open          0.6238      0.7119   +0.0881
+
+
+### cell 91
+# src: print(f"\n── Key findings ──────────────────────────────────────────")
+
+── Key findings ──────────────────────────────────────────
+1. L* identified automatically — no hardcoded layer numbers
+   Mean L* depth: 37.5% ± 20.3%
+   Layers found : [13, 1, 12, 16]
+2. Cross-dataset transfer: 0.6229 mean AUROC
+3. Earliest reliable detection: see Table 2
+4. Contrastive projection: mean delta = +0.0223
+
+
+### cell 92
+# src: print(f"\nAll figures saved to:")
+
+All figures saved to:
+  /content/drive/MyDrive/facr_v2/step1_results/fig1_layer_curves.png
+  /content/drive/MyDrive/facr_v2/step1_results/fig2_layer_depth.png
+  /content/drive/MyDrive/facr_v2/step1_results/fig3_early_detection.png
+  /content/drive/MyDrive/facr_v2/step1_results/fig4_transfer.png
+  /content/drive/MyDrive/facr_v2/step2_results/fig5_pca_before_after.png
+  /content/drive/MyDrive/facr_v2/step2_results/fig6_early_detection_contrast.png
+============================================================
+

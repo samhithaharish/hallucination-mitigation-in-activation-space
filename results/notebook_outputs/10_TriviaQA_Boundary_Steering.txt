@@ -1,0 +1,341 @@
+### cell 4
+# src: # ── CELL 1 — Imports and model loading ───────────────────────────
+Drive already mounted at /content/drive; to attempt to forcibly remount, call drive.mount("/content/drive", force_remount=True).
+Save directory: /content/drive/MyDrive/facr_triviaqa
+
+Device : cuda | GPU: NVIDIA A100-SXM4-40GB
+
+config.json:   0%|          | 0.00/878 [00:00<?, ?B/s]
+tokenizer_config.json: 0.00B [00:00, ?B/s]
+tokenizer.json: 0.00B [00:00, ?B/s]
+special_tokens_map.json:   0%|          | 0.00/296 [00:00<?, ?B/s]
+`torch_dtype` is deprecated! Use `dtype` instead!
+
+model.safetensors.index.json: 0.00B [00:00, ?B/s]
+Downloading (incomplete total...): 0.00B [00:00, ?B/s]
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]
+The following generation flags are not valid and may be ignored: ['output_hidden_states']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]
+generation_config.json:   0%|          | 0.00/189 [00:00<?, ?B/s]
+Model  : meta-llama/Llama-3.2-3B-Instruct ✓ (frozen — never modified)
+Layers : 29 (0=embedding, 1-28=transformer blocks)
+
+
+### cell 6
+# src: # ── CELL 2 — Generate TriviaQA data ──────────────────────────────
+Generating TriviaQA responses from scratch (~36 min)...
+
+
+README.md: 0.00B [00:00, ?B/s]
+Resolving data files:   0%|          | 0/26 [00:00<?, ?it/s]
+rc.nocontext/train-00000-of-00001.parque(…):   0%|          | 0.00/55.4M [00:00<?, ?B/s]
+rc.nocontext/validation-00000-of-00001.p(…):   0%|          | 0.00/7.34M [00:00<?, ?B/s]
+rc.nocontext/test-00000-of-00001.parquet:   0%|          | 0.00/1.20M [00:00<?, ?B/s]
+Generating train split:   0%|          | 0/138384 [00:00<?, ? examples/s]
+Generating validation split:   0%|          | 0/17944 [00:00<?, ? examples/s]
+Generating test split:   0%|          | 0/17210 [00:00<?, ? examples/s]
+ 20%|██        | 100/500 [07:21<30:57,  4.64s/it]
+  Checkpoint 100/500 | factual=215 hallu=185
+
+ 40%|████      | 200/500 [14:34<19:45,  3.95s/it]
+  Checkpoint 200/500 | factual=432 hallu=368
+
+ 60%|██████    | 300/500 [21:50<14:08,  4.24s/it]
+  Checkpoint 300/500 | factual=657 hallu=543
+
+ 80%|████████  | 400/500 [29:02<08:18,  4.99s/it]
+  Checkpoint 400/500 | factual=845 hallu=755
+
+100%|██████████| 500/500 [36:25<00:00,  4.37s/it]
+  Checkpoint 500/500 | factual=1030 hallu=970
+
+
+
+
+Done! 2000 samples | factual=1030 (51.5%) | hallu=970 (48.5%)
+Train: 1600 | Eval: 400
+
+
+### cell 8
+# src: # ── CELL 3 — Find critical layer L* automatically ────────────────
+Finding critical layer L* on TriviaQA...
+Layer AUROC (every 4 layers):
+  Layer  0: 0.6654
+  Layer  4: 0.6701
+  Layer  8: 0.7411
+  Layer 12: 0.8241
+  Layer 16: 0.8280
+  Layer 20: 0.8107
+  Layer 24: 0.8088
+  Layer 28: 0.8024
+
+★ L* = 14 (50% depth)
+
+Probe AUROC at L*=14: 0.9174 ± 0.0691
+Probe trained and stored in `probe` ✓
+
+
+### cell 10
+# src: # ── CELL 4 — Early detection sweep ───────────────────────────────
+Early detection sweep...
+  Cutoff    AUROC     ±Std       Signal
+--------------------------------------------
+     10%   0.5074   ±0.0119      chance ✗
+     20%   0.6045   ±0.1159    reliable ~
+     30%   0.5947   ±0.1070          weak
+     50%   0.6561   ±0.0815    reliable ~
+    100%   0.8341   ±0.0691      strong ✓
+
+Earliest reliable detection: 20% tokens
+
+
+### cell 12
+# src: # ── CELL 5 — RL steering policy definitions ──────────────────────
+RL boundary steering framework loaded ✓
+
+Boundary zone     : probe ∈ [0.45, 0.65]
+Reward signal     : alignment with probe direction
+L2 regularizer    : λ = 0.1
+Scale             : 0.05 (small — boundary needs gentle push)
+
+Why boundary only?
+  Confident hallu (>0.65) → too far, skip
+  Confident fact  (<0.45) → correct, skip
+  Boundary zone   → small push can flip to factual ✓
+
+
+### cell 14
+# src: import numpy as np
+Pre-extracting training hidden states...
+Probe direction check:
+  Factual projection  : +0.3688
+  Hallu projection    : -0.2394
+  Gap                 : +0.6082 ✓
+
+Training boundary samples: 34/1600 (2.1%)
+Initial boundary gap: +0.0176 (should INCREASE during training)
+
+Policy params  : 2,495,232
+Scale          : 0.05
+Learning rate  : 5e-4
+L2 lambda      : 0.1
+Boundary zone  : [0.45, 0.65]
+
+Training...
+
+  Epoch   3/30 | boundary_gap=+0.0176 (init=+0.0176) | AUROC=1.0000 | steer_rew=+0.998 | |Δh|=0.0682 | n_steered=34
+  Epoch   6/30 | boundary_gap=+0.0176 (init=+0.0176) | AUROC=1.0000 | steer_rew=+0.999 | |Δh|=0.0902 | n_steered=34
+  Epoch   9/30 | boundary_gap=+0.0176 (init=+0.0176) | AUROC=1.0000 | steer_rew=+0.999 | |Δh|=0.1092 | n_steered=34
+  Epoch  12/30 | boundary_gap=+0.0176 (init=+0.0176) | AUROC=1.0000 | steer_rew=+1.000 | |Δh|=0.1201 | n_steered=34
+  Epoch  15/30 | boundary_gap=+0.0176 (init=+0.0176) | AUROC=0.9999 | steer_rew=+1.000 | |Δh|=0.1262 | n_steered=34
+  Epoch  18/30 | boundary_gap=+0.0176 (init=+0.0176) | AUROC=0.9999 | steer_rew=+1.000 | |Δh|=0.1271 | n_steered=34
+  Epoch  21/30 | boundary_gap=+0.0176 (init=+0.0176) | AUROC=0.9999 | steer_rew=+1.000 | |Δh|=0.1264 | n_steered=34
+  Epoch  24/30 | boundary_gap=+0.0176 (init=+0.0176) | AUROC=1.0000 | steer_rew=+1.000 | |Δh|=0.1246 | n_steered=34
+  Epoch  27/30 | boundary_gap=+0.0176 (init=+0.0176) | AUROC=1.0000 | steer_rew=+1.000 | |Δh|=0.1228 | n_steered=34
+  Epoch  30/30 | boundary_gap=+0.0176 (init=+0.0176) | AUROC=1.0000 | steer_rew=+1.000 | |Δh|=0.1216 | n_steered=34
+
+Training complete!
+Initial boundary gap : +0.0176
+Best boundary gap    : +0.0176 (epoch 24)
+Improvement          : +0.0000
+  (positive = boundary samples moved toward factual ✓)
+Best checkpoint loaded ✓
+
+
+### cell 16
+# src: # ── CELL 7 — Evaluate boundary steering ──────────────────────────
+Evaluating boundary steering on held-out eval set...
+Eval boundary samples: 17/400 (4.2%)
+
+Computing early detection AUROC at each cutoff...
+
+==============================================================
+  BOUNDARY STEERING — EVALUATION RESULTS
+  Boundary zone: probe ∈ [0.45, 0.65]
+  L2 regularizer: λ = 0.1
+==============================================================
+
+── All eval samples ──────────────────────────────────
+  Metric                                Before    After    Delta
+  --------------------------------------------------------------
+  AUROC                                 0.8497   0.8443  -0.0054
+  Projection gap                       +0.4881  +0.4815  -0.0066
+
+── Boundary samples only (17 samples) ────────
+  THIS IS THE MAIN RESULT — samples the policy targets
+  Metric                                Before    After    Delta
+  --------------------------------------------------------------
+  AUROC (boundary only)                 0.0000   0.0000  +0.0000
+  Projection gap (boundary)            -0.0058  -0.0058  +0.0000
+
+  Mean |Δh| on boundary samples: 0.12245
+  (small value = L2 regularizer working ✓)
+
+── Early detection ───────────────────────────────────
+    Cutoff      Raw    Steered    Δ All   Δ Boundary
+  ----------------------------------------------------
+       10%    0.5073      0.5073   +0.0000       +0.0000
+       20%    0.5990      0.5990   +0.0000       +0.0000
+       30%    0.6095      0.6095   +0.0000       +0.0000
+       50%    0.6477      0.6477   -0.0000       +0.0000
+      100%    0.8467      0.8411   -0.0056       +0.0000
+
+  Samples steered: 17/400 (4.2%)
+
+── Interpretation ────────────────────────────────────
+  ~ AUROC unchanged but projection gap improved
+    Boundary samples are more separated along probe direction
+
+
+### cell 18
+# src: # ── CELL 8 — Figures and final results ───────────────────────────
+<Figure size 1000x400 with 1 Axes>
+Figure 1 saved ✓
+
+<Figure size 800x400 with 1 Axes>
+Figure 2 saved ✓
+
+<Figure size 1200x500 with 2 Axes>
+Figure 3 saved ✓
+
+<Figure size 1500x400 with 3 Axes>
+Figure 4 saved ✓
+
+<Figure size 1200x400 with 2 Axes>
+Figure 5 saved ✓
+
+==============================================================
+  FINAL RESULTS — TriviaQA + Boundary RL Steering
+==============================================================
+
+Model    : Llama-3.2-3B-Instruct (frozen)
+Layer L* : 14 (50% depth)
+Method   : Boundary-only RL steering + probe direction + L2 reg
+
+── Table 1: Baseline probe (Cell 3-4) ───────────────
+    Cutoff    AUROC     ±Std
+  ----------------------------
+       10%    0.5074  ±0.0119
+       20%    0.6045  ±0.1159
+       30%    0.5947  ±0.1070
+       50%    0.6561  ±0.0815
+      100%    0.8341  ±0.0691
+
+── Table 2: RL boundary steering (Cell 6-7) ─────────
+  Boundary zone: [0.45, 0.65]  L2 λ=0.1
+
+  All samples:
+  Metric                           Before    After    Delta
+  --------------------------------------------------------
+  AUROC                            0.8497   0.8443  -0.0054
+  Projection gap                  +0.4881  +0.4815  -0.0066
+
+  Boundary samples only (17 samples):
+  Metric                           Before    After    Delta
+  --------------------------------------------------------
+  AUROC                            0.0000   0.0000  +0.0000
+  Projection gap                  -0.0058  -0.0058  +0.0000
+
+  Mean |Δh| (L2 regularizer): 0.12245
+  Samples steered: 17/400 (4.2%)
+
+── Files saved ───────────────────────────────────────
+  labeled_data.json                             ✓
+  layer_sweep.json                              ✓
+  early_detection.json                          ✓
+  training_log_boundary.json                    ✓
+  eval_boundary_results.json                    ✓
+  steering_boundary_best.pt                     ✓
+  fig1_layer_sweep.png                          ✓
+  fig2_early_detection.png                      ✓
+  fig3_pca_boundary.png                         ✓
+  fig4_training.png                             ✓
+  fig5_early_detection_boundary.png             ✓
+
+==============================================================
+  DONE
+==============================================================
+
+
+### cell 20
+# src: # check probe score distribution on eval set
+Probe score distribution on eval set:
+  [0.00-0.10):  128  ████████████████████████████████████████████████████████████████
+  [0.10-0.20):   37  ██████████████████
+  [0.20-0.30):   19  █████████
+  [0.30-0.40):    6  ███
+  [0.40-0.45):    4  ██
+  [0.45-0.55):    6  ███ ← boundary
+  [0.55-0.65):   11  █████ ← boundary
+  [0.65-0.70):    3  █
+  [0.70-0.80):   16  ████████
+  [0.80-0.90):   21  ██████████
+  [0.90-1.00):  149  ██████████████████████████████████████████████████████████████████████████
+
+Total eval: 400
+  Zone [0.35-0.75]: 34 samples (factual=8, hallu=26)
+  Zone [0.4-0.7]: 24 samples (factual=6, hallu=18)
+  Zone [0.45-0.65]: 17 samples (factual=3, hallu=14)
+  Zone [0.3-0.8]: 46 samples (factual=13, hallu=33)
+
+
+### cell 21
+# src: for low, high in [(0.45,0.65), (0.40,0.70), (0.35,0.75), (0.30,0.80)]:
+
+Zone [0.45,0.65]
+ count: 17
+ factual mean score: 0.5548661770369355
+ hallu   mean score: 0.5693262079008222
+
+Zone [0.4,0.7]
+ count: 24
+ factual mean score: 0.6124662277011658
+ hallu   mean score: 0.5360707954438915
+
+Zone [0.35,0.75]
+ count: 34
+ factual mean score: 0.6381192210184151
+ hallu   mean score: 0.5684263730797156
+
+Zone [0.3,0.8]
+ count: 46
+ factual mean score: 0.6847324496351892
+ hallu   mean score: 0.5569963420295371
+
+
+### cell 22
+# src: from sklearn.metrics import roc_auc_score
+0.45 0.65 0.40476190476190477
+0.4 0.7 0.7685185185185186
+0.35 0.75 0.6586538461538461
+0.3 0.8 0.7645687645687647
+
+
+### cell 23
+# src: from sklearn.metrics import roc_auc_score
+
+Zone [0.45,0.65]
+n = 17  factual = tensor(3)  hallu = tensor(14)
+score min/max = 0.4712854187806225 0.6360799946517195
+auc(score) = 0.40476190476190477
+auc(1-score) = 0.5952380952380952
+
+Zone [0.4,0.7]
+n = 24  factual = tensor(6)  hallu = tensor(18)
+score min/max = 0.4039623712062881 0.6734802341967822
+auc(score) = 0.7685185185185186
+auc(1-score) = 0.23148148148148148
+
+Zone [0.35,0.75]
+n = 34  factual = tensor(8)  hallu = tensor(26)
+score min/max = 0.3794097160211809 0.7427229392177425
+auc(score) = 0.6586538461538461
+auc(1-score) = 0.34134615384615385
+
+Zone [0.3,0.8]
+n = 46  factual = tensor(13)  hallu = tensor(33)
+score min/max = 0.3133429813885643 0.7833605443911509
+auc(score) = 0.7645687645687647
+auc(1-score) = 0.23543123543123542
+

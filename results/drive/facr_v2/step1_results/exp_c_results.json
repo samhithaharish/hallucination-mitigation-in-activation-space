@@ -1,0 +1,30 @@
+{
+  "TriviaQA": {
+    "transfer_auroc": 1.0,
+    "own_auroc": 0.856516290726817,
+    "own_layer": 13,
+    "transfer_layer": 13,
+    "gap": -0.143483709273183
+  },
+  "HaluEval": {
+    "transfer_auroc": 0.7878022555074892,
+    "own_auroc": 0.9528598365807668,
+    "own_layer": 1,
+    "transfer_layer": 13,
+    "gap": 0.16505758107327761
+  },
+  "TruthfulQA": {
+    "transfer_auroc": 0.39259999999999995,
+    "own_auroc": 0.8661219358893777,
+    "own_layer": 12,
+    "transfer_layer": 13,
+    "gap": 0.47352193588937774
+  },
+  "NQ-Open": {
+    "transfer_auroc": 0.6882445719655023,
+    "own_auroc": 0.7890625,
+    "own_layer": 16,
+    "transfer_layer": 13,
+    "gap": 0.10081792803449774
+  }
+}

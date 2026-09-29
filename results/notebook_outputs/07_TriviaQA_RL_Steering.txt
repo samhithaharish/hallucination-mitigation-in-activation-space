@@ -1,0 +1,311 @@
+### cell 4
+# src: # ── CELL 1 — Imports and model loading ───────────────────────────
+Drive already mounted at /content/drive; to attempt to forcibly remount, call drive.mount("/content/drive", force_remount=True).
+Save directory: /content/drive/MyDrive/facr_triviaqa
+
+Device : cuda
+GPU    : NVIDIA A100-SXM4-40GB
+
+config.json:   0%|          | 0.00/878 [00:00<?, ?B/s]
+tokenizer_config.json: 0.00B [00:00, ?B/s]
+tokenizer.json: 0.00B [00:00, ?B/s]
+special_tokens_map.json:   0%|          | 0.00/296 [00:00<?, ?B/s]
+`torch_dtype` is deprecated! Use `dtype` instead!
+
+model.safetensors.index.json: 0.00B [00:00, ?B/s]
+Downloading (incomplete total...): 0.00B [00:00, ?B/s]
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]
+The following generation flags are not valid and may be ignored: ['output_hidden_states']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]
+generation_config.json:   0%|          | 0.00/189 [00:00<?, ?B/s]
+Model  : meta-llama/Llama-3.2-3B-Instruct ✓
+Layers : 29 (0=embedding, 1-28=transformer blocks)
+
+
+### cell 6
+# src: # ── CELL 2 — Generate TriviaQA data ──────────────────────────────
+Generating TriviaQA responses from scratch...
+This will take ~36 minutes. Checkpointed every 100 questions.
+
+
+README.md: 0.00B [00:00, ?B/s]
+Resolving data files:   0%|          | 0/26 [00:00<?, ?it/s]
+rc.nocontext/train-00000-of-00001.parque(…):   0%|          | 0.00/55.4M [00:00<?, ?B/s]
+rc.nocontext/validation-00000-of-00001.p(…):   0%|          | 0.00/7.34M [00:00<?, ?B/s]
+rc.nocontext/test-00000-of-00001.parquet:   0%|          | 0.00/1.20M [00:00<?, ?B/s]
+Generating train split:   0%|          | 0/138384 [00:00<?, ? examples/s]
+Generating validation split:   0%|          | 0/17944 [00:00<?, ? examples/s]
+Generating test split:   0%|          | 0/17210 [00:00<?, ? examples/s]
+ 20%|██        | 100/500 [07:14<30:37,  4.59s/it]
+  Checkpoint: 100/500 questions | 400 samples | factual=215 hallu=185
+
+ 40%|████      | 200/500 [14:22<19:22,  3.88s/it]
+  Checkpoint: 200/500 questions | 800 samples | factual=432 hallu=368
+
+ 60%|██████    | 300/500 [21:34<13:48,  4.14s/it]
+  Checkpoint: 300/500 questions | 1200 samples | factual=657 hallu=543
+
+ 80%|████████  | 400/500 [28:34<07:58,  4.78s/it]
+  Checkpoint: 400/500 questions | 1600 samples | factual=845 hallu=755
+
+100%|██████████| 500/500 [35:41<00:00,  4.28s/it]
+  Checkpoint: 500/500 questions | 2000 samples | factual=1030 hallu=970
+
+Generation complete!
+Total samples       : 2000
+Factual  (>0.5)     : 1030 (51.5%)
+Hallucinated (≤0.5) : 970 (48.5%)
+Saved to: /content/drive/MyDrive/facr_triviaqa/labeled_data.json
+
+Train: 1600 | Eval: 400
+
+
+
+
+### cell 8
+# src: # ── CELL 3 — Find critical layer L* automatically ────────────────
+Finding critical layer L* on TriviaQA...
+Sweeping all 28 layers on 20% selection set...
+
+Layer AUROC summary (every 4 layers):
+  Layer  0: 0.6654
+  Layer  4: 0.6701
+  Layer  8: 0.7411
+  Layer 12: 0.8241
+  Layer 16: 0.8280
+  Layer 20: 0.8107
+  Layer 24: 0.8088
+  Layer 28: 0.8024
+
+★ Critical layer L* = 14 (50% network depth)
+  AUROC on selection set: 0.8526
+
+Probe AUROC at L*=14 (full sequence):
+  0.9174 ± 0.0691
+
+Probe trained ✓  |  L* = 14  |  saved in variable TARGET_LAYER
+
+
+### cell 10
+# src: # ── CELL 4 — Early detection sweep ───────────────────────────────
+Early detection sweep across token cutoffs...
+Using L*=14 found in Cell 3
+
+  Cutoff   L*    AUROC     ±Std       Signal
+--------------------------------------------------
+     10%   14    0.5074  ±0.0119      chance ✗
+     20%   14    0.6045  ±0.1159    reliable ~
+     30%   14    0.5947  ±0.1070          weak
+     50%   14    0.6561  ±0.0815    reliable ~
+    100%   14    0.8341  ±0.0691      strong ✓
+
+Earliest reliable detection: 20% tokens
+Full sequence AUROC: 0.8341
+Early detection results saved ✓
+
+
+### cell 12
+# src: # ── CELL 5 — RL activation steering definitions ──────────────────
+RL activation steering framework loaded ✓
+
+SteeringPolicy summary:
+  Parameters  : 2,495,232
+  Input dim   : 3072 (hidden state at L*=14)
+  Output dim  : 3072 (steering vector Δh)
+  Scale       : 0.1 (max perturbation = 10% of unit norm)
+
+Reward logic:
+  Hallucinated h → positive reward if h+Δh closer to factual centroid
+  Factual h      → negative reward if Δh is large (don't disturb)
+
+
+### cell 14
+# src: # ── CELL 6 — Train RL steering policy ────────────────────────────
+Pre-extracting all training hidden states at L*={TARGET_LAYER}...
+(done once, reused every epoch for speed)
+
+Training samples    : 1600
+Factual             : 832
+Hallucinated        : 768
+Initial centroid similarity: 0.9799
+  (this should DECREASE during training)
+
+Policy params : 2,495,232
+Epochs        : 30
+Learning rate : 1e-3
+
+Training...
+
+  Epoch   3/30 | sep=0.8557 (init=0.9799) | AUROC=1.0000 | hallu_rew=+0.065 | fact_rew=-0.006
+  Epoch   6/30 | sep=0.8421 (init=0.9799) | AUROC=1.0000 | hallu_rew=+0.069 | fact_rew=-0.003
+  Epoch   9/30 | sep=0.8811 (init=0.9799) | AUROC=1.0000 | hallu_rew=+0.069 | fact_rew=-0.002
+  Epoch  12/30 | sep=0.8509 (init=0.9799) | AUROC=1.0000 | hallu_rew=+0.070 | fact_rew=-0.002
+  Epoch  15/30 | sep=0.8486 (init=0.9799) | AUROC=1.0000 | hallu_rew=+0.070 | fact_rew=-0.001
+  Epoch  18/30 | sep=0.8498 (init=0.9799) | AUROC=1.0000 | hallu_rew=+0.071 | fact_rew=-0.001
+  Epoch  21/30 | sep=0.8506 (init=0.9799) | AUROC=1.0000 | hallu_rew=+0.071 | fact_rew=-0.000
+  Epoch  24/30 | sep=0.8512 (init=0.9799) | AUROC=1.0000 | hallu_rew=+0.071 | fact_rew=-0.000
+  Epoch  27/30 | sep=0.8517 (init=0.9799) | AUROC=1.0000 | hallu_rew=+0.071 | fact_rew=-0.000
+  Epoch  30/30 | sep=0.8516 (init=0.9799) | AUROC=1.0000 | hallu_rew=+0.071 | fact_rew=-0.000
+
+Training complete!
+Initial sep : 0.9799
+Best sep    : 0.8421 (epoch 6)
+Improvement : 0.1378
+  (positive = clusters moved further apart ✓)
+
+Best checkpoint loaded (epoch 6) ✓
+
+
+### cell 16
+# src: # ── CELL 7 — Evaluate steering ────────────────────────────────────
+Evaluating steering on held-out eval set...
+Eval samples: 400
+
+Computing AUROC at each token cutoff (raw vs steered)...
+
+============================================================
+  EVALUATION RESULTS
+============================================================
+
+── Main metrics (full sequence) ─────────────────────
+  Metric                                Before    After    Delta
+  --------------------------------------------------------------
+  Probe AUROC                           0.8497   0.8348  -0.0149
+  Centroid cosine similarity            0.9664   0.9644  -0.0020
+    (lower = more separated)         
+
+── Hallucination scores per class ───────────────────
+  Class                    Before      After      Delta
+  ------------------------------------------------------
+  Hallucinated            +0.2197    +0.2316    +0.0119
+  Factual                 -0.2435    -0.2597    -0.0162
+
+  Positive score = closer to hallu centroid
+  Negative score = closer to factual centroid
+  After steering: hallu score should DECREASE ↓
+
+── Early detection: raw vs steered ──────────────────
+    Cutoff    Raw AUROC  Steered AUROC    Delta
+  ------------------------------------------------
+       10%        0.5073          0.5073   +0.0000
+       20%        0.5990          0.5990   +0.0000
+       30%        0.6095          0.6095   +0.0000
+       50%        0.6477          0.6466   -0.0011
+      100%        0.8467          0.8368   -0.0099
+
+  Samples steered: 203/400 (50.8%)
+
+── Interpretation ────────────────────────────────────
+  ✓ Centroid separation improved by 0.0020
+    Hallucinated activations moved toward factual region
+  ~ AUROC did not improve after steering
+  ~ Hallu score did not decrease
+
+
+### cell 18
+# src: # ── CELL 8 — Figures and final results ───────────────────────────
+<Figure size 1000x400 with 1 Axes>
+Figure 1 saved ✓
+
+<Figure size 800x400 with 1 Axes>
+Figure 2 saved ✓
+
+<Figure size 1200x500 with 2 Axes>
+Figure 3 saved ✓
+
+<Figure size 1200x400 with 2 Axes>
+Figure 4 saved ✓
+
+<Figure size 800x500 with 1 Axes>
+Figure 5 saved ✓
+
+============================================================
+  FINAL RESULTS — TriviaQA + RL Activation Steering
+============================================================
+
+Model  : Llama-3.2-3B-Instruct (frozen throughout)
+Dataset: TriviaQA (2000 samples, 80/20 split)
+
+── Critical layer (Cell 3) ───────────────────────────
+  L* = 14 (50% network depth)
+  AUROC at L* (full seq): 0.9174 ± 0.0691
+
+── Early detection (Cell 4) ──────────────────────────
+    Cutoff    AUROC     ±Std
+  ----------------------------
+       10%    0.5074  ±0.0119
+       20%    0.6045  ±0.1159
+       30%    0.5947  ±0.1070
+       50%    0.6561  ±0.0815
+      100%    0.8341  ±0.0691
+
+── RL activation steering (Cell 6-7) ────────────────
+  Metric                           Before    After    Delta
+  ----------------------------------------------------------
+  AUROC (full sequence)            0.8497   0.8348  -0.0149
+  Centroid similarity              0.9664   0.9644  -0.0020
+  Hallu score (hallu samples)     +0.2197  +0.2316  +0.0119
+
+  Samples steered: 203/400
+
+── Early detection raw vs steered ────────────────────
+    Cutoff      Raw    Steered    Delta
+  ----------------------------------------
+       10%    0.5073      0.5073   +0.0000
+       20%    0.5990      0.5990   +0.0000
+       30%    0.6095      0.6095   +0.0000
+       50%    0.6477      0.6466   -0.0011
+      100%    0.8467      0.8368   -0.0099
+
+── Files saved to /content/drive/MyDrive/facr_triviaqa/ ──────────
+  labeled_data.json                           555.1 KB ✓
+  layer_sweep.json                              1.0 KB ✓
+  early_detection.json                          0.5 KB ✓
+  training_log.json                             1.5 KB ✓
+  eval_results.json                             1.1 KB ✓
+  steering_policy_best.pt                    9750.8 KB ✓
+  fig1_layer_sweep.png                         58.4 KB ✓
+  fig2_early_detection.png                     72.6 KB ✓
+  fig3_pca_before_after.png                   137.9 KB ✓
+  fig4_training_log.png                        75.0 KB ✓
+  fig5_early_detection_steered.png             59.3 KB ✓
+
+============================================================
+  DONE
+============================================================
+
+
+### cell 19
+# src: # ── CELL 7 — Evaluate label-free steering ────────────────────────
+Evaluating label-free steering on held-out eval set...
+
+============================================================
+  LABEL-FREE RL STEERING — EVALUATION RESULTS
+  (Zero TriviaQA labels used in RL training or steering)
+============================================================
+
+── Main metrics (full sequence) ─────────────────────
+  Metric                                Before    After    Delta
+  --------------------------------------------------------------
+  Probe AUROC                           0.8497   0.8348  -0.0149
+  Centroid cosine similarity            0.9664   0.9644  -0.0020
+
+── Early detection raw vs steered ────────────────────
+    Cutoff      Raw    Steered    Delta
+  ----------------------------------------
+       10%    0.5073      0.5073   +0.0000
+       20%    0.5990      0.5990   +0.0000
+       30%    0.6095      0.6095   +0.0000
+       50%    0.6477      0.6466   -0.0011
+      100%    0.8467      0.8368   -0.0099
+
+  Samples steered: 203/400 (50.8%)
+
+── What the RL used vs what it did not use ───────────
+  Used    : probe score P(hallucinated) for steering decision
+  Used    : probe-derived centroids for reward signal
+  NOT used: TriviaQA gold answers during RL training
+  NOT used: TriviaQA labels during steering at eval time
+  Labels used ONLY to compute final AUROC metric
+

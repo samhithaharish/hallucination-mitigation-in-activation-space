@@ -1,0 +1,17 @@
+### cell 2
+# src: # Cell 2 — config
+Model: meta-llama/Llama-3.1-8B-Instruct  |  layers: 32  |  device: cuda
+
+
+### cell 6
+# src: !pip uninstall -y torchvision
+Found existing installation: torchvision 0.26.0+cu128
+Uninstalling torchvision-0.26.0+cu128:
+  Successfully uninstalled torchvision-0.26.0+cu128
+
+
+### cell 7
+# src: # Cell 3 — load model + tokenizer
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+ERROR ModuleNotFoundError: Could not import module 'LlamaForCausalLM'. Are this object's requirements defined correctly?

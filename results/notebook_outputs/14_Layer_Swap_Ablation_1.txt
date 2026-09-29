@@ -1,0 +1,165 @@
+### cell 3
+# src: import torch
+Running for: llama3.2-3b  (meta-llama/Llama-3.2-3B-Instruct)  n_layers=28  device=cuda
+
+
+### cell 6
+# src: def generate_and_label(model_key: str, hf_name: str, n_total: int):
+[generating] llama3.2-3b on 1000 TriviaQA questions...
+
+README.md:   0%|          | 0.00/26.7k [00:00<?, ?B/s]
+Resolving data files:   0%|          | 0/26 [00:00<?, ?it/s]
+rc.nocontext/train-00000-of-00001.parque(…):   0%|          | 0.00/55.4M [00:00<?, ?B/s]
+rc.nocontext/validation-00000-of-00001.p(…):   0%|          | 0.00/7.34M [00:00<?, ?B/s]
+rc.nocontext/test-00000-of-00001.parquet:   0%|          | 0.00/1.20M [00:00<?, ?B/s]
+Generating train split:   0%|          | 0/138384 [00:00<?, ? examples/s]
+Generating validation split:   0%|          | 0/17944 [00:00<?, ? examples/s]
+Generating test split:   0%|          | 0/17210 [00:00<?, ? examples/s]
+config.json:   0%|          | 0.00/878 [00:00<?, ?B/s]
+tokenizer_config.json:   0%|          | 0.00/54.5k [00:00<?, ?B/s]
+tokenizer.json:   0%|          | 0.00/9.09M [00:00<?, ?B/s]
+special_tokens_map.json:   0%|          | 0.00/296 [00:00<?, ?B/s]
+[transformers] `torch_dtype` is deprecated! Use `dtype` instead!
+
+model.safetensors.index.json:   0%|          | 0.00/20.9k [00:00<?, ?B/s]
+Downloading (incomplete total...): 0.00B [00:00, ?B/s]
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]
+[transformers] The following generation flags are not valid and may be ignored: ['output_hidden_states']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]
+generation_config.json:   0%|          | 0.00/189 [00:00<?, ?B/s]
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+
+[cached] ./cache/llama3.2-3b_labeled.pkl  (n=1000, factual=34)
+train=800  eval=200
+
+
+### cell 8
+# src: @torch.no_grad()
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]
+[cached] ./cache/llama3.2-3b_train_hidden_states.pkl
+
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]
+[cached] ./cache/llama3.2-3b_eval_hidden_states.pkl
+
+
+### cell 10
+# src: import numpy as np
+
+=== Probe AUROC sweep -- llama3.2-3b ===
+ Layer    AUROC      Std
+--------------------------
+     1   0.8473   0.1100
+     2   0.8711   0.0968
+     3   0.8574   0.0801
+     4   0.8591   0.0773
+     5   0.9004   0.0622
+     6   0.9021   0.0756
+     7   0.8814   0.0808
+     8   0.8824   0.0980
+     9   0.8968   0.0986
+    10   0.8495   0.1399
+    11   0.8679   0.1410
+    12   0.8638   0.1447
+    13   0.8757   0.1078
+    14   0.9006   0.0903
+    15   0.9230   0.0765
+    16   0.9103   0.0887
+    17   0.8951   0.0975
+    18   0.8876   0.1050
+    19   0.8917   0.0956
+    20   0.9080   0.0774
+    21   0.8997   0.0860
+    22   0.8943   0.0859
+    23   0.9077   0.0792
+    24   0.9060   0.0732
+    25   0.9023   0.0730
+    26   0.9094   0.0760
+    27   0.9043   0.0735
+    28   0.8962   0.0789
+
+Best detection layer by AUROC: 15 (AUROC=0.9230)
+
+
+### cell 12
+# src: def build_caa_vectors(hidden, labels):
+Built CAA vectors for 28 layers
+
+
+### cell 18
+# src: mid = N_LAYERS // 2
+Candidate layers for generation-based eval: [1, 4, 9, 14, 19, 24, 26]
+Using alpha=6.0
+
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]
+
+### cell 19
+# src: baseline_acc = evaluate_accuracy(model, tok, eval_records, desc=f"{MODEL_KEY} baseline")
+llama3.2-3b baseline:   0%|          | 0/200 [00:00<?, ?it/s]
+Baseline accuracy: 0.035
+
+
+### cell 20
+# src: # standard per-layer ablation: same layer used for both detect-boundary-selection and steer
+CAA@L1:   0%|          | 0/200 [00:00<?, ?it/s]
+CAA@L4:   0%|          | 0/200 [00:00<?, ?it/s]
+CAA@L9:   0%|          | 0/200 [00:00<?, ?it/s]
+CAA@L14:   0%|          | 0/200 [00:00<?, ?it/s]
+CAA@L19:   0%|          | 0/200 [00:00<?, ?it/s]
+CAA@L24:   0%|          | 0/200 [00:00<?, ?it/s]
+CAA@L26:   0%|          | 0/200 [00:00<?, ?it/s]
+         model  layer     auroc  accuracy  baseline_accuracy  delta
+0  llama3.2-3b      1  0.847278     0.000              0.035 -0.035
+1  llama3.2-3b      4  0.859124     0.010              0.035 -0.025
+2  llama3.2-3b      9  0.896812     0.005              0.035 -0.030
+3  llama3.2-3b     14  0.900583     0.175              0.035  0.140
+4  llama3.2-3b     19  0.891750     0.025              0.035 -0.010
+5  llama3.2-3b     24  0.906019     0.075              0.035  0.040
+6  llama3.2-3b     26  0.909416     0.055              0.035  0.020
+
+### cell 21
+# src: swap_df = run_layer_swap_grid(
+detect=1 steer=1:   0%|          | 0/60 [00:00<?, ?it/s]
+detect=1 steer=4:   0%|          | 0/60 [00:00<?, ?it/s]
+detect=1 steer=9:   0%|          | 0/60 [00:00<?, ?it/s]
+detect=1 steer=14:   0%|          | 0/60 [00:00<?, ?it/s]
+detect=1 steer=19:   0%|          | 0/60 [00:00<?, ?it/s]
+detect=1 steer=24:   0%|          | 0/60 [00:00<?, ?it/s]
+detect=1 steer=26:   0%|          | 0/60 [00:00<?, ?it/s]
+detect=4 steer=1:   0%|          | 0/60 [00:00<?, ?it/s]
+detect=4 steer=4:   0%|          | 0/60 [00:00<?, ?it/s]
+detect=4 steer=9:   0%|          | 0/60 [00:00<?, ?it/s]
+detect=4 steer=14:   0%|          | 0/60 [00:00<?, ?it/s]
+detect=4 steer=19:   0%|          | 0/60 [00:00<?, ?it/s]
+detect=4 steer=24:   0%|          | 0/60 [00:00<?, ?it/s]
+detect=4 steer=26:   0%|          | 0/60 [00:00<?, ?it/s]
+detect=9 steer=1:   0%|          | 0/60 [00:00<?, ?it/s]
+detect=9 steer=4:   0%|          | 0/60 [00:00<?, ?it/s]
+detect=9 steer=9:   0%|          | 0/60 [00:00<?, ?it/s]
+detect=9 steer=14:   0%|          | 0/60 [00:00<?, ?it/s]
+detect=9 steer=19:   0%|          | 0/60 [00:00<?, ?it/s]
+detect=9 steer=24:   0%|          | 0/60 [00:00<?, ?it/s]
+detect=9 steer=26:   0%|          | 0/60 [00:00<?, ?it/s]
+ERROR KeyboardInterrupt: 
+
+### cell 22
+# src: import json
+DONE for llama3.2-3b. Now change MODEL_KEY in the config cell above to the next
+model, re-run the whole notebook (cached stages will be skipped), and repeat
+for all three models before running the cross-model comparison below.
+
+{'model': 'llama3.2-3b',
+ 'n_layers': 28,
+ 'best_detect_layer_auroc': 15,
+ 'best_detect_auroc': 0.9230269730269731,
+ 'baseline_accuracy': 0.035,
+ 'candidate_layers': [1, 4, 9, 14, 19, 24, 26],
+ 'alpha_used': 6.0}
+
+### cell 24
+# src: def load_all_swap_grids():
+[warning] ./results/llama3.2-3b_layer_swap_grid.csv exists but contains no columns to parse (likely empty), skipping.
+[missing] ./results/qwen2.5-3b_layer_swap_grid.csv -- run this notebook with MODEL_KEY='qwen2.5-3b' first
+[missing] ./results/mistral-3b_layer_swap_grid.csv -- run this notebook with MODEL_KEY='mistral-3b' first
+
+ERROR FileNotFoundError: No layer-swap grid results found in ./results/

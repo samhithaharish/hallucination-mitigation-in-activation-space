@@ -1,0 +1,529 @@
+### cell 0
+# src: !pip install transformers datasets peft accelerate bitsandbytes tqdm -q
+[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m60.7/60.7 MB[0m [31m45.3 MB/s[0m eta [36m0:00:00[0m
+[?25h
+
+### cell 1
+# src: import torch
+Mounted at /content/drive
+Using: cuda | GPU: NVIDIA A100-SXM4-40GB
+
+config.json:   0%|          | 0.00/878 [00:00<?, ?B/s]
+tokenizer_config.json: 0.00B [00:00, ?B/s]
+tokenizer.json: 0.00B [00:00, ?B/s]
+special_tokens_map.json:   0%|          | 0.00/296 [00:00<?, ?B/s]
+`torch_dtype` is deprecated! Use `dtype` instead!
+
+model.safetensors.index.json: 0.00B [00:00, ?B/s]
+Downloading (incomplete total...): 0.00B [00:00, ?B/s]
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]
+The following generation flags are not valid and may be ignored: ['output_hidden_states']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]
+generation_config.json:   0%|          | 0.00/189 [00:00<?, ?B/s]
+Model loaded ✓
+
+
+### cell 2
+# src: #
+Resolving data files:   0%|          | 0/26 [00:00<?, ?it/s]
+=== Sanity check on 5 examples ===
+Q:    Which American-born Sinclair won the Nobel Prize for Literature in 1930?
+A:    Sinclair Lewis
+Gold: Sinclair Lewis
+Score: 1.000
+---
+Q:    Where in England was Dame Judi Dench born?
+A:    York
+Gold: York
+Score: 1.000
+---
+Q:    In which decade did Billboard magazine first publish and American hit chart?
+A:    1930s
+Gold: 30s
+Score: 0.000
+---
+Q:    From which country did Angola achieve independence in 1975?
+A:    Portugal
+Gold: Portugal
+Score: 1.000
+---
+Q:    Which city does David Soul come from?
+A:    Heidelberg, Germany
+Gold: Chicago
+Score: 0.000
+---
+
+
+### cell 3
+# src: from transformers import TrainingArguments, Trainer
+trainable params: 9,175,040 || all params: 3,221,924,864 || trainable%: 0.2848
+Train: 1800 | Eval: 200
+
+
+### cell 4
+# src: from transformers import DataCollatorWithPadding
+warmup_ratio is deprecated and will be removed in v5.2. Use `warmup_steps` instead.
+
+Starting training...
+  step 0 | sft: 0.2386 | facr: -0.0217 | total: 0.2168
+  step 0 | sft: 0.2417 | facr: -0.0946 | total: 0.1472
+  step 0 | sft: 0.2697 | facr: -0.0531 | total: 0.2166
+  step 0 | sft: 0.1988 | facr: -0.0958 | total: 0.1030
+
+<IPython.core.display.HTML object>
+  step 50 | sft: 0.1720 | facr: -0.0883 | total: 0.0836
+  step 50 | sft: 0.1879 | facr: -0.0927 | total: 0.0952
+  step 50 | sft: 0.2069 | facr: -0.0233 | total: 0.1836
+  step 50 | sft: 0.2090 | facr: -0.0973 | total: 0.1117
+  step 100 | sft: 0.1970 | facr: -0.0534 | total: 0.1435
+  step 100 | sft: 0.3559 | facr: -0.0540 | total: 0.3019
+  step 100 | sft: 0.2107 | facr: -0.0520 | total: 0.1588
+  step 100 | sft: 0.0989 | facr: -0.0239 | total: 0.0751
+  step 100 | sft: 0.2559 | facr: -0.0119 | total: 0.2440
+  step 100 | sft: 0.2452 | facr: -0.0513 | total: 0.1939
+  step 100 | sft: 0.2167 | facr: -0.0534 | total: 0.1633
+  step 100 | sft: 0.2581 | facr: -0.0535 | total: 0.2047
+  step 100 | sft: 0.1958 | facr: -0.0533 | total: 0.1425
+  step 100 | sft: 0.2262 | facr: -0.0555 | total: 0.1707
+  step 100 | sft: 0.2066 | facr: -0.0494 | total: 0.1572
+  step 100 | sft: 0.2321 | facr: -0.0915 | total: 0.1406
+  step 100 | sft: 0.1892 | facr: -0.0535 | total: 0.1357
+  step 100 | sft: 0.1783 | facr: -0.0328 | total: 0.1454
+  step 100 | sft: 0.2802 | facr: -0.0990 | total: 0.1812
+  step 100 | sft: 0.2126 | facr: -0.0536 | total: 0.1590
+  step 100 | sft: 0.2326 | facr: -0.0830 | total: 0.1497
+  step 100 | sft: 0.2413 | facr: -0.0869 | total: 0.1544
+  step 100 | sft: 0.1573 | facr: -0.0516 | total: 0.1058
+  step 100 | sft: 0.1729 | facr: -0.0792 | total: 0.0937
+  step 100 | sft: 0.2007 | facr: -0.0932 | total: 0.1075
+  step 100 | sft: 0.1967 | facr: -0.0937 | total: 0.1030
+  step 100 | sft: 0.2082 | facr: -0.0542 | total: 0.1540
+  step 100 | sft: 0.1407 | facr: -0.0385 | total: 0.1022
+  step 100 | sft: 0.2466 | facr: -0.0246 | total: 0.2220
+  step 100 | sft: 0.2071 | facr: -0.0658 | total: 0.1413
+  step 100 | sft: 0.2635 | facr: -0.0954 | total: 0.1681
+  step 100 | sft: 0.1824 | facr: -0.0980 | total: 0.0844
+  step 100 | sft: 0.2799 | facr: -0.0852 | total: 0.1947
+  step 100 | sft: 0.2346 | facr: -0.0342 | total: 0.2004
+  step 100 | sft: 0.2335 | facr: -0.0964 | total: 0.1371
+  step 100 | sft: 0.2665 | facr: -0.0543 | total: 0.2122
+  step 100 | sft: 0.1959 | facr: -0.0939 | total: 0.1020
+  step 100 | sft: 0.2113 | facr: -0.0519 | total: 0.1594
+  step 100 | sft: 0.2341 | facr: -0.0525 | total: 0.1816
+  step 100 | sft: 0.1350 | facr: -0.0858 | total: 0.0492
+  step 100 | sft: 0.2141 | facr: -0.0553 | total: 0.1588
+  step 100 | sft: 0.3250 | facr: -0.0535 | total: 0.2715
+  step 100 | sft: 0.3269 | facr: -0.0245 | total: 0.3024
+  step 100 | sft: 0.2045 | facr: -0.0063 | total: 0.1982
+  step 100 | sft: 0.2367 | facr: -0.0548 | total: 0.1818
+  step 100 | sft: 0.1952 | facr: -0.0246 | total: 0.1706
+  step 100 | sft: 0.1650 | facr: -0.0235 | total: 0.1415
+  step 100 | sft: 0.1739 | facr: -0.0520 | total: 0.1219
+  step 100 | sft: 0.1556 | facr: -0.0240 | total: 0.1317
+  step 100 | sft: 0.2670 | facr: -0.0233 | total: 0.2437
+  step 100 | sft: 0.1629 | facr: -0.0237 | total: 0.1392
+  step 100 | sft: 0.2488 | facr: -0.0513 | total: 0.1975
+  step 100 | sft: 0.2825 | facr: -0.0554 | total: 0.2271
+  step 100 | sft: 0.3126 | facr: -0.0228 | total: 0.2899
+  step 100 | sft: 0.1656 | facr: -0.0512 | total: 0.1144
+  step 100 | sft: 0.1932 | facr: -0.0235 | total: 0.1697
+  step 100 | sft: 0.2663 | facr: -0.0955 | total: 0.1708
+  step 100 | sft: 0.2611 | facr: -0.0246 | total: 0.2365
+  step 150 | sft: 0.1113 | facr: -0.0247 | total: 0.0866
+  step 150 | sft: 0.1466 | facr: -0.0435 | total: 0.1031
+  step 150 | sft: 0.1723 | facr: -0.0984 | total: 0.0739
+  step 150 | sft: 0.1400 | facr: -0.0943 | total: 0.0457
+  step 200 | sft: 0.1811 | facr: -0.0208 | total: 0.1603
+  step 200 | sft: 0.3502 | facr: -0.0972 | total: 0.2529
+  step 200 | sft: 0.1956 | facr: -0.0063 | total: 0.1893
+  step 200 | sft: 0.0765 | facr: -0.0540 | total: 0.0226
+  step 200 | sft: 0.2631 | facr: -0.0559 | total: 0.2072
+  step 200 | sft: 0.2241 | facr: -0.0532 | total: 0.1709
+  step 200 | sft: 0.1854 | facr: -0.0962 | total: 0.0892
+  step 200 | sft: 0.2419 | facr: -0.0544 | total: 0.1875
+  step 200 | sft: 0.1957 | facr: -0.0063 | total: 0.1894
+  step 200 | sft: 0.2089 | facr: -0.0533 | total: 0.1557
+  step 200 | sft: 0.1896 | facr: -0.0498 | total: 0.1399
+  step 200 | sft: 0.2259 | facr: -0.0535 | total: 0.1724
+  step 200 | sft: 0.1660 | facr: -0.0698 | total: 0.0963
+  step 200 | sft: 0.1772 | facr: -0.0331 | total: 0.1441
+  step 200 | sft: 0.2864 | facr: -0.0249 | total: 0.2615
+  step 200 | sft: 0.2221 | facr: -0.0965 | total: 0.1256
+  step 200 | sft: 0.2323 | facr: -0.0185 | total: 0.2138
+  step 200 | sft: 0.2552 | facr: -0.0249 | total: 0.2303
+  step 200 | sft: 0.1497 | facr: -0.0235 | total: 0.1261
+  step 200 | sft: 0.1694 | facr: -0.0456 | total: 0.1238
+  step 200 | sft: 0.1952 | facr: -0.0062 | total: 0.1890
+  step 200 | sft: 0.1879 | facr: -0.0536 | total: 0.1343
+  step 200 | sft: 0.1950 | facr: -0.0966 | total: 0.0984
+  step 200 | sft: 0.1137 | facr: -0.0743 | total: 0.0394
+  step 200 | sft: 0.2272 | facr: -0.0063 | total: 0.2210
+  step 200 | sft: 0.1974 | facr: -0.0663 | total: 0.1311
+  step 200 | sft: 0.2090 | facr: -0.0247 | total: 0.1843
+  step 200 | sft: 0.1919 | facr: -0.0553 | total: 0.1366
+  step 200 | sft: 0.2634 | facr: -0.0488 | total: 0.2146
+  step 200 | sft: 0.2145 | facr: -0.0638 | total: 0.1507
+  step 200 | sft: 0.2304 | facr: -0.0972 | total: 0.1332
+  step 200 | sft: 0.2837 | facr: -0.0970 | total: 0.1867
+  step 200 | sft: 0.1882 | facr: -0.0536 | total: 0.1346
+  step 200 | sft: 0.2169 | facr: -0.0960 | total: 0.1209
+  step 200 | sft: 0.2502 | facr: -0.0557 | total: 0.1945
+  step 200 | sft: 0.1373 | facr: -0.0499 | total: 0.0874
+  step 200 | sft: 0.1941 | facr: -0.0965 | total: 0.0976
+  step 200 | sft: 0.2992 | facr: -0.0965 | total: 0.2027
+  step 200 | sft: 0.3188 | facr: -0.0246 | total: 0.2942
+  step 200 | sft: 0.1839 | facr: -0.0904 | total: 0.0935
+  step 200 | sft: 0.2402 | facr: -0.0974 | total: 0.1428
+  step 200 | sft: 0.1905 | facr: -0.0238 | total: 0.1667
+  step 200 | sft: 0.1435 | facr: -0.0221 | total: 0.1213
+  step 200 | sft: 0.1558 | facr: -0.0063 | total: 0.1496
+  step 200 | sft: 0.1408 | facr: -0.0528 | total: 0.0880
+  step 200 | sft: 0.2516 | facr: -0.0244 | total: 0.2272
+  step 200 | sft: 0.1506 | facr: -0.0393 | total: 0.1112
+  step 200 | sft: 0.2288 | facr: -0.0931 | total: 0.1356
+  step 200 | sft: 0.2771 | facr: -0.0972 | total: 0.1799
+  step 200 | sft: 0.3002 | facr: -0.0510 | total: 0.2492
+  step 200 | sft: 0.1561 | facr: -0.0225 | total: 0.1336
+  step 200 | sft: 0.1660 | facr: -0.0529 | total: 0.1132
+  step 200 | sft: 0.1670 | facr: -0.0473 | total: 0.1197
+  step 200 | sft: 0.1698 | facr: -0.0928 | total: 0.0770
+  step 250 | sft: 0.1100 | facr: -0.0938 | total: 0.0163
+  step 250 | sft: 0.1107 | facr: -0.0538 | total: 0.0569
+  step 250 | sft: 0.1452 | facr: -0.0062 | total: 0.1389
+  step 250 | sft: 0.1358 | facr: -0.0930 | total: 0.0428
+  step 300 | sft: 0.1889 | facr: -0.0864 | total: 0.1025
+  step 300 | sft: 0.3544 | facr: -0.0973 | total: 0.2571
+  step 300 | sft: 0.2001 | facr: -0.0946 | total: 0.1055
+  step 300 | sft: 0.0772 | facr: -0.0407 | total: 0.0365
+  step 300 | sft: 0.2732 | facr: -0.0609 | total: 0.2123
+  step 300 | sft: 0.2207 | facr: -0.0248 | total: 0.1960
+  step 300 | sft: 0.1871 | facr: -0.0964 | total: 0.0907
+  step 300 | sft: 0.2356 | facr: 0.0000 | total: 0.2356
+  step 300 | sft: 0.2066 | facr: -0.0540 | total: 0.1525
+  step 300 | sft: 0.2122 | facr: -0.0248 | total: 0.1875
+  step 300 | sft: 0.1764 | facr: -0.0892 | total: 0.0872
+  step 300 | sft: 0.2273 | facr: -0.0932 | total: 0.1341
+  step 300 | sft: 0.1686 | facr: -0.0541 | total: 0.1145
+  step 300 | sft: 0.1807 | facr: -0.0652 | total: 0.1155
+  step 300 | sft: 0.3019 | facr: -0.0994 | total: 0.2025
+  step 300 | sft: 0.2184 | facr: -0.0540 | total: 0.1644
+  step 300 | sft: 0.2372 | facr: -0.0838 | total: 0.1534
+  step 300 | sft: 0.2686 | facr: -0.0545 | total: 0.2142
+  step 300 | sft: 0.1599 | facr: -0.0518 | total: 0.1081
+  step 300 | sft: 0.1715 | facr: -0.0806 | total: 0.0908
+  step 300 | sft: 0.2035 | facr: -0.0957 | total: 0.1078
+  step 300 | sft: 0.1863 | facr: -0.0957 | total: 0.0905
+  step 300 | sft: 0.2007 | facr: -0.0063 | total: 0.1944
+  step 300 | sft: 0.1076 | facr: -0.0236 | total: 0.0840
+  step 300 | sft: 0.2283 | facr: -0.0556 | total: 0.1726
+  step 300 | sft: 0.2116 | facr: -0.0542 | total: 0.1574
+  step 300 | sft: 0.2150 | facr: -0.0959 | total: 0.1191
+  step 300 | sft: 0.1864 | facr: -0.0984 | total: 0.0880
+  step 300 | sft: 0.2722 | facr: -0.0477 | total: 0.2245
+  step 300 | sft: 0.2094 | facr: -0.0063 | total: 0.2032
+  step 300 | sft: 0.2291 | facr: -0.0546 | total: 0.1745
+  step 300 | sft: 0.2830 | facr: -0.0549 | total: 0.2280
+  step 300 | sft: 0.1898 | facr: -0.0239 | total: 0.1659
+  step 300 | sft: 0.2184 | facr: -0.0961 | total: 0.1224
+  step 300 | sft: 0.2681 | facr: -0.0519 | total: 0.2162
+  step 300 | sft: 0.1361 | facr: -0.0868 | total: 0.0493
+  step 300 | sft: 0.1929 | facr: -0.0540 | total: 0.1388
+  step 300 | sft: 0.3101 | facr: -0.0544 | total: 0.2557
+  step 300 | sft: 0.3388 | facr: -0.0984 | total: 0.2403
+  step 300 | sft: 0.1918 | facr: -0.0911 | total: 0.1008
+  step 300 | sft: 0.2462 | facr: -0.0546 | total: 0.1916
+  step 300 | sft: 0.1921 | facr: -0.0964 | total: 0.0957
+  step 300 | sft: 0.1361 | facr: -0.0485 | total: 0.0876
+  step 300 | sft: 0.1645 | facr: -0.0905 | total: 0.0740
+  step 300 | sft: 0.1479 | facr: -0.0930 | total: 0.0549
+  step 300 | sft: 0.2590 | facr: -0.0535 | total: 0.2055
+  step 300 | sft: 0.1612 | facr: -0.0393 | total: 0.1219
+  step 300 | sft: 0.2232 | facr: -0.0930 | total: 0.1302
+  step 300 | sft: 0.2871 | facr: -0.0972 | total: 0.1898
+  step 300 | sft: 0.3142 | facr: -0.0907 | total: 0.2235
+  step 300 | sft: 0.1174 | facr: -0.0516 | total: 0.0658
+  step 300 | sft: 0.1556 | facr: -0.0539 | total: 0.1017
+  step 300 | sft: 0.0869 | facr: -0.0508 | total: 0.0361
+  step 300 | sft: 0.1570 | facr: -0.0555 | total: 0.1015
+Training complete ✓
+
+Running evaluation...
+
+── Results ──────────────────────────────
+AUROC (20% token cutoff): 0.9477
+Factual samples:          4
+Hallucinated samples:     196
+
+<Figure size 700x500 with 1 Axes>
+PCA plot saved ✓
+
+
+### cell 5
+# src: # ============================================================
+Drive already mounted at /content/drive; to attempt to forcibly remount, call drive.mount("/content/drive", force_remount=True).
+Device : cuda
+GPU    : NVIDIA A100-SXM4-40GB
+
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]
+Model loaded ✓
+
+Resolving data files:   0%|          | 0/26 [00:00<?, ?it/s]
+=== Sanity check on 5 examples ===
+Q    : Which American-born Sinclair won the Nobel Prize for Literature in 1930?
+A    : Sinclair Lewis
+Gold : Sinclair Lewis
+Score: 1.000
+---
+Q    : Where in England was Dame Judi Dench born?
+A    : York
+Gold : York
+Score: 1.000
+---
+Q    : In which decade did Billboard magazine first publish and American hit chart?
+A    : 1930s
+Gold : 30s
+Score: 0.000
+---
+Q    : From which country did Angola achieve independence in 1975?
+A    : Portugal
+Gold : Portugal
+Score: 1.000
+---
+Q    : Which city does David Soul come from?
+A    : Detmold
+Gold : Chicago
+Score: 0.000
+---
+
+Generating responses (4 per question × 500 questions = 2000 total)...
+
+100%|██████████| 500/500 [36:25<00:00,  4.37s/it]
+
+
+Total samples       : 2000
+Factual   (> 0.5)   : 1026  (51.3%)
+Partial   (0.1–0.5) : 95   (4.8%)
+Hallucinated (< 0.1): 879  (44.0%)
+
+warmup_ratio is deprecated and will be removed in v5.2. Use `warmup_steps` instead.
+
+trainable params: 9,175,040 || all params: 3,221,924,864 || trainable%: 0.2848
+Train: 1800 | Eval: 200
+Starting training...
+  step    0 | sft: 8.4155 | facr: -0.0187 | total: 8.3968
+  step    0 | sft: 8.4736 | facr: -0.0255 | total: 8.4481
+  step    0 | sft: 8.5345 | facr: -0.0343 | total: 8.5002
+  step    0 | sft: 8.4725 | facr: -0.0223 | total: 8.4502
+
+<IPython.core.display.HTML object>
+  step   50 | sft: 0.1799 | facr: -0.0155 | total: 0.1644
+  step   50 | sft: 0.2244 | facr: -0.0264 | total: 0.1980
+  step   50 | sft: 0.1755 | facr: -0.0048 | total: 0.1707
+  step   50 | sft: 0.1614 | facr: -0.0150 | total: 0.1463
+  step  100 | sft: 0.1133 | facr: -0.0137 | total: 0.0995
+  step  100 | sft: 0.0928 | facr: -0.0132 | total: 0.0797
+  step  100 | sft: 0.0885 | facr: -0.0136 | total: 0.0749
+  step  100 | sft: 0.1319 | facr: -0.0164 | total: 0.1155
+  step  100 | sft: 0.1423 | facr: -0.0149 | total: 0.1274
+  step  100 | sft: 0.1102 | facr: -0.0128 | total: 0.0974
+  step  100 | sft: 0.1360 | facr: -0.0133 | total: 0.1227
+  step  100 | sft: 0.1246 | facr: -0.0495 | total: 0.0751
+  step  100 | sft: 0.0925 | facr: -0.0471 | total: 0.0454
+  step  100 | sft: 0.1899 | facr: -0.0141 | total: 0.1758
+  step  100 | sft: 0.1364 | facr: -0.0394 | total: 0.0970
+  step  100 | sft: 0.1270 | facr: -0.0226 | total: 0.1045
+  step  100 | sft: 0.1352 | facr: -0.0427 | total: 0.0925
+  step  100 | sft: 0.1277 | facr: -0.0131 | total: 0.1146
+  step  100 | sft: 0.0734 | facr: -0.0361 | total: 0.0372
+  step  100 | sft: 0.1729 | facr: -0.0124 | total: 0.1604
+  step  100 | sft: 0.1262 | facr: -0.0204 | total: 0.1058
+  step  100 | sft: 0.1242 | facr: -0.0663 | total: 0.0579
+  step  100 | sft: 0.1110 | facr: -0.0246 | total: 0.0864
+  step  100 | sft: 0.1616 | facr: -0.0207 | total: 0.1409
+  step  100 | sft: 0.1279 | facr: -0.0371 | total: 0.0908
+  step  100 | sft: 0.1834 | facr: -0.0294 | total: 0.1540
+  step  100 | sft: 0.1299 | facr: -0.0108 | total: 0.1191
+  step  100 | sft: 0.1116 | facr: -0.0132 | total: 0.0985
+  step  100 | sft: 0.0815 | facr: -0.0243 | total: 0.0572
+  step  100 | sft: 0.2011 | facr: -0.0178 | total: 0.1833
+  step  100 | sft: 0.2101 | facr: -0.0350 | total: 0.1751
+  step  100 | sft: 0.1365 | facr: -0.0341 | total: 0.1024
+  step  100 | sft: 0.1273 | facr: -0.0335 | total: 0.0938
+  step  100 | sft: 0.0922 | facr: -0.0132 | total: 0.0789
+  step  100 | sft: 0.1107 | facr: -0.0150 | total: 0.0958
+  step  100 | sft: 0.1261 | facr: -0.0139 | total: 0.1122
+  step  100 | sft: 0.1664 | facr: -0.0179 | total: 0.1485
+  step  100 | sft: 0.1038 | facr: -0.0135 | total: 0.0902
+  step  100 | sft: 0.1769 | facr: -0.0122 | total: 0.1648
+  step  100 | sft: 0.1421 | facr: -0.0146 | total: 0.1275
+  step  100 | sft: 0.1281 | facr: -0.0197 | total: 0.1084
+  step  100 | sft: 0.1357 | facr: -0.0225 | total: 0.1132
+  step  100 | sft: 0.1577 | facr: -0.0236 | total: 0.1341
+  step  100 | sft: 0.1891 | facr: -0.0063 | total: 0.1829
+  step  100 | sft: 0.1220 | facr: -0.0134 | total: 0.1086
+  step  100 | sft: 0.1561 | facr: -0.0041 | total: 0.1519
+  step  100 | sft: 0.1114 | facr: -0.0236 | total: 0.0878
+  step  100 | sft: 0.1655 | facr: -0.0146 | total: 0.1510
+  step  100 | sft: 0.1740 | facr: -0.0039 | total: 0.1702
+  step  100 | sft: 0.1603 | facr: -0.0150 | total: 0.1452
+  step  100 | sft: 0.1752 | facr: -0.0239 | total: 0.1514
+  step  100 | sft: 0.1205 | facr: -0.0131 | total: 0.1074
+  step  100 | sft: 0.2150 | facr: -0.0135 | total: 0.2015
+  step  100 | sft: 0.1261 | facr: -0.0175 | total: 0.1086
+  step  100 | sft: 0.1342 | facr: -0.0153 | total: 0.1189
+  step  100 | sft: 0.1378 | facr: -0.0193 | total: 0.1185
+  step  100 | sft: 0.1455 | facr: -0.0218 | total: 0.1238
+  step  100 | sft: 0.1825 | facr: -0.0058 | total: 0.1768
+  step  150 | sft: 0.1816 | facr: -0.0145 | total: 0.1672
+  step  150 | sft: 0.1040 | facr: -0.0313 | total: 0.0727
+  step  150 | sft: 0.0945 | facr: -0.0315 | total: 0.0630
+  step  150 | sft: 0.0953 | facr: -0.0952 | total: 0.0001
+  step  200 | sft: 0.0877 | facr: -0.0037 | total: 0.0840
+  step  200 | sft: 0.0622 | facr: -0.0269 | total: 0.0353
+  step  200 | sft: 0.0613 | facr: -0.0062 | total: 0.0551
+  step  200 | sft: 0.1161 | facr: -0.0106 | total: 0.1055
+  step  200 | sft: 0.0909 | facr: -0.0132 | total: 0.0777
+  step  200 | sft: 0.0684 | facr: -0.0130 | total: 0.0554
+  step  200 | sft: 0.0922 | facr: -0.0345 | total: 0.0578
+  step  200 | sft: 0.0923 | facr: -0.0549 | total: 0.0374
+  step  200 | sft: 0.0644 | facr: -0.0063 | total: 0.0582
+  step  200 | sft: 0.1205 | facr: -0.0136 | total: 0.1070
+  step  200 | sft: 0.0833 | facr: -0.0404 | total: 0.0428
+  step  200 | sft: 0.0983 | facr: -0.0108 | total: 0.0875
+  step  200 | sft: 0.0950 | facr: -0.0292 | total: 0.0658
+  step  200 | sft: 0.1039 | facr: -0.0131 | total: 0.0908
+  step  200 | sft: 0.0549 | facr: -0.0037 | total: 0.0512
+  step  200 | sft: 0.1587 | facr: -0.0301 | total: 0.1286
+  step  200 | sft: 0.1002 | facr: -0.0171 | total: 0.0830
+  step  200 | sft: 0.1065 | facr: -0.0150 | total: 0.0915
+  step  200 | sft: 0.0717 | facr: -0.0091 | total: 0.0626
+  step  200 | sft: 0.1093 | facr: -0.0162 | total: 0.0931
+  step  200 | sft: 0.0894 | facr: -0.0063 | total: 0.0832
+  step  200 | sft: 0.1602 | facr: -0.0123 | total: 0.1478
+  step  200 | sft: 0.0974 | facr: -0.0181 | total: 0.0792
+  step  200 | sft: 0.0833 | facr: -0.0344 | total: 0.0488
+  step  200 | sft: 0.0582 | facr: -0.0062 | total: 0.0520
+  step  200 | sft: 0.1502 | facr: -0.0180 | total: 0.1322
+  step  200 | sft: 0.1466 | facr: -0.0042 | total: 0.1423
+  step  200 | sft: 0.1089 | facr: -0.0131 | total: 0.0958
+  step  200 | sft: 0.0934 | facr: -0.0540 | total: 0.0394
+  step  200 | sft: 0.0587 | facr: -0.0344 | total: 0.0243
+  step  200 | sft: 0.0888 | facr: -0.0143 | total: 0.0745
+  step  200 | sft: 0.0865 | facr: -0.0350 | total: 0.0515
+  step  200 | sft: 0.1031 | facr: -0.0134 | total: 0.0897
+  step  200 | sft: 0.0762 | facr: -0.0144 | total: 0.0617
+  step  200 | sft: 0.1357 | facr: -0.0343 | total: 0.1014
+  step  200 | sft: 0.0954 | facr: -0.0134 | total: 0.0820
+  step  200 | sft: 0.0775 | facr: -0.0419 | total: 0.0356
+  step  200 | sft: 0.1008 | facr: -0.0272 | total: 0.0736
+  step  200 | sft: 0.1152 | facr: -0.0244 | total: 0.0907
+  step  200 | sft: 0.1246 | facr: -0.0184 | total: 0.1062
+  step  200 | sft: 0.0966 | facr: -0.0350 | total: 0.0616
+  step  200 | sft: 0.1180 | facr: -0.0175 | total: 0.1005
+  step  200 | sft: 0.0886 | facr: -0.0038 | total: 0.0848
+  step  200 | sft: 0.1031 | facr: -0.0063 | total: 0.0969
+  step  200 | sft: 0.1097 | facr: -0.0132 | total: 0.0965
+  step  200 | sft: 0.1114 | facr: -0.0151 | total: 0.0963
+  step  200 | sft: 0.1252 | facr: -0.0539 | total: 0.0713
+  step  200 | sft: 0.0912 | facr: -0.0142 | total: 0.0770
+  step  200 | sft: 0.1514 | facr: -0.0347 | total: 0.1167
+  step  200 | sft: 0.0950 | facr: -0.0155 | total: 0.0795
+  step  200 | sft: 0.0841 | facr: -0.0246 | total: 0.0595
+  step  200 | sft: 0.0977 | facr: -0.0105 | total: 0.0873
+  step  200 | sft: 0.0964 | facr: -0.0135 | total: 0.0829
+  step  200 | sft: 0.0783 | facr: -0.0351 | total: 0.0432
+  step  250 | sft: 0.0823 | facr: -0.0366 | total: 0.0457
+  step  250 | sft: 0.1011 | facr: -0.0133 | total: 0.0878
+  step  250 | sft: 0.0495 | facr: -0.0062 | total: 0.0433
+  step  250 | sft: 0.0611 | facr: -0.0188 | total: 0.0422
+  step  300 | sft: 0.0672 | facr: -0.0138 | total: 0.0534
+  step  300 | sft: 0.0601 | facr: -0.0269 | total: 0.0332
+  step  300 | sft: 0.0507 | facr: -0.0351 | total: 0.0156
+  step  300 | sft: 0.1067 | facr: -0.0235 | total: 0.0832
+  step  300 | sft: 0.0717 | facr: -0.0270 | total: 0.0447
+  step  300 | sft: 0.0542 | facr: -0.0041 | total: 0.0501
+  step  300 | sft: 0.0825 | facr: -0.0346 | total: 0.0479
+  step  300 | sft: 0.0899 | facr: 0.0000 | total: 0.0899
+  step  300 | sft: 0.0493 | facr: -0.0475 | total: 0.0018
+  step  300 | sft: 0.0984 | facr: -0.0246 | total: 0.0738
+  step  300 | sft: 0.0684 | facr: -0.0803 | total: -0.0119
+  step  300 | sft: 0.0725 | facr: -0.0222 | total: 0.0503
+  step  300 | sft: 0.0794 | facr: -0.0433 | total: 0.0361
+  step  300 | sft: 0.0817 | facr: -0.0341 | total: 0.0476
+  step  300 | sft: 0.0474 | facr: -0.0354 | total: 0.0120
+  step  300 | sft: 0.1428 | facr: -0.0133 | total: 0.1295
+  step  300 | sft: 0.0817 | facr: -0.0195 | total: 0.0621
+  step  300 | sft: 0.0926 | facr: -0.0356 | total: 0.0570
+  step  300 | sft: 0.0620 | facr: -0.0251 | total: 0.0369
+  step  300 | sft: 0.0778 | facr: -0.0171 | total: 0.0607
+  step  300 | sft: 0.0652 | facr: -0.0378 | total: 0.0275
+  step  300 | sft: 0.1276 | facr: -0.0305 | total: 0.0971
+  step  300 | sft: 0.0899 | facr: -0.0063 | total: 0.0836
+  step  300 | sft: 0.0614 | facr: -0.0243 | total: 0.0371
+  step  300 | sft: 0.0565 | facr: -0.0133 | total: 0.0432
+  step  300 | sft: 0.1036 | facr: -0.0123 | total: 0.0912
+  step  300 | sft: 0.1245 | facr: -0.0345 | total: 0.0900
+  step  300 | sft: 0.0892 | facr: -0.0345 | total: 0.0546
+  step  300 | sft: 0.0720 | facr: -0.0132 | total: 0.0587
+  step  300 | sft: 0.0477 | facr: -0.0063 | total: 0.0415
+  step  300 | sft: 0.0711 | facr: -0.0135 | total: 0.0577
+  step  300 | sft: 0.0707 | facr: -0.0545 | total: 0.0162
+  step  300 | sft: 0.0705 | facr: -0.0245 | total: 0.0460
+  step  300 | sft: 0.0649 | facr: -0.0144 | total: 0.0504
+  step  300 | sft: 0.1091 | facr: -0.0131 | total: 0.0960
+  step  300 | sft: 0.0700 | facr: -0.0141 | total: 0.0559
+  step  300 | sft: 0.0620 | facr: -0.0554 | total: 0.0066
+  step  300 | sft: 0.0767 | facr: -0.0280 | total: 0.0487
+  step  300 | sft: 0.0909 | facr: -0.0142 | total: 0.0766
+  step  300 | sft: 0.1099 | facr: -0.0184 | total: 0.0915
+  step  300 | sft: 0.0658 | facr: -0.0132 | total: 0.0527
+  step  300 | sft: 0.0746 | facr: -0.0299 | total: 0.0447
+  step  300 | sft: 0.0779 | facr: -0.0131 | total: 0.0648
+  step  300 | sft: 0.0768 | facr: -0.0311 | total: 0.0457
+  step  300 | sft: 0.0768 | facr: -0.0343 | total: 0.0425
+  step  300 | sft: 0.0982 | facr: -0.0151 | total: 0.0831
+  step  300 | sft: 0.1087 | facr: -0.0536 | total: 0.0550
+  step  300 | sft: 0.0769 | facr: -0.0140 | total: 0.0628
+  step  300 | sft: 0.1203 | facr: -0.0348 | total: 0.0856
+  step  300 | sft: 0.0839 | facr: -0.0298 | total: 0.0541
+  step  300 | sft: 0.0494 | facr: -0.0152 | total: 0.0342
+  step  300 | sft: 0.0554 | facr: -0.0265 | total: 0.0289
+  step  300 | sft: 0.0551 | facr: -0.0132 | total: 0.0419
+  step  300 | sft: 0.0539 | facr: -0.0150 | total: 0.0388
+Training complete ✓
+Extracting hidden states for evaluation...
+
+100%|██████████| 200/200 [00:13<00:00, 15.09it/s]
+
+
+── Evaluation Results ───────────────────────────────
+AUROC @ 20% token cutoff : 0.6247
+Factual samples          : 94
+Hallucinated samples     : 106
+(Baseline from probes    : ~0.76–0.86 — compare against this)
+
+Steering vector saved ✓
+Cosine similarity (factual centroid vs hallu centroid): 0.9869
+
+<Figure size 700x500 with 1 Axes>
+PCA plot saved ✓
+
+── Ablation: lambda weight ──────────────────────────
+  lambda=0.01 → AUROC=0.6279
+  lambda=0.05 → AUROC=0.6238
+  lambda=0.10 → AUROC=0.6305
+  lambda=0.20 → AUROC=0.6097
+  lambda=0.50 → AUROC=0.6255
+
+── Ablation: target layer ───────────────────────────
+  layer=14 → AUROC=0.6257
+  layer=17 → AUROC=0.6190
+  layer=21 → AUROC=0.6333
+  layer=24 → AUROC=0.6219
+  layer=27 → AUROC=0.6260
+
+── Ablation: token dropout ──────────────────────────
+  token_dropout=True → AUROC=0.6487
+  token_dropout=False → AUROC=0.6247
+

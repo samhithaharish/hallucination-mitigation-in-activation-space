@@ -1,0 +1,14 @@
+### cell 2
+# src: # ── CELL 0 — Setup ───────────────────────────────────────────────
+labeled_data.json not found — will regenerate in Cell 4 (~36 min)
+Directories ready ✓
+
+
+### cell 4
+# src: # ── CELL 1 — Install dependencies ────────────────────────────────
+[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m60.7/60.7 MB[0m [31m44.7 MB/s[0m eta [36m0:00:00[0m
+[?25h
+
+### cell 6
+# src: # ── CELL 2 — Imports and model loading ───────────────────────────
+ERROR AttributeError: module 'sympy' has no attribute 'printing'

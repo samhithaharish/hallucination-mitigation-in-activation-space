@@ -1,0 +1,48 @@
+### cell 1
+# src: # ── CELL 1: Imports & config ─────────────────────────────────────
+Drive already mounted at /content/drive; to attempt to forcibly remount, call drive.mount("/content/drive", force_remount=True).
+Setup complete ✓
+
+
+### cell 3
+# src: # ── CELL 2: Load model ───────────────────────────────────────────
+Loading meta-llama/Llama-3.2-3B-Instruct ...
+
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]
+Model loaded ✓  |  Layers: 28  |  Hidden dim: 3072
+
+
+### cell 4
+# src: # ── CELL 3: Load cache + TriviaQA ───────────────────────────────
+Hidden states loaded ✓  |  Shape: (500, 29, 3072)
+Labels: 238 factual / 262 hallucinated
+
+Resolving data files:   0%|          | 0/26 [00:00<?, ?it/s]
+TriviaQA loaded ✓
+
+
+### cell 5
+# src: # ── CELL 4: Compute CAA steering vector at each layer ────────────
+Computing CAA steering vectors for all layers ...
+Steering vectors computed ✓  (29 layers)
+
+
+### cell 6
+# src: # ── CELL 5: Fit probe at DETECT_LAYER for router ─────────────────
+Fitting probe at detection layer L*=13 ...
+Probe AUROC at L*=13: 0.9997 ✓
+
+
+### cell 8
+# src: # ── CELL 7: Two-panel figure — Detection vs Correction ───────────
+Generating two-panel figure ...
+
+ERROR ValueError: attempt to get argmax of an empty sequence
+
+### cell 9
+# src: # ── LEFT: Detection (AUROC) ──
+<matplotlib.legend.Legend at 0x7addf0d3b710>
+
+### cell 10
+# src: # ── RIGHT: Correction (Steering Accuracy) ──
+ERROR IndexError: index 13 is out of bounds for axis 0 with size 13

@@ -1,0 +1,60 @@
+{
+  "auroc_before_all": 0.8497143527204504,
+  "auroc_after_all": 0.8443382582864289,
+  "auroc_before_boundary": 0.0,
+  "auroc_after_boundary": 0.0,
+  "gap_before_all": 0.48812155425548553,
+  "gap_after_all": 0.48149052262306213,
+  "gap_before_boundary": -0.00575970858335495,
+  "gap_after_boundary": -0.005759701132774353,
+  "n_steered": 17,
+  "n_eval": 400,
+  "mean_delta": 0.12244538962841034,
+  "early_boundary": {
+    "0.1": {
+      "raw_auroc": 0.5072529706066291,
+      "steer_auroc": 0.5072529706066291,
+      "delta": 0.0,
+      "raw_boundary": 0.0,
+      "steer_boundary": 0.0,
+      "delta_boundary": 0.0,
+      "n_boundary": 0
+    },
+    "0.2": {
+      "raw_auroc": 0.5990077782989369,
+      "steer_auroc": 0.5990077782989369,
+      "delta": 0.0,
+      "raw_boundary": 0.0,
+      "steer_boundary": 0.0,
+      "delta_boundary": 0.0,
+      "n_boundary": 0
+    },
+    "0.3": {
+      "raw_auroc": 0.6095134068167605,
+      "steer_auroc": 0.6095134068167605,
+      "delta": 0.0,
+      "raw_boundary": 0.0,
+      "steer_boundary": 0.0,
+      "delta_boundary": 0.0,
+      "n_boundary": 0
+    },
+    "0.5": {
+      "raw_auroc": 0.6477186131957474,
+      "steer_auroc": 0.6477185350218886,
+      "delta": -7.817385883068795e-08,
+      "raw_boundary": 0.0,
+      "steer_boundary": 0.0,
+      "delta_boundary": 0.0,
+      "n_boundary": 2
+    },
+    "1.0": {
+      "raw_auroc": 0.846708411507192,
+      "steer_auroc": 0.8410823952470293,
+      "delta": -0.005626016260162681,
+      "raw_boundary": 0.2333333333333333,
+      "steer_boundary": 0.2333333333333333,
+      "delta_boundary": 0.0,
+      "n_boundary": 17
+    }
+  }
+}
