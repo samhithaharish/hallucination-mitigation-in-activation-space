@@ -1,0 +1,116 @@
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]Loading weights:   9%|▊         | 22/254 [00:00<00:01, 212.27it/s]Loading weights:  33%|███▎      | 84/254 [00:00<00:00, 445.83it/s]Loading weights:  56%|█████▋    | 143/254 [00:00<00:00, 510.22it/s]Loading weights:  80%|███████▉  | 202/254 [00:00<00:00, 539.16it/s]Loading weights: 100%|██████████| 254/254 [00:00<00:00, 516.66it/s]
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[hk] knows(>=2)=24  doesn't(0)=72
+[fix] layer  2 gold    eps 0.05 fix 0.658 (58s)
+[fix] layer  2 gold    eps 0.1  fix 0.908 (58s)
+[fix] layer  2 gold    eps 0.2  fix 0.967 (59s)
+[fix] layer  2 gold    eps 0.4  fix 0.992 (60s)
+[fix] layer  2 gold    eps 0.8  fix 0.942 (59s)
+[fix] layer  2 control eps 0.05 fix 0.008 (58s)
+[fix] layer  2 control eps 0.1  fix 0.308 (58s)
+[fix] layer  2 control eps 0.2  fix 0.800 (58s)
+[fix] layer  2 control eps 0.4  fix 0.833 (58s)
+[fix] layer  2 control eps 0.8  fix 0.858 (58s)
+[fix] layer  4 gold    eps 0.05 fix 0.592 (57s)
+[fix] layer  4 gold    eps 0.1  fix 0.925 (57s)
+[fix] layer  4 gold    eps 0.2  fix 0.992 (59s)
+[fix] layer  4 gold    eps 0.4  fix 0.992 (58s)
+[fix] layer  4 gold    eps 0.8  fix 0.958 (57s)
+[fix] layer  4 control eps 0.05 fix 0.008 (57s)
+[fix] layer  4 control eps 0.1  fix 0.342 (57s)
+[fix] layer  4 control eps 0.2  fix 0.842 (57s)
+[fix] layer  4 control eps 0.4  fix 0.925 (57s)
+[fix] layer  4 control eps 0.8  fix 0.908 (57s)
+[fix] layer  8 gold    eps 0.05 fix 0.558 (54s)
+[fix] layer  8 gold    eps 0.1  fix 0.950 (54s)
+[fix] layer  8 gold    eps 0.2  fix 0.983 (56s)
+[fix] layer  8 gold    eps 0.4  fix 0.975 (55s)
+[fix] layer  8 gold    eps 0.8  fix 0.975 (54s)
+[fix] layer  8 control eps 0.05 fix 0.008 (54s)
+[fix] layer  8 control eps 0.1  fix 0.217 (55s)
+[fix] layer  8 control eps 0.2  fix 0.917 (55s)
+[fix] layer  8 control eps 0.4  fix 0.942 (55s)
+[fix] layer  8 control eps 0.8  fix 0.933 (55s)
+[fix] layer 10 gold    eps 0.05 fix 0.592 (53s)
+[fix] layer 10 gold    eps 0.1  fix 0.950 (53s)
+[fix] layer 10 gold    eps 0.2  fix 0.983 (55s)
+[fix] layer 10 gold    eps 0.4  fix 0.983 (54s)
+[fix] layer 10 gold    eps 0.8  fix 0.975 (53s)
+[fix] layer 10 control eps 0.05 fix 0.008 (53s)
+[fix] layer 10 control eps 0.1  fix 0.400 (53s)
+[fix] layer 10 control eps 0.2  fix 0.908 (53s)
+[fix] layer 10 control eps 0.4  fix 0.917 (53s)
+[fix] layer 10 control eps 0.8  fix 0.933 (53s)
+[fix] layer 13 gold    eps 0.05 fix 0.592 (51s)
+[fix] layer 13 gold    eps 0.1  fix 0.950 (51s)
+[fix] layer 13 gold    eps 0.2  fix 0.992 (53s)
+[fix] layer 13 gold    eps 0.4  fix 0.983 (52s)
+[fix] layer 13 gold    eps 0.8  fix 0.983 (51s)
+[fix] layer 13 control eps 0.05 fix 0.008 (51s)
+[fix] layer 13 control eps 0.1  fix 0.308 (51s)
+[fix] layer 13 control eps 0.2  fix 0.892 (51s)
+[fix] layer 13 control eps 0.4  fix 0.908 (51s)
+[fix] layer 13 control eps 0.8  fix 0.908 (51s)
+[fix] layer 16 gold    eps 0.05 fix 0.642 (49s)
+[fix] layer 16 gold    eps 0.1  fix 0.950 (49s)
+[fix] layer 16 gold    eps 0.2  fix 0.975 (51s)
+[fix] layer 16 gold    eps 0.4  fix 0.958 (50s)
+[fix] layer 16 gold    eps 0.8  fix 0.933 (49s)
+[fix] layer 16 control eps 0.05 fix 0.033 (49s)
+[fix] layer 16 control eps 0.1  fix 0.400 (49s)
+[fix] layer 16 control eps 0.2  fix 0.883 (49s)
+[fix] layer 16 control eps 0.4  fix 0.900 (49s)
+[fix] layer 16 control eps 0.8  fix 0.867 (49s)
+[fix] layer 20 gold    eps 0.05 fix 0.683 (46s)
+[fix] layer 20 gold    eps 0.1  fix 0.975 (46s)
+[fix] layer 20 gold    eps 0.2  fix 0.992 (48s)
+[fix] layer 20 gold    eps 0.4  fix 0.983 (48s)
+[fix] layer 20 gold    eps 0.8  fix 0.900 (47s)
+[fix] layer 20 control eps 0.05 fix 0.058 (47s)
+[fix] layer 20 control eps 0.1  fix 0.492 (47s)
+[fix] layer 20 control eps 0.2  fix 0.883 (47s)
+[fix] layer 20 control eps 0.4  fix 0.875 (47s)
+[fix] layer 20 control eps 0.8  fix 0.758 (47s)
+[fix] layer 24 gold    eps 0.05 fix 0.583 (44s)
+[fix] layer 24 gold    eps 0.1  fix 0.908 (44s)
+[fix] layer 24 gold    eps 0.2  fix 0.975 (46s)
+[fix] layer 24 gold    eps 0.4  fix 0.958 (46s)
+[fix] layer 24 gold    eps 0.8  fix 0.883 (44s)
+[fix] layer 24 control eps 0.05 fix 0.025 (44s)
+[fix] layer 24 control eps 0.1  fix 0.258 (44s)
+[fix] layer 24 control eps 0.2  fix 0.875 (44s)
+[fix] layer 24 control eps 0.4  fix 0.825 (44s)
+[fix] layer 24 control eps 0.8  fix 0.650 (44s)
+[fix] layer 27 gold    eps 0.05 fix 0.417 (42s)
+[fix] layer 27 gold    eps 0.1  fix 0.725 (42s)
+[fix] layer 27 gold    eps 0.2  fix 0.975 (44s)
+[fix] layer 27 gold    eps 0.4  fix 0.925 (44s)
+[fix] layer 27 gold    eps 0.8  fix 0.800 (42s)
+[fix] layer 27 control eps 0.05 fix 0.000 (42s)
+[fix] layer 27 control eps 0.1  fix 0.067 (42s)
+[fix] layer 27 control eps 0.2  fix 0.617 (42s)
+[fix] layer 27 control eps 0.4  fix 0.792 (42s)
+[fix] layer 27 control eps 0.8  fix 0.658 (42s)
+{
+ "D": 13,
+ "S_star": 4,
+ "eps_ref": 0.2,
+ "H1_S_minus_D_ci": [
+  -0.025,
+  0.025
+ ],
+ "H1": false,
+ "H2_gold_minus_control_ci": [
+  0.08333333333333333,
+  0.225
+ ],
+ "H2": true,
+ "H3_p": 1.2873077126959252e-05,
+ "H3": true,
+ "H3_median_cost_knows": 0.05,
+ "H3_median_cost_doesnt": 0.1,
+ "H3_fixrate_knows": 1.0,
+ "H3_fixrate_doesnt": 0.9861111111111112,
+ "H4": true,
+ "verdict": "NO-GO"
+}
