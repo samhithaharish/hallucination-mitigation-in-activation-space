@@ -1,0 +1,178 @@
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 30/254 [00:00<00:00, 299.21it/s]Loading weights:  41%|████      | 103/254 [00:00<00:00, 551.71it/s]Loading weights:  69%|██████▉   | 175/254 [00:00<00:00, 626.42it/s]Loading weights:  96%|█████████▌| 244/254 [00:00<00:00, 650.48it/s]Loading weights: 100%|██████████| 254/254 [00:00<00:00, 613.54it/s]
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[W929 13:20:47.818877257 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 2099249152 bytes (free: 1357316096, total: 25227100160).
+[W929 13:20:55.490915670 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 2554331136 bytes (free: 853999616, total: 25227100160).
+[W929 13:20:56.719898419 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 2464153600 bytes (free: 2449932288, total: 25227100160).
+[label] 3000 records in 28s, factual rate 0.616
+[features] mean (3000, 29, 3072)
+[detect/mean] D=13  per-repeat argmax=[14, 13, 15, 12]  AUROC@D=0.709
+[detect/last] D=27  per-repeat argmax=[27, 16, 16, 27]  AUROC@D=0.734
+[steer/tune] layer  1 alpha 0.05 acc 0.609 (5s)
+[steer/tune] layer  1 alpha 0.1  acc 0.613 (5s)
+[steer/tune] layer  1 alpha 0.2  acc 0.616 (5s)
+[steer/tune] layer  1 alpha 0.4  acc 0.536 (4s)
+[steer/tune] layer  2 alpha 0.05 acc 0.618 (5s)
+[steer/tune] layer  2 alpha 0.1  acc 0.611 (5s)
+[steer/tune] layer  2 alpha 0.2  acc 0.602 (4s)
+[steer/tune] layer  2 alpha 0.4  acc 0.496 (5s)
+[steer/tune] layer  3 alpha 0.05 acc 0.618 (5s)
+[steer/tune] layer  3 alpha 0.1  acc 0.613 (5s)
+[steer/tune] layer  3 alpha 0.2  acc 0.604 (4s)
+[steer/tune] layer  3 alpha 0.4  acc 0.536 (4s)
+[steer/tune] layer  4 alpha 0.05 acc 0.618 (5s)
+[steer/tune] layer  4 alpha 0.1  acc 0.620 (5s)
+[steer/tune] layer  4 alpha 0.2  acc 0.616 (4s)
+[steer/tune] layer  4 alpha 0.4  acc 0.551 (5s)
+[steer/tune] layer  5 alpha 0.05 acc 0.609 (5s)
+[steer/tune] layer  5 alpha 0.1  acc 0.602 (4s)
+[steer/tune] layer  5 alpha 0.2  acc 0.602 (4s)
+[steer/tune] layer  5 alpha 0.4  acc 0.551 (5s)
+[steer/tune] layer  6 alpha 0.05 acc 0.613 (5s)
+[steer/tune] layer  6 alpha 0.1  acc 0.611 (5s)
+[steer/tune] layer  6 alpha 0.2  acc 0.596 (5s)
+[steer/tune] layer  6 alpha 0.4  acc 0.564 (4s)
+[steer/tune] layer  7 alpha 0.05 acc 0.616 (5s)
+[steer/tune] layer  7 alpha 0.1  acc 0.618 (5s)
+[steer/tune] layer  7 alpha 0.2  acc 0.602 (5s)
+[steer/tune] layer  7 alpha 0.4  acc 0.540 (5s)
+[steer/tune] layer  8 alpha 0.05 acc 0.618 (5s)
+[steer/tune] layer  8 alpha 0.1  acc 0.622 (5s)
+[steer/tune] layer  8 alpha 0.2  acc 0.591 (5s)
+[steer/tune] layer  8 alpha 0.4  acc 0.516 (5s)
+[steer/tune] layer  9 alpha 0.05 acc 0.602 (5s)
+[steer/tune] layer  9 alpha 0.1  acc 0.602 (5s)
+[steer/tune] layer  9 alpha 0.2  acc 0.576 (5s)
+[steer/tune] layer  9 alpha 0.4  acc 0.507 (5s)
+[steer/tune] layer 10 alpha 0.05 acc 0.604 (5s)
+[steer/tune] layer 10 alpha 0.1  acc 0.598 (5s)
+[steer/tune] layer 10 alpha 0.2  acc 0.571 (5s)
+[steer/tune] layer 10 alpha 0.4  acc 0.440 (5s)
+[steer/tune] layer 11 alpha 0.05 acc 0.596 (5s)
+[steer/tune] layer 11 alpha 0.1  acc 0.580 (5s)
+[steer/tune] layer 11 alpha 0.2  acc 0.564 (4s)
+[steer/tune] layer 11 alpha 0.4  acc 0.433 (5s)
+[steer/tune] layer 12 alpha 0.05 acc 0.600 (4s)
+[steer/tune] layer 12 alpha 0.1  acc 0.602 (4s)
+[steer/tune] layer 12 alpha 0.2  acc 0.587 (5s)
+[steer/tune] layer 12 alpha 0.4  acc 0.407 (4s)
+[steer/tune] layer 13 alpha 0.05 acc 0.604 (5s)
+[steer/tune] layer 13 alpha 0.1  acc 0.604 (4s)
+[steer/tune] layer 13 alpha 0.2  acc 0.576 (5s)
+[steer/tune] layer 13 alpha 0.4  acc 0.404 (4s)
+[steer/tune] layer 14 alpha 0.05 acc 0.591 (5s)
+[steer/tune] layer 14 alpha 0.1  acc 0.602 (4s)
+[steer/tune] layer 14 alpha 0.2  acc 0.571 (4s)
+[steer/tune] layer 14 alpha 0.4  acc 0.362 (5s)
+[steer/tune] layer 15 alpha 0.05 acc 0.607 (5s)
+[steer/tune] layer 15 alpha 0.1  acc 0.607 (5s)
+[steer/tune] layer 15 alpha 0.2  acc 0.591 (4s)
+[steer/tune] layer 15 alpha 0.4  acc 0.360 (5s)
+[steer/tune] layer 16 alpha 0.05 acc 0.609 (5s)
+[steer/tune] layer 16 alpha 0.1  acc 0.598 (5s)
+[steer/tune] layer 16 alpha 0.2  acc 0.587 (4s)
+[steer/tune] layer 16 alpha 0.4  acc 0.413 (5s)
+[steer/tune] layer 17 alpha 0.05 acc 0.611 (4s)
+[steer/tune] layer 17 alpha 0.1  acc 0.600 (5s)
+[steer/tune] layer 17 alpha 0.2  acc 0.589 (4s)
+[steer/tune] layer 17 alpha 0.4  acc 0.433 (5s)
+[steer/tune] layer 18 alpha 0.05 acc 0.611 (4s)
+[steer/tune] layer 18 alpha 0.1  acc 0.611 (4s)
+[steer/tune] layer 18 alpha 0.2  acc 0.598 (4s)
+[steer/tune] layer 18 alpha 0.4  acc 0.469 (5s)
+[steer/tune] layer 19 alpha 0.05 acc 0.609 (4s)
+[steer/tune] layer 19 alpha 0.1  acc 0.598 (4s)
+[steer/tune] layer 19 alpha 0.2  acc 0.591 (4s)
+[steer/tune] layer 19 alpha 0.4  acc 0.469 (5s)
+[steer/tune] layer 20 alpha 0.05 acc 0.604 (4s)
+[steer/tune] layer 20 alpha 0.1  acc 0.596 (4s)
+[steer/tune] layer 20 alpha 0.2  acc 0.607 (5s)
+[steer/tune] layer 20 alpha 0.4  acc 0.473 (5s)
+[steer/tune] layer 21 alpha 0.05 acc 0.604 (4s)
+[steer/tune] layer 21 alpha 0.1  acc 0.600 (4s)
+[steer/tune] layer 21 alpha 0.2  acc 0.600 (5s)
+[steer/tune] layer 21 alpha 0.4  acc 0.500 (5s)
+[steer/tune] layer 22 alpha 0.05 acc 0.611 (4s)
+[steer/tune] layer 22 alpha 0.1  acc 0.607 (4s)
+[steer/tune] layer 22 alpha 0.2  acc 0.600 (5s)
+[steer/tune] layer 22 alpha 0.4  acc 0.504 (5s)
+[steer/tune] layer 23 alpha 0.05 acc 0.602 (4s)
+[steer/tune] layer 23 alpha 0.1  acc 0.609 (4s)
+[steer/tune] layer 23 alpha 0.2  acc 0.613 (4s)
+[steer/tune] layer 23 alpha 0.4  acc 0.529 (5s)
+[steer/tune] layer 24 alpha 0.05 acc 0.613 (4s)
+[steer/tune] layer 24 alpha 0.1  acc 0.616 (4s)
+[steer/tune] layer 24 alpha 0.2  acc 0.604 (5s)
+[steer/tune] layer 24 alpha 0.4  acc 0.551 (5s)
+[steer/tune] layer 25 alpha 0.05 acc 0.609 (4s)
+[steer/tune] layer 25 alpha 0.1  acc 0.602 (4s)
+[steer/tune] layer 25 alpha 0.2  acc 0.609 (5s)
+[steer/tune] layer 25 alpha 0.4  acc 0.582 (5s)
+[steer/tune] layer 26 alpha 0.05 acc 0.609 (4s)
+[steer/tune] layer 26 alpha 0.1  acc 0.607 (4s)
+[steer/tune] layer 26 alpha 0.2  acc 0.613 (5s)
+[steer/tune] layer 26 alpha 0.4  acc 0.571 (5s)
+[steer/tune] layer 27 alpha 0.05 acc 0.616 (4s)
+[steer/tune] layer 27 alpha 0.1  acc 0.613 (4s)
+[steer/tune] layer 27 alpha 0.2  acc 0.611 (4s)
+[steer/tune] layer 27 alpha 0.4  acc 0.580 (4s)
+[steer/tune] layer 28 alpha 0.05 acc 0.609 (4s)
+[steer/tune] layer 28 alpha 0.1  acc 0.616 (4s)
+[steer/tune] layer 28 alpha 0.2  acc 0.596 (4s)
+[steer/tune] layer 28 alpha 0.4  acc 0.496 (5s)
+[steer/test] layer  1 alpha 0.2  acc 0.604 (4s)
+[steer/test] layer  2 alpha 0.05 acc 0.620 (4s)
+[steer/test] layer  3 alpha 0.05 acc 0.613 (4s)
+[steer/test] layer  4 alpha 0.1  acc 0.609 (4s)
+[steer/test] layer  5 alpha 0.05 acc 0.618 (4s)
+[steer/test] layer  6 alpha 0.05 acc 0.616 (4s)
+[steer/test] layer  7 alpha 0.1  acc 0.609 (4s)
+[steer/test] layer  8 alpha 0.1  acc 0.616 (4s)
+[steer/test] layer  9 alpha 0.05 acc 0.616 (4s)
+[steer/test] layer 10 alpha 0.05 acc 0.613 (4s)
+[steer/test] layer 11 alpha 0.05 acc 0.618 (4s)
+[steer/test] layer 12 alpha 0.1  acc 0.616 (4s)
+[steer/test] layer 13 alpha 0.05 acc 0.618 (4s)
+[steer/test] layer 14 alpha 0.1  acc 0.613 (4s)
+[steer/test] layer 15 alpha 0.05 acc 0.620 (4s)
+[steer/test] layer 16 alpha 0.05 acc 0.622 (4s)
+[steer/test] layer 17 alpha 0.05 acc 0.629 (4s)
+[steer/test] layer 18 alpha 0.05 acc 0.627 (4s)
+[steer/test] layer 19 alpha 0.05 acc 0.622 (4s)
+[steer/test] layer 20 alpha 0.2  acc 0.600 (4s)
+[steer/test] layer 21 alpha 0.05 acc 0.624 (4s)
+[steer/test] layer 22 alpha 0.05 acc 0.624 (4s)
+[steer/test] layer 23 alpha 0.2  acc 0.611 (4s)
+[steer/test] layer 24 alpha 0.1  acc 0.627 (4s)
+[steer/test] layer 25 alpha 0.05 acc 0.624 (4s)
+[steer/test] layer 26 alpha 0.2  acc 0.627 (5s)
+[steer/test] layer 27 alpha 0.05 acc 0.620 (4s)
+[steer/test] layer 28 alpha 0.1  acc 0.616 (4s)
+{
+ "factual_rate": 0.616,
+ "D": 13,
+ "D_argmax_per_repeat": [
+  14,
+  13,
+  15,
+  12
+ ],
+ "D_last_token": 27,
+ "S": 8,
+ "baseline_test_acc": 0.6155555555555555,
+ "gain_S": 0.0,
+ "gain_S_ci": [
+  -0.02,
+  0.02
+ ],
+ "gain_D": 0.0022222222222222365,
+ "gain_S_minus_D_ci": [
+  -0.02,
+  0.013333333333333334
+ ],
+ "criteria": {
+  "1_steering_helps": false,
+  "2_far_apart": true,
+  "3_S_beats_D": false
+ },
+ "verdict": "NO-GO"
+}

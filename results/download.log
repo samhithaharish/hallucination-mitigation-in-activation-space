@@ -1,0 +1,6 @@
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files:  10%|█         | 1/10 [00:00<00:01,  5.77it/s]Fetching 10 files:  70%|███████   | 7/10 [00:00<00:00, 22.57it/s]Fetching 10 files:  80%|████████  | 8/10 [00:20<00:00, 22.57it/s]Fetching 10 files:  90%|█████████ | 9/10 [00:48<00:07,  7.20s/it]Fetching 10 files: 100%|██████████| 10/10 [01:25<00:00, 12.57s/it]Fetching 10 files: 100%|██████████| 10/10 [01:25<00:00,  8.60s/it]
+OK /home/sharish5/.cache/huggingface/hub/models--meta-llama--Llama-3.2-3B-Instruct/snapshots/0cb88a4f764b7a12671c53f0838cd831a0843b95
+Generating train split:   0%|          | 0/138384 [00:00<?, ? examples/s]Generating train split:   1%|          | 1000/138384 [00:00<00:14, 9569.72 examples/s]Generating train split:  46%|████▌     | 63000/138384 [00:00<00:00, 357767.05 examples/s]Generating train split:  95%|█████████▍| 131000/138384 [00:00<00:00, 497565.84 examples/s]Generating train split: 100%|██████████| 138384/138384 [00:00<00:00, 392447.11 examples/s]
+Generating validation split:   0%|          | 0/17944 [00:00<?, ? examples/s]Generating validation split: 100%|██████████| 17944/17944 [00:00<00:00, 599410.57 examples/s]
+Generating test split:   0%|          | 0/17210 [00:00<?, ? examples/s]Generating test split: 100%|██████████| 17210/17210 [00:00<00:00, 2181311.85 examples/s]
+17944

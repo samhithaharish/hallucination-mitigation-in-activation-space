@@ -17,3 +17,4 @@ __pycache__/
 
 # Notebooks: commit them only after stripping outputs and secrets (see docs/notebook_inventory.md)
 notebooks/archive/*.ipynb
+*.npz
