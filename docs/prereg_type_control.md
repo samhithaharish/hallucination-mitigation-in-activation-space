@@ -37,4 +37,11 @@ by ≤ 1).
 
 ## Deviations
 
-(none yet)
+
+
+1. (2026-09-30, after a 12-question smoke test on Llama-3.2-3B and before the real run) The prompted-wrong
+   replies were often full sentences, and some sampled-wrong answers were long paraphrases. Long targets are
+   harder to reach, which would bias the test toward gold. Change: the prompt asks for at most 5 words, and
+   sampled-wrong and prompted-wrong targets longer than 6 words are dropped. Known remaining limitation:
+   the answer check can miss correct paraphrases (e.g. "unsolicited bulk messages" for "junk mail"). That
+   makes the control look easier than it is, which works *against* K1, so K1 stays conservative.
