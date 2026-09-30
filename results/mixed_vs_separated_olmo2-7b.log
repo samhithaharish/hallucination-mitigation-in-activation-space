@@ -1,0 +1,43 @@
+Loading weights:   0%|          | 0/355 [00:00<?, ?it/s]Loading weights:   0%|          | 1/355 [00:00<00:39,  8.88it/s]Loading weights:   1%|          | 2/355 [00:00<01:08,  5.12it/s]Loading weights:   3%|▎         | 10/355 [00:00<00:12, 27.13it/s]Loading weights:   6%|▌         | 20/355 [00:00<00:06, 48.64it/s]Loading weights:   8%|▊         | 27/355 [00:00<00:06, 53.55it/s]Loading weights:  11%|█         | 38/355 [00:00<00:04, 66.76it/s]Loading weights:  14%|█▍        | 49/355 [00:00<00:04, 74.86it/s]Loading weights:  17%|█▋        | 60/355 [00:01<00:03, 79.58it/s]Loading weights:  21%|██▏       | 76/355 [00:01<00:02, 101.13it/s]Loading weights:  26%|██▌       | 91/355 [00:01<00:02, 108.30it/s]Loading weights:  29%|██▉       | 103/355 [00:01<00:02, 99.98it/s]Loading weights:  34%|███▎      | 119/355 [00:01<00:02, 112.59it/s]Loading weights:  37%|███▋      | 131/355 [00:01<00:02, 106.61it/s]Loading weights:  40%|████      | 142/355 [00:01<00:02, 104.23it/s]Loading weights:  43%|████▎     | 153/355 [00:01<00:02, 100.88it/s]Loading weights:  46%|████▌     | 164/355 [00:01<00:01, 98.86it/s] Loading weights:  49%|████▉     | 174/355 [00:02<00:01, 93.18it/s]Loading weights:  52%|█████▏    | 185/355 [00:02<00:01, 95.89it/s]Loading weights:  55%|█████▌    | 196/355 [00:02<00:01, 96.93it/s]Loading weights:  63%|██████▎   | 222/355 [00:02<00:00, 140.86it/s]Loading weights:  69%|██████▉   | 246/355 [00:02<00:00, 168.29it/s]Loading weights:  74%|███████▍  | 264/355 [00:02<00:00, 154.59it/s]Loading weights:  79%|███████▉  | 281/355 [00:02<00:00, 119.92it/s]Loading weights:  83%|████████▎ | 295/355 [00:03<00:00, 114.73it/s]Loading weights:  87%|████████▋ | 308/355 [00:03<00:00, 109.08it/s]Loading weights:  90%|█████████ | 320/355 [00:03<00:00, 101.58it/s]Loading weights:  93%|█████████▎| 331/355 [00:03<00:00, 97.98it/s] Loading weights: 100%|██████████| 355/355 [00:03<00:00, 100.95it/s]
+[olmo2-7b] factual 1133 / hallucinated 867 (241s)
+[olmo2-7b] M1 0.741 at layer 17/32
+[olmo2-7b] edits gold eps 0.05: fix 0.967
+[olmo2-7b] edits gold eps 0.1: fix 0.983
+[olmo2-7b] edits control eps 0.05: fix 0.267
+[olmo2-7b] edits control eps 0.1: fix 0.967
+{
+ "key": "olmo2-7b",
+ "hf_id": "allenai/OLMo-2-1124-7B-Instruct",
+ "size": "large",
+ "n_layers": 32,
+ "n_factual": 1133,
+ "n_halluc": 867,
+ "greedy_acc_all": 0.5665,
+ "M1": 0.7406812214731091,
+ "M1_layer": 17,
+ "M1_depth": 0.53125,
+ "M2_knows_frac": 0.1845444059976932,
+ "M3a_cos": 0.04917389526963234,
+ "M3b_transfer_ratio": 0.1016949152542373,
+ "M3c_gold_minus_control": 0.7,
+ "M3_perq_fix_eps0.1": 0.9833333333333333,
+ "M3_edit_layer": 14,
+ "M4": 0.843048986595729,
+ "M4_depth": 0.5,
+ "test_acc": {
+  "greedy": 0.5666666666666667,
+  "majority": 0.5816666666666667,
+  "probe_select": 0.5966666666666667,
+  "oracle": 0.7283333333333334
+ },
+ "select_minus_greedy_ci": [
+  -0.0016666666666666668,
+  0.06170833333333311
+ ],
+ "select_minus_majority_ci": [
+  -0.015,
+  0.04666666666666667
+ ],
+ "call": "mixed",
+ "minutes": 7.641014575958252
+}

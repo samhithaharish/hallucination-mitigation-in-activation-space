@@ -1,0 +1,39 @@
+Loading weights:   0%|          | 0/218 [00:00<?, ?it/s]Loading weights:  45%|████▍     | 98/218 [00:00<00:00, 975.63it/s]Loading weights:  94%|█████████▍| 205/218 [00:00<00:00, 1029.69it/s]Loading weights: 100%|██████████| 218/218 [00:00<00:00, 1033.33it/s]
+[smollm2-1.7b] factual 743 / hallucinated 1257 (54s)
+[smollm2-1.7b] M1 0.730 at layer 23/24
+{
+ "key": "smollm2-1.7b",
+ "hf_id": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+ "size": "small",
+ "n_layers": 24,
+ "n_factual": 743,
+ "n_halluc": 1257,
+ "greedy_acc_all": 0.37150000000000005,
+ "M1": 0.7301682692307692,
+ "M1_layer": 23,
+ "M1_depth": 0.9583333333333334,
+ "M2_knows_frac": 0.17820206841686556,
+ "M3a_cos": 0.10328443348407745,
+ "M3b_transfer_ratio": 0.13333333333333333,
+ "M3c_gold_minus_control": 0.7166666666666667,
+ "M3_perq_fix_eps0.1": 1.0,
+ "M3_edit_layer": 11,
+ "M4": 0.8358385307570773,
+ "M4_depth": 0.6,
+ "test_acc": {
+  "greedy": 0.37166666666666665,
+  "majority": 0.37,
+  "probe_select": 0.3883333333333333,
+  "oracle": 0.5616666666666666
+ },
+ "select_minus_greedy_ci": [
+  -0.015041666666666663,
+  0.05
+ ],
+ "select_minus_majority_ci": [
+  -0.013333333333333334,
+  0.051666666666666666
+ ],
+ "call": "mixed",
+ "minutes": 2.5475751638412474
+}

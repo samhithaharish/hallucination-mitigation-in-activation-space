@@ -1,0 +1,40 @@
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files:  50%|█████     | 1/2 [00:47<00:47, 47.36s/it]Fetching 2 files: 100%|██████████| 2/2 [01:24<00:00, 41.40s/it]Fetching 2 files: 100%|██████████| 2/2 [01:24<00:00, 42.30s/it]
+Loading weights:   0%|          | 0/434 [00:00<?, ?it/s]Loading weights:  19%|█▉        | 83/434 [00:00<00:00, 828.63it/s]Loading weights:  48%|████▊     | 207/434 [00:00<00:00, 1062.91it/s]Loading weights:  76%|███████▌  | 328/434 [00:00<00:00, 1121.96it/s]Loading weights: 100%|██████████| 434/434 [00:00<00:00, 1125.97it/s]
+[qwen2.5-3b] factual 815 / hallucinated 1185 (91s)
+[qwen2.5-3b] M1 0.766 at layer 25/36
+{
+ "key": "qwen2.5-3b",
+ "hf_id": "Qwen/Qwen2.5-3B-Instruct",
+ "size": "small",
+ "n_layers": 36,
+ "n_factual": 815,
+ "n_halluc": 1185,
+ "greedy_acc_all": 0.4075,
+ "M1": 0.7661699429296132,
+ "M1_layer": 25,
+ "M1_depth": 0.6944444444444444,
+ "M2_knows_frac": 0.1257383966244726,
+ "M3a_cos": 0.024415642023086548,
+ "M3b_transfer_ratio": 0.05172413793103448,
+ "M3c_gold_minus_control": 0.7833333333333333,
+ "M3_perq_fix_eps0.1": 0.9666666666666667,
+ "M3_edit_layer": 16,
+ "M4": 0.8717122112188646,
+ "M4_depth": 0.6,
+ "test_acc": {
+  "greedy": 0.4083333333333333,
+  "majority": 0.4166666666666667,
+  "probe_select": 0.43833333333333335,
+  "oracle": 0.555
+ },
+ "select_minus_greedy_ci": [
+  0.0033333333333333335,
+  0.058333333333333334
+ ],
+ "select_minus_majority_ci": [
+  -0.005,
+  0.04833333333333333
+ ],
+ "call": "mixed",
+ "minutes": 3.114544733365377
+}

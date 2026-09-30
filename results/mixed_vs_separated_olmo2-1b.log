@@ -1,0 +1,39 @@
+Loading weights:   0%|          | 0/179 [00:00<?, ?it/s]Loading weights:  26%|██▌       | 46/179 [00:00<00:00, 459.14it/s]Loading weights:  94%|█████████▍| 169/179 [00:00<00:00, 908.93it/s]Loading weights: 100%|██████████| 179/179 [00:00<00:00, 871.27it/s]
+[olmo2-1b] factual 613 / hallucinated 1387 (47s)
+[olmo2-1b] M1 0.736 at layer 9/16
+{
+ "key": "olmo2-1b",
+ "hf_id": "allenai/OLMo-2-0425-1B-Instruct",
+ "size": "small",
+ "n_layers": 16,
+ "n_factual": 613,
+ "n_halluc": 1387,
+ "greedy_acc_all": 0.3065,
+ "M1": 0.7355803322011172,
+ "M1_layer": 9,
+ "M1_depth": 0.5625,
+ "M2_knows_frac": 0.11824080749819754,
+ "M3a_cos": 0.05811736360192299,
+ "M3b_transfer_ratio": 0.05084745762711865,
+ "M3c_gold_minus_control": 0.75,
+ "M3_perq_fix_eps0.1": 0.9833333333333333,
+ "M3_edit_layer": 7,
+ "M4": 0.822466160203905,
+ "M4_depth": 0.6,
+ "test_acc": {
+  "greedy": 0.30666666666666664,
+  "majority": 0.30666666666666664,
+  "probe_select": 0.27666666666666667,
+  "oracle": 0.4866666666666667
+ },
+ "select_minus_greedy_ci": [
+  -0.06333333333333334,
+  0.0
+ ],
+ "select_minus_majority_ci": [
+  -0.06,
+  0.0
+ ],
+ "call": "mixed",
+ "minutes": 2.038048235575358
+}

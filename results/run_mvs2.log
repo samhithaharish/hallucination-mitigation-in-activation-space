@@ -1,0 +1,20 @@
+Wed Sep 30 12:08:42 MST 2026 start llama3.2-3b (attempt 1)
+Wed Sep 30 12:10:45 MST 2026 done llama3.2-3b
+Wed Sep 30 12:10:45 MST 2026 start smollm2-1.7b (attempt 1)
+Wed Sep 30 12:13:20 MST 2026 done smollm2-1.7b
+Wed Sep 30 12:13:20 MST 2026 start olmo2-1b (attempt 1)
+Wed Sep 30 12:15:24 MST 2026 done olmo2-1b
+Wed Sep 30 12:15:24 MST 2026 start granite3.1-2b (attempt 1)
+Wed Sep 30 12:18:59 MST 2026 done granite3.1-2b
+Wed Sep 30 12:19:00 MST 2026 start qwen2.5-3b (attempt 1)
+Wed Sep 30 12:22:09 MST 2026 done qwen2.5-3b
+Wed Sep 30 12:22:09 MST 2026 start llama3.1-8b (attempt 1)
+Wed Sep 30 12:35:43 MST 2026 done llama3.1-8b
+Wed Sep 30 12:35:43 MST 2026 start olmo2-7b (attempt 1)
+Wed Sep 30 12:43:24 MST 2026 done olmo2-7b
+Wed Sep 30 12:43:24 MST 2026 start qwen2.5-7b (attempt 1)
+Wed Sep 30 12:48:44 MST 2026 done qwen2.5-7b
+Wed Sep 30 12:48:44 MST 2026 start granite3.1-8b (attempt 1)
+Wed Sep 30 12:55:53 MST 2026 done granite3.1-8b
+Wed Sep 30 12:55:54 MST 2026 skip mistral-7b
+Wed Sep 30 12:55:55 MST 2026 PASS2 DONE
