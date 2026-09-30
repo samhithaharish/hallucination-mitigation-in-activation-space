@@ -51,21 +51,27 @@ def _cv_auc(X, y, tr, te):
 
 @torch.no_grad()
 def teacher_forced_mean(model, tok, prompts, answers, layers, bs):
-    out = []
+    """Returns (mean-over-answer-token states at `layers` (N, len(layers), H), mean answer-token log-prob (N,))."""
+    out, lps = [], []
     for s in range(0, len(prompts), bs):
         P, A = prompts[s:s + bs], answers[s:s + bs]
         n_ans = [max(1, len(tok(p + a, add_special_tokens=False)["input_ids"]) -
                      len(tok(p, add_special_tokens=False)["input_ids"])) for p, a in zip(P, A)]
         enc = tok([p + a for p, a in zip(P, A)], return_tensors="pt", padding=True,
                   add_special_tokens=False).to(model.device)
-        hs = model(**enc, output_hidden_states=True).hidden_states
+        o = model(**enc, output_hidden_states=True)
+        hs = o.hidden_states
         T = enc["input_ids"].shape[1]
         m = torch.zeros(len(P), T, device=model.device)
         for j, n in enumerate(n_ans):
             m[j, T - n:] = 1
         feats = [((hs[l].float() * m[..., None]).sum(1) / m.sum(1, keepdim=True)) for l in layers]
         out.append(torch.stack(feats, 1).half().cpu().numpy())
-    return np.concatenate(out)
+        for j, n in enumerate(n_ans):                     # logits at t-1 predict token t
+            lg = o.logits[j, T - n - 1:T - 1].float().log_softmax(-1)
+            lps.append(float(lg.gather(1, enc["input_ids"][j, T - n:, None]).mean()))
+        del o, hs
+    return np.concatenate(out), np.array(lps)
 
 
 def run_model(key, args):
@@ -73,7 +79,7 @@ def run_model(key, args):
     out_dir = os.path.join(args.out, key)
     os.makedirs(out_dir, exist_ok=True)
     summ_path = os.path.join(out_dir, "summary.json")
-    if os.path.exists(summ_path):
+    if os.path.exists(summ_path) and os.path.exists(os.path.join(out_dir, "scores.npz")):
         print(f"[{key}] already done")
         return
     t0 = time.time()
@@ -146,6 +152,11 @@ def run_model(key, args):
                                       for l in range(1, L + 1) for a, b in folds)
     m1_curve = np.array(aucs).reshape(L, 5).mean(1)
     M1, M1_layer = float(m1_curve.max()), int(np.argmax(m1_curve)) + 1
+    # detector scores for Path B: out-of-fold on train, fit-on-train for test
+    p_h = np.zeros(len(y))
+    for a, b in folds:
+        p_h[tr[b]] = probe().fit(Qtr[a, M1_layer], ytr[a]).predict_proba(Qtr[b, M1_layer])[:, 1]
+    p_h[te] = probe().fit(Qtr[:, M1_layer], ytr).predict_proba(Q[te, M1_layer].astype(np.float32))[:, 1]
     del Q, Qtr
     print(f"[{key}] M1 {M1:.3f} at layer {M1_layer}/{L}", flush=True)
 
@@ -199,24 +210,30 @@ def run_model(key, args):
     M3c = float(np.mean(E["gold:0.05"]) - np.mean(E["control:0.05"]))
 
     # ---- F. M4 answer-level separability + generate-then-select ----
-    cands, cq, cl = [], [], []
+    cands, cq, cl, cfreq, cgreedy = [], [], [], [], []
     for i, r in enumerate(recs):
         seen = {}
-        for a in [r["generation"].strip()] + r["samples"]:
+        answers = [r["generation"].strip()] + r["samples"]
+        counts = collections.Counter(normalize(a) for a in answers if a and normalize(a))
+        for a in answers:
             if a and normalize(a) and normalize(a) not in seen:
                 seen[normalize(a)] = a
-        for a in seen.values():
+        g = normalize(r["generation"])
+        for na, a in seen.items():
             cands.append(a)
             cq.append(i)
             cl.append(int(is_correct(a, r["gold"])))
-    cq, cl = np.array(cq), np.array(cl)
-    ap = os.path.join(out_dir, "afeat.npy")
+            cfreq.append(counts[na] / len(answers))
+            cgreedy.append(int(na == g))
+    cq, cl, cfreq, cgreedy = np.array(cq), np.array(cl), np.array(cfreq), np.array(cgreedy)
+    ap = os.path.join(out_dir, "afeat.npz")
     layers = [max(1, int(round(d * L))) for d in DEPTHS]
     if os.path.exists(ap):
-        AF = np.load(ap)
+        z = np.load(ap)
+        AF, clogp = z["AF"], z["LP"]
     else:
-        AF = teacher_forced_mean(model, tok, [recs[i]["prompt"] for i in cq], cands, layers, bs)
-        np.save(ap, AF)
+        AF, clogp = teacher_forced_mean(model, tok, [recs[i]["prompt"] for i in cq], cands, layers, bs)
+        np.savez(ap, AF=AF, LP=clogp)
     del model
     torch.cuda.empty_cache()
 
@@ -233,6 +250,14 @@ def run_model(key, args):
     clf = probe().fit(Xtr_all[:, bd], ytr_c)
     p_te = clf.predict_proba(AF[cte][:, bd].astype(np.float32))[:, 1]
     M4 = float(roc_auc_score(cl[cte], p_te))
+    # candidate probe scores for Path B: out-of-fold (question-grouped) on train, fit-on-train for test
+    cprobe = np.zeros(len(cq))
+    tr_pos = np.where(ctr)[0]
+    for a, b in gkf:
+        cprobe[tr_pos[b]] = probe().fit(Xtr_all[a, bd], ytr_c[a]).predict_proba(Xtr_all[b, bd])[:, 1]
+    cprobe[cte] = p_te
+    np.savez(os.path.join(out_dir, "scores.npz"), y=y, tr=tr, te=te, p_h=p_h, cq=cq, cl=cl, cfreq=cfreq,
+             cgreedy=cgreedy, clogp=clogp, cprobe=cprobe)
     del AF, Xtr_all
 
     by_q = collections.defaultdict(list)
@@ -265,7 +290,7 @@ def run_model(key, args):
             "call": "separated" if (M1 >= 0.80 and M3b >= 1 / 3) else "mixed",
             "minutes": (time.time() - t0) / 60}
     json.dump(summ, open(summ_path, "w"), indent=1)
-    for f in ("qfeat.npz", "afeat.npy"):
+    for f in ("qfeat.npz", "afeat.npz"):
         os.remove(os.path.join(out_dir, f))
     print(json.dumps({k: v for k, v in summ.items() if k not in ("M1_curve", "M4_depth_cv_auc")}, indent=1))
 
