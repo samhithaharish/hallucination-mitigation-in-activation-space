@@ -1,20 +1,18 @@
-# Secrets and credentials
-.env
-*.token
-hf_token*
 
 # Caches and large artifacts (regenerate with scripts/run_experiment.py)
-results/cache/
-*.npy
-*.pt
-*.safetensors
-
+# Notebooks: commit them only after stripping outputs and secrets (see docs/notebook_inventory.md)
 # Python
-__pycache__/
+# Secrets and credentials
+*.npy
+*.npz
+*.pt
 *.pyc
+*.safetensors
+*.token
+.env
 .ipynb_checkpoints/
 .venv/
-
-# Notebooks: commit them only after stripping outputs and secrets (see docs/notebook_inventory.md)
+__pycache__/
+hf_token*
 notebooks/archive/*.ipynb
-*.npz
+results/cache/

@@ -1,0 +1,53 @@
+{
+ "selected": {
+  "corrector": "corrector:0.1:1",
+  "fixed": "fixed:0.1:2",
+  "lora": "lora:1"
+ },
+ "n_R": 302,
+ "n_K": 1294,
+ "test_acc": {
+  "none": 0.6155555555555555,
+  "corrector": 0.6288888888888889,
+  "fixed": 0.6266666666666667,
+  "lora": 0.6288888888888889
+ },
+ "corrector_minus_none_ci": [
+  -0.0022222222222222222,
+  0.03111111111111111
+ ],
+ "corrector_minus_fixed_ci": [
+  -0.013333333333333334,
+  0.017777777777777778
+ ],
+ "corrector_minus_lora_ci": [
+  -0.013333333333333334,
+  0.013333333333333334
+ ],
+ "fix_rate": {
+  "corrector": 0.057803468208092484,
+  "fixed": 0.028901734104046242,
+  "lora": 0.06936416184971098
+ },
+ "break_rate": {
+  "corrector": 0.014440433212996373,
+  "fixed": 0.0,
+  "lora": 0.02166064981949456
+ },
+ "fix_rate_knows": {
+  "corrector": 0.14285714285714285,
+  "fixed": 0.08571428571428572,
+  "lora": 0.2
+ },
+ "fix_rate_doesnt": {
+  "corrector": 0.009615384615384616,
+  "fixed": 0.0,
+  "lora": 0.009615384615384616
+ },
+ "n_test_wrong_knows": 35,
+ "n_test_wrong_doesnt": 104,
+ "Q1": false,
+ "Q2": false,
+ "Q3": true,
+ "verdict": "NO-GO"
+}
