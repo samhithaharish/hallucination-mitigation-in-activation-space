@@ -94,6 +94,8 @@ def run(key, args):
                           for c in CONDS}}
     t0 = time.time()
     for c in CONDS:
+        if c in args.skip:
+            continue
         have = [j for j, t in enumerate(targets[c]) if t]
         for e in EPS:
             radius = e * tok_norm
@@ -163,7 +165,12 @@ def main():
     ap.add_argument("--src", default=SRC, help="mixed_vs_separated results dir with records.json per model")
     ap.add_argument("--n", type=int, default=120)
     ap.add_argument("--max-new-tokens", type=int, default=24)
+    ap.add_argument("--eps", default=None, help="comma list overriding EPS, e.g. 0.01,0.02,0.03")
+    ap.add_argument("--skip", default="", help="comma list of conditions not to optimize")
     args = ap.parse_args()
+    args.skip = [c for c in args.skip.split(",") if c]
+    if args.eps:
+        EPS[:] = [float(e) for e in args.eps.split(",")]
     aggregate(args) if args.aggregate else run(args.key, args)
 
 
