@@ -1,0 +1,10 @@
+Fetching 3 files:   0%|          | 0/3 [00:00<?, ?it/s]Fetching 3 files:  33%|███▎      | 1/3 [02:41<05:23, 161.78s/it]Fetching 3 files:  67%|██████▋   | 2/3 [02:51<01:12, 72.60s/it] Fetching 3 files: 100%|██████████| 3/3 [02:52<00:00, 39.54s/it]Fetching 3 files: 100%|██████████| 3/3 [02:52<00:00, 57.38s/it]
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   8%|▊         | 22/291 [00:00<00:01, 215.39it/s]Loading weights:  20%|█▉        | 58/291 [00:00<00:00, 291.36it/s]Loading weights:  32%|███▏      | 94/291 [00:00<00:00, 315.59it/s]Loading weights:  45%|████▍     | 130/291 [00:00<00:00, 326.09it/s]Loading weights:  57%|█████▋    | 166/291 [00:00<00:00, 332.48it/s]Loading weights:  69%|██████▉   | 202/291 [00:00<00:00, 336.07it/s]Loading weights:  82%|████████▏ | 238/291 [00:00<00:00, 338.68it/s]Loading weights:  94%|█████████▍| 274/291 [00:00<00:00, 339.49it/s]Loading weights: 100%|██████████| 291/291 [00:00<00:00, 329.42it/s]
+[mistral-7b] gold            eps 0.05: n=120 hit 0.608 (48s)
+[mistral-7b] gold            eps 0.1: n=120 hit 0.900 (96s)
+[mistral-7b] sampled_wrong   eps 0.05: n=73 hit 0.849 (126s)
+[mistral-7b] sampled_wrong   eps 0.1: n=73 hit 0.890 (156s)
+[mistral-7b] prompted_wrong  eps 0.05: n=42 hit 0.143 (175s)
+[mistral-7b] prompted_wrong  eps 0.1: n=42 hit 0.524 (194s)
+[mistral-7b] random          eps 0.05: n=120 hit 0.008 (242s)
+[mistral-7b] random          eps 0.1: n=120 hit 0.167 (289s)

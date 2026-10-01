@@ -1,0 +1,10 @@
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files:  50%|█████     | 1/2 [00:57<00:57, 57.99s/it]Fetching 2 files: 100%|██████████| 2/2 [01:21<00:00, 37.45s/it]Fetching 2 files: 100%|██████████| 2/2 [01:21<00:00, 40.53s/it]
+Loading weights:   0%|          | 0/434 [00:00<?, ?it/s]Loading weights:  14%|█▍        | 62/434 [00:00<00:00, 610.73it/s]Loading weights:  32%|███▏      | 141/434 [00:00<00:00, 657.53it/s]Loading weights:  59%|█████▉    | 255/434 [00:00<00:00, 855.33it/s]Loading weights:  88%|████████▊ | 381/434 [00:00<00:00, 1008.60it/s]Loading weights: 100%|██████████| 434/434 [00:00<00:00, 942.59it/s] 
+[qwen2.5-3b] gold            eps 0.05: n=120 hit 0.792 (72s)
+[qwen2.5-3b] gold            eps 0.1: n=120 hit 0.983 (143s)
+[qwen2.5-3b] sampled_wrong   eps 0.05: n=109 hit 0.982 (213s)
+[qwen2.5-3b] sampled_wrong   eps 0.1: n=109 hit 0.991 (283s)
+[qwen2.5-3b] prompted_wrong  eps 0.05: n=102 hit 0.951 (346s)
+[qwen2.5-3b] prompted_wrong  eps 0.1: n=102 hit 1.000 (408s)
+[qwen2.5-3b] random          eps 0.05: n=120 hit 0.117 (481s)
+[qwen2.5-3b] random          eps 0.1: n=120 hit 0.808 (553s)

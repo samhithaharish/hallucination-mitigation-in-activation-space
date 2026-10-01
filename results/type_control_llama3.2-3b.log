@@ -1,0 +1,10 @@
+Loading weights:   0%|          | 0/254 [00:00<?, ?it/s]Loading weights:  11%|█         | 27/254 [00:00<00:00, 267.27it/s]Loading weights:  37%|███▋      | 93/254 [00:00<00:00, 492.10it/s]Loading weights:  62%|██████▏   | 157/254 [00:00<00:00, 553.52it/s]Loading weights:  87%|████████▋ | 221/254 [00:00<00:00, 582.39it/s]Loading weights: 100%|██████████| 254/254 [00:00<00:00, 561.35it/s]
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[llama3.2-3b] gold            eps 0.05: n=120 hit 0.733 (70s)
+[llama3.2-3b] gold            eps 0.1: n=120 hit 0.942 (140s)
+[llama3.2-3b] sampled_wrong   eps 0.05: n=115 hit 0.843 (208s)
+[llama3.2-3b] sampled_wrong   eps 0.1: n=115 hit 0.983 (277s)
+[llama3.2-3b] prompted_wrong  eps 0.05: n=108 hit 0.074 (342s)
+[llama3.2-3b] prompted_wrong  eps 0.1: n=108 hit 0.481 (407s)
+[llama3.2-3b] random          eps 0.05: n=120 hit 0.017 (478s)
+[llama3.2-3b] random          eps 0.1: n=120 hit 0.317 (549s)

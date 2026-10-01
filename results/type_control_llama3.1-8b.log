@@ -1,0 +1,11 @@
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files:  25%|██▌       | 1/4 [01:16<03:48, 76.18s/it]Fetching 4 files:  50%|█████     | 2/4 [03:13<03:20, 100.23s/it]Fetching 4 files:  75%|███████▌  | 3/4 [03:13<00:54, 54.80s/it] Fetching 4 files: 100%|██████████| 4/4 [03:14<00:00, 33.51s/it]Fetching 4 files: 100%|██████████| 4/4 [03:14<00:00, 48.71s/it]
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   1%|          | 2/291 [00:00<00:18, 15.77it/s]Loading weights:  11%|█         | 32/291 [00:00<00:01, 162.28it/s]Loading weights:  23%|██▎       | 67/291 [00:00<00:00, 239.67it/s]Loading weights:  34%|███▍      | 99/291 [00:00<00:00, 268.31it/s]Loading weights:  45%|████▌     | 132/291 [00:00<00:00, 285.05it/s]Loading weights:  57%|█████▋    | 167/291 [00:00<00:00, 303.76it/s]Loading weights:  69%|██████▉   | 202/291 [00:00<00:00, 316.63it/s]Loading weights:  81%|████████  | 235/291 [00:00<00:00, 319.84it/s]Loading weights:  92%|█████████▏| 268/291 [00:00<00:00, 318.71it/s]Loading weights: 100%|██████████| 291/291 [00:01<00:00, 288.18it/s]
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[llama3.1-8b] gold            eps 0.05: n=120 hit 0.792 (138s)
+[llama3.1-8b] gold            eps 0.1: n=120 hit 0.983 (275s)
+[llama3.1-8b] sampled_wrong   eps 0.05: n=111 hit 0.865 (409s)
+[llama3.1-8b] sampled_wrong   eps 0.1: n=111 hit 1.000 (544s)
+[llama3.1-8b] prompted_wrong  eps 0.05: n=109 hit 0.138 (679s)
+[llama3.1-8b] prompted_wrong  eps 0.1: n=109 hit 0.844 (815s)
+[llama3.1-8b] random          eps 0.05: n=120 hit 0.058 (947s)
+[llama3.1-8b] random          eps 0.1: n=120 hit 0.775 (1084s)
