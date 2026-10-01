@@ -1,0 +1,30 @@
+== triviaqa
+  qwen: agreement 0.940 kappa 0.88 FP 0.042 FN 0.080 | sampled-wrong called correct 0.048 | gold called correct 0.930
+  phi: agreement 0.906 kappa 0.81 FP 0.023 FN 0.173 | sampled-wrong called correct 0.099 | gold called correct 0.990
+  judge-judge kappa 0.88
+  llama3.2-3b    kept 100 dropped  15 gold 0.75 wrong 0.83 ci [-0.19  0.03]
+  qwen2.5-3b     kept  99 dropped  10 gold 0.77 wrong 0.99 ci [-0.31 -0.14]
+  olmo2-1b       kept 108 dropped  11 gold 0.71 wrong 0.83 ci [-0.23 -0.01]
+  granite3.1-2b  kept 103 dropped   9 gold 0.82 wrong 0.95 ci [-0.21 -0.06]
+  smollm2-1.7b   kept 107 dropped   9 gold 0.77 wrong 0.93 ci [-0.26 -0.07]
+  llama3.1-8b    kept  90 dropped  21 gold 0.82 wrong 0.91 ci [-0.18  0.  ]
+  qwen2.5-7b     kept  94 dropped  10 gold 0.85 wrong 0.94 ci [-0.16  0.  ]
+  olmo2-7b       kept  97 dropped   9 gold 0.93 wrong 0.95 ci [-0.09  0.05]
+  granite3.1-8b  kept  84 dropped   8 gold 0.96 wrong 1.00 ci [-0.08  0.  ]
+  mistral-7b     kept  62 dropped  11 gold 0.55 wrong 0.85 ci [-0.45 -0.18]
+  headline: gold not easier in 10/10 -> survives
+== nq_open
+  qwen: agreement 0.878 kappa 0.69 FP 0.081 FN 0.134 | sampled-wrong called correct 0.087 | gold called correct 0.910
+  phi: agreement 0.790 kappa 0.54 FP 0.018 FN 0.265 | sampled-wrong called correct 0.180 | gold called correct 0.970
+  judge-judge kappa 0.72
+  llama3.2-3b    kept  79 dropped  21 gold 0.54 wrong 0.85 ci [-0.42 -0.18]
+  qwen2.5-3b     kept  95 dropped   9 gold 0.64 wrong 0.99 ci [-0.44 -0.25]
+  olmo2-1b       kept 102 dropped  18 gold 0.50 wrong 0.80 ci [-0.41 -0.19]
+  granite3.1-2b  kept  79 dropped  18 gold 0.67 wrong 0.86 ci [-0.32 -0.08]
+  smollm2-1.7b   kept  87 dropped  17 gold 0.53 wrong 0.76 ci [-0.34 -0.11]
+  llama3.1-8b    kept  75 dropped  31 gold 0.64 wrong 0.84 ci [-0.33 -0.07]
+  qwen2.5-7b     kept  76 dropped  22 gold 0.79 wrong 0.97 ci [-0.29 -0.09]
+  olmo2-7b       kept  97 dropped  19 gold 0.80 wrong 0.95 ci [-0.25 -0.05]
+  granite3.1-8b  kept  54 dropped  17 gold 0.94 wrong 0.96 ci [-0.09  0.06]
+  mistral-7b     kept  58 dropped  12 gold 0.48 wrong 0.69 ci [-0.38 -0.03]
+  headline: gold not easier in 10/10 -> survives

@@ -35,7 +35,7 @@ SmolLM2-1.7B) and 5 large (Llama-3.1-8B, Qwen2.5-7B, OLMo-2-7B, Granite-3.1-8B, 
 | Item | Status |
 |---|---|
 | Second dataset (NQ-Open) for findings 1, 4, 5, 6, 7 | **done**: findings 1, 4, 5, 6 replicate (headline: sampled-wrong significantly easier than gold in 9/10, tie in 1; all 10 mixed; answer-level > question-level 9/10; no scale effect). Finding 7 does **not** replicate (selection beats greedy significantly in only 2/9). Results in `results/nq/` |
-| Audit the answer check (containment) with an LLM judge on a few hundred answers | not started |
+| Audit the answer check (containment) with an LLM judge on a few hundred answers | **done** (`prereg_judge_audit.md`, `results/judge_audit/`): containment agrees with a Qwen2.5-7B judge on 94% of TriviaQA and 88% of NQ-Open answers (kappa 0.88 / 0.69); 5–18% of "sampled wrong" targets are actually correct paraphrases. After dropping every target either judge calls correct, the headline still holds in 10/10 models on both datasets |
 | Same-type control at a smaller edit size for the large models (they hit the ceiling at ε = 0.05) | not started |
 | Models above 8B (needs the cluster or quantization) | optional |
 | One-page summary for the advisor, then a paper draft | not started |

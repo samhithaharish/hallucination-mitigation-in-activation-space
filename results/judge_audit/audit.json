@@ -1,0 +1,282 @@
+{
+ "triviaqa": {
+  "n": 500,
+  "qwen": {
+   "agreement": 0.94,
+   "kappa": 0.8794735404245745,
+   "false_pos": 0.04182509505703422,
+   "false_neg": 0.08016877637130802,
+   "acc_contain": 0.526,
+   "acc_judge": 0.542,
+   "sampled_wrong_called_correct": 0.048249763481551564,
+   "gold_called_correct": 0.93
+  },
+  "phi": {
+   "agreement": 0.906,
+   "kappa": 0.810104079125994,
+   "false_pos": 0.022813688212927757,
+   "false_neg": 0.1729957805907173,
+   "acc_contain": 0.526,
+   "acc_judge": 0.596,
+   "sampled_wrong_called_correct": 0.09933774834437085,
+   "gold_called_correct": 0.99
+  },
+  "judge_judge_kappa": 0.8820984843556885,
+  "headline_robust": {
+   "per_model": {
+    "llama3.2-3b": {
+     "n_kept": 100,
+     "n_dropped": 15,
+     "gold": 0.75,
+     "sampled_wrong": 0.83,
+     "gold_minus_wrong_ci": [
+      -0.19,
+      0.03
+     ],
+     "wrong_significantly_easier": false
+    },
+    "qwen2.5-3b": {
+     "n_kept": 99,
+     "n_dropped": 10,
+     "gold": 0.7676767676767676,
+     "sampled_wrong": 0.98989898989899,
+     "gold_minus_wrong_ci": [
+      -0.31313131313131315,
+      -0.1414141414141414
+     ],
+     "wrong_significantly_easier": true
+    },
+    "olmo2-1b": {
+     "n_kept": 108,
+     "n_dropped": 11,
+     "gold": 0.7129629629629629,
+     "sampled_wrong": 0.8333333333333334,
+     "gold_minus_wrong_ci": [
+      -0.23171296296296295,
+      -0.009259259259259259
+     ],
+     "wrong_significantly_easier": true
+    },
+    "granite3.1-2b": {
+     "n_kept": 103,
+     "n_dropped": 9,
+     "gold": 0.8155339805825242,
+     "sampled_wrong": 0.9514563106796117,
+     "gold_minus_wrong_ci": [
+      -0.21359223300970873,
+      -0.05825242718446602
+     ],
+     "wrong_significantly_easier": true
+    },
+    "smollm2-1.7b": {
+     "n_kept": 107,
+     "n_dropped": 9,
+     "gold": 0.7663551401869159,
+     "sampled_wrong": 0.9252336448598131,
+     "gold_minus_wrong_ci": [
+      -0.2616822429906542,
+      -0.06542056074766354
+     ],
+     "wrong_significantly_easier": true
+    },
+    "llama3.1-8b": {
+     "n_kept": 90,
+     "n_dropped": 21,
+     "gold": 0.8222222222222222,
+     "sampled_wrong": 0.9111111111111111,
+     "gold_minus_wrong_ci": [
+      -0.17777777777777778,
+      0.0
+     ],
+     "wrong_significantly_easier": false
+    },
+    "qwen2.5-7b": {
+     "n_kept": 94,
+     "n_dropped": 10,
+     "gold": 0.851063829787234,
+     "sampled_wrong": 0.9361702127659575,
+     "gold_minus_wrong_ci": [
+      -0.1595744680851064,
+      0.0
+     ],
+     "wrong_significantly_easier": false
+    },
+    "olmo2-7b": {
+     "n_kept": 97,
+     "n_dropped": 9,
+     "gold": 0.9278350515463918,
+     "sampled_wrong": 0.9484536082474226,
+     "gold_minus_wrong_ci": [
+      -0.09278350515463918,
+      0.05154639175257732
+     ],
+     "wrong_significantly_easier": false
+    },
+    "granite3.1-8b": {
+     "n_kept": 84,
+     "n_dropped": 8,
+     "gold": 0.9642857142857143,
+     "sampled_wrong": 1.0,
+     "gold_minus_wrong_ci": [
+      -0.08333333333333333,
+      0.0
+     ],
+     "wrong_significantly_easier": false
+    },
+    "mistral-7b": {
+     "n_kept": 62,
+     "n_dropped": 11,
+     "gold": 0.5483870967741935,
+     "sampled_wrong": 0.8548387096774194,
+     "gold_minus_wrong_ci": [
+      -0.45161290322580644,
+      -0.1774193548387097
+     ],
+     "wrong_significantly_easier": true
+    }
+   },
+   "count_gold_not_easier": 10,
+   "survives": true
+  }
+ },
+ "nq_open": {
+  "n": 500,
+  "qwen": {
+   "agreement": 0.878,
+   "kappa": 0.6897632028643502,
+   "false_pos": 0.08108108108108109,
+   "false_neg": 0.13367609254498714,
+   "acc_contain": 0.222,
+   "acc_judge": 0.308,
+   "sampled_wrong_called_correct": 0.0872210953346856,
+   "gold_called_correct": 0.91
+  },
+  "phi": {
+   "agreement": 0.79,
+   "kappa": 0.5412282848054808,
+   "false_pos": 0.018018018018018018,
+   "false_neg": 0.2647814910025707,
+   "acc_contain": 0.222,
+   "acc_judge": 0.424,
+   "sampled_wrong_called_correct": 0.1795131845841785,
+   "gold_called_correct": 0.97
+  },
+  "judge_judge_kappa": 0.7196356963229796,
+  "headline_robust": {
+   "per_model": {
+    "llama3.2-3b": {
+     "n_kept": 79,
+     "n_dropped": 21,
+     "gold": 0.5443037974683544,
+     "sampled_wrong": 0.8481012658227848,
+     "gold_minus_wrong_ci": [
+      -0.4180379746835443,
+      -0.17721518987341772
+     ],
+     "wrong_significantly_easier": true
+    },
+    "qwen2.5-3b": {
+     "n_kept": 95,
+     "n_dropped": 9,
+     "gold": 0.6421052631578947,
+     "sampled_wrong": 0.9894736842105263,
+     "gold_minus_wrong_ci": [
+      -0.4421052631578947,
+      -0.25263157894736843
+     ],
+     "wrong_significantly_easier": true
+    },
+    "olmo2-1b": {
+     "n_kept": 102,
+     "n_dropped": 18,
+     "gold": 0.5,
+     "sampled_wrong": 0.803921568627451,
+     "gold_minus_wrong_ci": [
+      -0.4117647058823529,
+      -0.18627450980392157
+     ],
+     "wrong_significantly_easier": true
+    },
+    "granite3.1-2b": {
+     "n_kept": 79,
+     "n_dropped": 18,
+     "gold": 0.6708860759493671,
+     "sampled_wrong": 0.8607594936708861,
+     "gold_minus_wrong_ci": [
+      -0.31645569620253167,
+      -0.0759493670886076
+     ],
+     "wrong_significantly_easier": true
+    },
+    "smollm2-1.7b": {
+     "n_kept": 87,
+     "n_dropped": 17,
+     "gold": 0.5287356321839081,
+     "sampled_wrong": 0.7586206896551724,
+     "gold_minus_wrong_ci": [
+      -0.3448275862068966,
+      -0.11494252873563218
+     ],
+     "wrong_significantly_easier": true
+    },
+    "llama3.1-8b": {
+     "n_kept": 75,
+     "n_dropped": 31,
+     "gold": 0.64,
+     "sampled_wrong": 0.84,
+     "gold_minus_wrong_ci": [
+      -0.3333333333333333,
+      -0.06666666666666667
+     ],
+     "wrong_significantly_easier": true
+    },
+    "qwen2.5-7b": {
+     "n_kept": 76,
+     "n_dropped": 22,
+     "gold": 0.7894736842105263,
+     "sampled_wrong": 0.9736842105263158,
+     "gold_minus_wrong_ci": [
+      -0.2894736842105263,
+      -0.09210526315789473
+     ],
+     "wrong_significantly_easier": true
+    },
+    "olmo2-7b": {
+     "n_kept": 97,
+     "n_dropped": 19,
+     "gold": 0.8041237113402062,
+     "sampled_wrong": 0.9484536082474226,
+     "gold_minus_wrong_ci": [
+      -0.24742268041237114,
+      -0.05154639175257732
+     ],
+     "wrong_significantly_easier": true
+    },
+    "granite3.1-8b": {
+     "n_kept": 54,
+     "n_dropped": 17,
+     "gold": 0.9444444444444444,
+     "sampled_wrong": 0.9629629629629629,
+     "gold_minus_wrong_ci": [
+      -0.09259259259259259,
+      0.05555555555555555
+     ],
+     "wrong_significantly_easier": false
+    },
+    "mistral-7b": {
+     "n_kept": 58,
+     "n_dropped": 12,
+     "gold": 0.4827586206896552,
+     "sampled_wrong": 0.6896551724137931,
+     "gold_minus_wrong_ci": [
+      -0.3793103448275862,
+      -0.034482758620689655
+     ],
+     "wrong_significantly_easier": true
+    }
+   },
+   "count_gold_not_easier": 10,
+   "survives": true
+  }
+ }
+}
