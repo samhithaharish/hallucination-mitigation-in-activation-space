@@ -1,0 +1,45 @@
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files:  25%|██▌       | 1/4 [01:42<05:08, 102.92s/it]Fetching 4 files:  50%|█████     | 2/4 [02:36<02:28, 74.03s/it] Fetching 4 files:  75%|███████▌  | 3/4 [02:47<00:45, 45.33s/it]Fetching 4 files: 100%|██████████| 4/4 [03:18<00:00, 39.54s/it]Fetching 4 files: 100%|██████████| 4/4 [03:18<00:00, 49.64s/it]
+Loading weights:   0%|          | 0/362 [00:00<?, ?it/s]Loading weights:   9%|▊         | 31/362 [00:00<00:01, 297.00it/s]Loading weights:  19%|█▊        | 67/362 [00:00<00:00, 328.52it/s]Loading weights:  28%|██▊       | 100/362 [00:00<00:00, 302.12it/s]Loading weights:  37%|███▋      | 135/362 [00:00<00:00, 319.11it/s]Loading weights:  48%|████▊     | 174/362 [00:00<00:00, 336.32it/s]Loading weights:  58%|█████▊    | 211/362 [00:00<00:00, 344.59it/s]Loading weights:  69%|██████▊   | 248/362 [00:00<00:00, 349.54it/s]Loading weights:  80%|███████▉  | 288/362 [00:00<00:00, 364.75it/s]Loading weights:  90%|█████████ | 327/362 [00:00<00:00, 369.69it/s]Loading weights: 100%|██████████| 362/362 [00:01<00:00, 350.86it/s]
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[granite3.1-8b] factual 644 / hallucinated 1356 (684s)
+[granite3.1-8b] M1 0.692 at layer 39/40
+[granite3.1-8b] edits gold eps 0.05: fix 0.917
+[granite3.1-8b] edits gold eps 0.1: fix 0.967
+[granite3.1-8b] edits control eps 0.05: fix 0.317
+[granite3.1-8b] edits control eps 0.1: fix 0.917
+{
+ "key": "granite3.1-8b",
+ "hf_id": "ibm-granite/granite-3.1-8b-instruct",
+ "size": "large",
+ "n_layers": 40,
+ "n_factual": 644,
+ "n_halluc": 1356,
+ "greedy_acc_all": 0.32199999999999995,
+ "M1": 0.6919197199347575,
+ "M1_layer": 39,
+ "M1_depth": 0.975,
+ "M2_knows_frac": 0.1430678466076696,
+ "M3a_cos": 0.02957811765372753,
+ "M3b_transfer_ratio": 0.05172413793103448,
+ "M3c_gold_minus_control": 0.6,
+ "M3_perq_fix_eps0.1": 0.9666666666666667,
+ "M3_edit_layer": 18,
+ "M4": 0.6917219235950353,
+ "M4_depth": 0.4,
+ "test_acc": {
+  "greedy": 0.32166666666666666,
+  "majority": 0.32666666666666666,
+  "probe_select": 0.35833333333333334,
+  "oracle": 0.49666666666666665
+ },
+ "select_minus_greedy_ci": [
+  0.008333333333333333,
+  0.065
+ ],
+ "select_minus_majority_ci": [
+  0.0033333333333333335,
+  0.06
+ ],
+ "call": "mixed",
+ "minutes": 20.281300429503123
+}

@@ -1,0 +1,44 @@
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files:  50%|█████     | 1/2 [00:57<00:57, 57.17s/it]Fetching 2 files: 100%|██████████| 2/2 [01:18<00:00, 36.27s/it]Fetching 2 files: 100%|██████████| 2/2 [01:18<00:00, 39.41s/it]
+Loading weights:   0%|          | 0/434 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 52/434 [00:00<00:00, 518.99it/s]Loading weights:  39%|███▉      | 171/434 [00:00<00:00, 909.51it/s]Loading weights:  67%|██████▋   | 292/434 [00:00<00:00, 1024.76it/s]Loading weights:  97%|█████████▋| 422/434 [00:00<00:00, 1131.41it/s]Loading weights: 100%|██████████| 434/434 [00:00<00:00, 1052.14it/s]
+[qwen2.5-3b] factual 371 / hallucinated 1629 (238s)
+[qwen2.5-3b] M1 0.732 at layer 26/36
+[qwen2.5-3b] edits gold eps 0.05: fix 0.600
+[qwen2.5-3b] edits gold eps 0.1: fix 1.000
+[qwen2.5-3b] edits control eps 0.05: fix 0.050
+[qwen2.5-3b] edits control eps 0.1: fix 0.650
+{
+ "key": "qwen2.5-3b",
+ "hf_id": "Qwen/Qwen2.5-3B-Instruct",
+ "size": "small",
+ "n_layers": 36,
+ "n_factual": 371,
+ "n_halluc": 1629,
+ "greedy_acc_all": 0.1855,
+ "M1": 0.7315452091767882,
+ "M1_layer": 26,
+ "M1_depth": 0.7222222222222222,
+ "M2_knows_frac": 0.07427869858809086,
+ "M3a_cos": 0.03935571387410164,
+ "M3b_transfer_ratio": 0.03333333333333333,
+ "M3c_gold_minus_control": 0.5499999999999999,
+ "M3_perq_fix_eps0.1": 1.0,
+ "M3_edit_layer": 16,
+ "M4": 0.7571931564829756,
+ "M4_depth": 0.6,
+ "test_acc": {
+  "greedy": 0.185,
+  "majority": 0.18,
+  "probe_select": 0.19666666666666666,
+  "oracle": 0.295
+ },
+ "select_minus_greedy_ci": [
+  -0.011666666666666667,
+  0.03333333333333333
+ ],
+ "select_minus_majority_ci": [
+  -0.005,
+  0.03833333333333333
+ ],
+ "call": "mixed",
+ "minutes": 6.94386055469513
+}

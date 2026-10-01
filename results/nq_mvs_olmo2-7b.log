@@ -1,0 +1,44 @@
+Fetching 3 files:   0%|          | 0/3 [00:00<?, ?it/s]Fetching 3 files:  33%|███▎      | 1/3 [02:32<05:05, 152.91s/it]Fetching 3 files:  67%|██████▋   | 2/3 [02:34<01:03, 63.71s/it] Fetching 3 files: 100%|██████████| 3/3 [03:00<00:00, 46.54s/it]Fetching 3 files: 100%|██████████| 3/3 [03:00<00:00, 60.10s/it]
+Loading weights:   0%|          | 0/355 [00:00<?, ?it/s]Loading weights:   1%|          | 2/355 [00:00<00:26, 13.52it/s]Loading weights:  12%|█▏        | 42/355 [00:00<00:01, 200.32it/s]Loading weights:  25%|██▍       | 87/355 [00:00<00:00, 301.42it/s]Loading weights:  34%|███▍      | 121/355 [00:00<00:00, 303.84it/s]Loading weights:  45%|████▍     | 159/355 [00:00<00:00, 329.42it/s]Loading weights:  57%|█████▋    | 203/355 [00:00<00:00, 360.26it/s]Loading weights:  70%|██████▉   | 247/355 [00:00<00:00, 380.43it/s]Loading weights:  82%|████████▏ | 291/355 [00:00<00:00, 396.87it/s]Loading weights:  94%|█████████▍| 335/355 [00:00<00:00, 409.29it/s]Loading weights: 100%|██████████| 355/355 [00:01<00:00, 352.71it/s]
+[olmo2-7b] factual 484 / hallucinated 1516 (451s)
+[olmo2-7b] M1 0.691 at layer 23/32
+[olmo2-7b] edits gold eps 0.05: fix 0.800
+[olmo2-7b] edits gold eps 0.1: fix 0.983
+[olmo2-7b] edits control eps 0.05: fix 0.300
+[olmo2-7b] edits control eps 0.1: fix 0.950
+{
+ "key": "olmo2-7b",
+ "hf_id": "allenai/OLMo-2-1124-7B-Instruct",
+ "size": "large",
+ "n_layers": 32,
+ "n_factual": 484,
+ "n_halluc": 1516,
+ "greedy_acc_all": 0.242,
+ "M1": 0.6910173091491785,
+ "M1_layer": 23,
+ "M1_depth": 0.71875,
+ "M2_knows_frac": 0.09828496042216359,
+ "M3a_cos": 0.014655220322310925,
+ "M3b_transfer_ratio": 0.03389830508474576,
+ "M3c_gold_minus_control": 0.5,
+ "M3_perq_fix_eps0.1": 0.9833333333333333,
+ "M3_edit_layer": 14,
+ "M4": 0.761396460576616,
+ "M4_depth": 0.5,
+ "test_acc": {
+  "greedy": 0.24166666666666667,
+  "majority": 0.23833333333333334,
+  "probe_select": 0.24666666666666667,
+  "oracle": 0.38666666666666666
+ },
+ "select_minus_greedy_ci": [
+  -0.021666666666666667,
+  0.03
+ ],
+ "select_minus_majority_ci": [
+  -0.018333333333333333,
+  0.03333333333333333
+ ],
+ "call": "mixed",
+ "minutes": 11.573534341653188
+}

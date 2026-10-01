@@ -1,0 +1,22 @@
+llama3.2-3b    DEV acc greedy 0.327 maj 0.317 switch 0.347 ci [0.002 0.038] | R1 ours 0.040 best(d_calibrated) 0.043 ci [-0.02   0.015]
+qwen2.5-3b     acc greedy 0.185 maj 0.180 switch 0.193 ci [-0.003  0.018] | R1 ours 0.013 best(d_calibrated) 0.018 ci [-0.012  0.   ]
+olmo2-1b       acc greedy 0.112 maj 0.107 switch 0.117 ci [-0.003  0.015] | R1 ours -0.005 best(d_calibrated) -0.005 ci [0. 0.]
+granite3.1-2b  acc greedy 0.228 maj 0.227 switch 0.237 ci [-0.003  0.022] | R1 ours 0.025 best(d_calibrated) 0.030 ci [-0.012  0.   ]
+smollm2-1.7b   acc greedy 0.165 maj 0.165 switch 0.168 ci [-0.008  0.015] | R1 ours 0.007 best(d_calibrated) 0.010 ci [-0.008  0.   ]
+llama3.1-8b    acc greedy 0.378 maj 0.368 switch 0.377 ci [-0.02   0.017] | R1 ours 0.080 best(d_calibrated) 0.087 ci [-0.023  0.01 ]
+qwen2.5-7b     acc greedy 0.247 maj 0.248 switch 0.247 ci [-0.013  0.013] | R1 ours 0.045 best(d_calibrated) 0.045 ci [-0.008  0.007]
+olmo2-7b       acc greedy 0.242 maj 0.238 switch 0.257 ci [0.002 0.03 ] | R1 ours 0.027 best(d_calibrated) 0.032 ci [-0.013  0.002]
+granite3.1-8b  acc greedy 0.322 maj 0.328 switch 0.340 ci [0.002 0.035] | R1 ours 0.077 best(d_calibrated) 0.085 ci [-0.025  0.007]
+mistral-7b     acc greedy 0.310 maj 0.320 switch 0.325 ci [0.    0.032] | R1 ours 0.045 best(d_calibrated) 0.048 ci [-0.022  0.015]
+{
+ "n_heldout": 9,
+ "B1_switch_gt_greedy": 2,
+ "B1_switch_ge_majority": 8,
+ "B2_lambda1": 0,
+ "B3_lambda1": 8,
+ "B2_lambda2": 1,
+ "B3_lambda2": 6,
+ "B1": false,
+ "B2": false,
+ "B3": true
+}

@@ -1,0 +1,9 @@
+Loading weights:   0%|          | 0/355 [00:00<?, ?it/s]Loading weights:   1%|▏         | 5/355 [00:00<00:07, 47.95it/s]Loading weights:  15%|█▍        | 53/355 [00:00<00:01, 295.77it/s]Loading weights:  27%|██▋       | 97/355 [00:00<00:00, 355.36it/s]Loading weights:  41%|████      | 145/355 [00:00<00:00, 392.37it/s]Loading weights:  54%|█████▍    | 191/355 [00:00<00:00, 408.16it/s]Loading weights:  66%|██████▌   | 235/355 [00:00<00:00, 410.89it/s]Loading weights:  79%|███████▉  | 280/355 [00:00<00:00, 422.32it/s]Loading weights:  92%|█████████▏| 328/355 [00:00<00:00, 435.73it/s]Loading weights: 100%|██████████| 355/355 [00:00<00:00, 400.80it/s]
+[olmo2-7b] gold            eps 0.05: n=120 hit 0.817 (42s)
+[olmo2-7b] gold            eps 0.1: n=120 hit 0.983 (84s)
+[olmo2-7b] sampled_wrong   eps 0.05: n=116 hit 0.957 (126s)
+[olmo2-7b] sampled_wrong   eps 0.1: n=116 hit 1.000 (167s)
+[olmo2-7b] prompted_wrong  eps 0.05: n=81 hit 0.988 (195s)
+[olmo2-7b] prompted_wrong  eps 0.1: n=81 hit 1.000 (223s)
+[olmo2-7b] random          eps 0.05: n=120 hit 0.292 (266s)
+[olmo2-7b] random          eps 0.1: n=120 hit 0.958 (309s)

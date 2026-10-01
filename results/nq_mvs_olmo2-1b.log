@@ -1,0 +1,43 @@
+Loading weights:   0%|          | 0/179 [00:00<?, ?it/s]Loading weights:  34%|███▎      | 60/179 [00:00<00:00, 599.38it/s]Loading weights: 100%|██████████| 179/179 [00:00<00:00, 944.94it/s]
+[olmo2-1b] factual 223 / hallucinated 1777 (113s)
+[olmo2-1b] M1 0.721 at layer 13/16
+[olmo2-1b] edits gold eps 0.05: fix 0.533
+[olmo2-1b] edits gold eps 0.1: fix 1.000
+[olmo2-1b] edits control eps 0.05: fix 0.083
+[olmo2-1b] edits control eps 0.1: fix 0.950
+{
+ "key": "olmo2-1b",
+ "hf_id": "allenai/OLMo-2-0425-1B-Instruct",
+ "size": "small",
+ "n_layers": 16,
+ "n_factual": 223,
+ "n_halluc": 1777,
+ "greedy_acc_all": 0.11150000000000004,
+ "M1": 0.7214377671978236,
+ "M1_layer": 13,
+ "M1_depth": 0.8125,
+ "M2_knows_frac": 0.05852560495216657,
+ "M3a_cos": 0.08842489123344421,
+ "M3b_transfer_ratio": 0.06666666666666667,
+ "M3c_gold_minus_control": 0.45,
+ "M3_perq_fix_eps0.1": 1.0,
+ "M3_edit_layer": 7,
+ "M4": 0.7648415288188163,
+ "M4_depth": 0.75,
+ "test_acc": {
+  "greedy": 0.11166666666666666,
+  "majority": 0.105,
+  "probe_select": 0.09333333333333334,
+  "oracle": 0.23
+ },
+ "select_minus_greedy_ci": [
+  -0.041666666666666664,
+  0.005
+ ],
+ "select_minus_majority_ci": [
+  -0.03333333333333333,
+  0.011666666666666667
+ ],
+ "call": "mixed",
+ "minutes": 3.5451682686805723
+}

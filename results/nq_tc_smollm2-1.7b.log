@@ -1,0 +1,9 @@
+Loading weights:   0%|          | 0/218 [00:00<?, ?it/s]Loading weights:  39%|███▉      | 86/218 [00:00<00:00, 856.83it/s]Loading weights:  91%|█████████▏| 199/218 [00:00<00:00, 1014.53it/s]Loading weights: 100%|██████████| 218/218 [00:00<00:00, 1003.78it/s]
+[smollm2-1.7b] gold            eps 0.05: n=120 hit 0.508 (16s)
+[smollm2-1.7b] gold            eps 0.1: n=120 hit 0.933 (32s)
+[smollm2-1.7b] sampled_wrong   eps 0.05: n=104 hit 0.769 (49s)
+[smollm2-1.7b] sampled_wrong   eps 0.1: n=104 hit 0.952 (67s)
+[smollm2-1.7b] prompted_wrong  eps 0.05: n=67 hit 0.985 (76s)
+[smollm2-1.7b] prompted_wrong  eps 0.1: n=67 hit 0.970 (86s)
+[smollm2-1.7b] random          eps 0.05: n=120 hit 0.025 (103s)
+[smollm2-1.7b] random          eps 0.1: n=120 hit 0.725 (119s)

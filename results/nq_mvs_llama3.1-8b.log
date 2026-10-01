@@ -1,0 +1,45 @@
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files:  25%|██▌       | 1/4 [01:46<05:19, 106.64s/it]Fetching 4 files:  50%|█████     | 2/4 [03:15<03:11, 95.97s/it] Fetching 4 files:  75%|███████▌  | 3/4 [03:16<00:52, 52.87s/it]Fetching 4 files: 100%|██████████| 4/4 [03:17<00:00, 32.28s/it]Fetching 4 files: 100%|██████████| 4/4 [03:17<00:00, 49.36s/it]
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<00:34,  8.50it/s]Loading weights:  11%|█         | 31/291 [00:00<00:01, 162.09it/s]Loading weights:  22%|██▏       | 64/291 [00:00<00:00, 233.52it/s]Loading weights:  33%|███▎      | 96/291 [00:00<00:00, 263.15it/s]Loading weights:  45%|████▌     | 131/291 [00:00<00:00, 293.44it/s]Loading weights:  57%|█████▋    | 166/291 [00:00<00:00, 310.83it/s]Loading weights:  68%|██████▊   | 198/291 [00:00<00:00, 313.30it/s]Loading weights:  79%|███████▉  | 230/291 [00:00<00:00, 311.15it/s]Loading weights:  92%|█████████▏| 267/291 [00:00<00:00, 322.21it/s]Loading weights: 100%|██████████| 291/291 [00:01<00:00, 290.93it/s]
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[llama3.1-8b] factual 755 / hallucinated 1245 (544s)
+[llama3.1-8b] M1 0.689 at layer 30/32
+[llama3.1-8b] edits gold eps 0.05: fix 0.600
+[llama3.1-8b] edits gold eps 0.1: fix 0.967
+[llama3.1-8b] edits control eps 0.05: fix 0.000
+[llama3.1-8b] edits control eps 0.1: fix 0.767
+{
+ "key": "llama3.1-8b",
+ "hf_id": "meta-llama/Llama-3.1-8B-Instruct",
+ "size": "large",
+ "n_layers": 32,
+ "n_factual": 755,
+ "n_halluc": 1245,
+ "greedy_acc_all": 0.37749999999999995,
+ "M1": 0.6886168178136577,
+ "M1_layer": 30,
+ "M1_depth": 0.9375,
+ "M2_knows_frac": 0.14698795180722893,
+ "M3a_cos": 0.10047385096549988,
+ "M3b_transfer_ratio": 0.06896551724137931,
+ "M3c_gold_minus_control": 0.6,
+ "M3_perq_fix_eps0.1": 0.9666666666666667,
+ "M3_edit_layer": 14,
+ "M4": 0.7550118056577575,
+ "M4_depth": 0.4,
+ "test_acc": {
+  "greedy": 0.37833333333333335,
+  "majority": 0.36833333333333335,
+  "probe_select": 0.35833333333333334,
+  "oracle": 0.5333333333333333
+ },
+ "select_minus_greedy_ci": [
+  -0.051666666666666666,
+  0.011666666666666667
+ ],
+ "select_minus_majority_ci": [
+  -0.03833333333333333,
+  0.021666666666666667
+ ],
+ "call": "mixed",
+ "minutes": 15.359328174591065
+}

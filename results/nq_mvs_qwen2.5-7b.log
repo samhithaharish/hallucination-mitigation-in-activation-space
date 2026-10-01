@@ -1,0 +1,44 @@
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files:  25%|██▌       | 1/4 [02:23<07:09, 143.07s/it]Fetching 4 files:  50%|█████     | 2/4 [02:46<02:25, 72.82s/it] Fetching 4 files:  75%|███████▌  | 3/4 [02:47<00:39, 39.99s/it]Fetching 4 files: 100%|██████████| 4/4 [03:03<00:00, 30.30s/it]Fetching 4 files: 100%|██████████| 4/4 [03:03<00:00, 45.77s/it]
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]Loading weights:   1%|          | 2/339 [00:00<00:21, 16.02it/s]Loading weights:   1%|          | 4/339 [00:00<00:25, 13.18it/s]Loading weights:  33%|███▎      | 112/339 [00:00<00:00, 373.44it/s]Loading weights:  47%|████▋     | 160/339 [00:00<00:00, 389.31it/s]Loading weights:  60%|██████    | 204/339 [00:00<00:00, 403.88it/s]Loading weights:  73%|███████▎  | 248/339 [00:00<00:00, 396.38it/s]Loading weights:  86%|████████▌ | 292/339 [00:00<00:00, 391.78it/s]Loading weights: 100%|██████████| 339/339 [00:00<00:00, 357.74it/s]
+[qwen2.5-7b] factual 492 / hallucinated 1508 (479s)
+[qwen2.5-7b] M1 0.740 at layer 21/28
+[qwen2.5-7b] edits gold eps 0.05: fix 0.783
+[qwen2.5-7b] edits gold eps 0.1: fix 0.950
+[qwen2.5-7b] edits control eps 0.05: fix 0.033
+[qwen2.5-7b] edits control eps 0.1: fix 0.800
+{
+ "key": "qwen2.5-7b",
+ "hf_id": "Qwen/Qwen2.5-7B-Instruct",
+ "size": "large",
+ "n_layers": 28,
+ "n_factual": 492,
+ "n_halluc": 1508,
+ "greedy_acc_all": 0.246,
+ "M1": 0.7400752803911125,
+ "M1_layer": 21,
+ "M1_depth": 0.75,
+ "M2_knows_frac": 0.07891246684350132,
+ "M3a_cos": 0.0176068264991045,
+ "M3b_transfer_ratio": 0.07017543859649122,
+ "M3c_gold_minus_control": 0.75,
+ "M3_perq_fix_eps0.1": 0.95,
+ "M3_edit_layer": 13,
+ "M4": 0.8213943309334792,
+ "M4_depth": 0.6,
+ "test_acc": {
+  "greedy": 0.24666666666666667,
+  "majority": 0.24666666666666667,
+  "probe_select": 0.25666666666666665,
+  "oracle": 0.3566666666666667
+ },
+ "select_minus_greedy_ci": [
+  -0.011666666666666667,
+  0.03
+ ],
+ "select_minus_majority_ci": [
+  -0.01,
+  0.03
+ ],
+ "call": "mixed",
+ "minutes": 12.980677326520285
+}

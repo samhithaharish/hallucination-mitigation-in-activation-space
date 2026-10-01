@@ -1,0 +1,9 @@
+Loading weights:   0%|          | 0/179 [00:00<?, ?it/s]Loading weights:  32%|███▏      | 58/179 [00:00<00:00, 574.40it/s]Loading weights: 100%|██████████| 179/179 [00:00<00:00, 926.88it/s]
+[olmo2-1b] gold            eps 0.05: n=120 hit 0.483 (12s)
+[olmo2-1b] gold            eps 0.1: n=120 hit 0.958 (23s)
+[olmo2-1b] sampled_wrong   eps 0.05: n=120 hit 0.825 (34s)
+[olmo2-1b] sampled_wrong   eps 0.1: n=120 hit 0.983 (45s)
+[olmo2-1b] prompted_wrong  eps 0.05: n=105 hit 0.962 (54s)
+[olmo2-1b] prompted_wrong  eps 0.1: n=105 hit 1.000 (64s)
+[olmo2-1b] random          eps 0.05: n=120 hit 0.025 (75s)
+[olmo2-1b] random          eps 0.1: n=120 hit 0.833 (87s)
