@@ -19,7 +19,7 @@ from sklearn.preprocessing import StandardScaler
 sys.path.insert(0, os.path.dirname(__file__))
 from mixed_vs_separated import MODELS  # noqa: E402
 
-ROOT = "results/mixed_vs_separated"
+ROOT = os.environ.get("MVS_ROOT", "results/mixed_vs_separated")
 DEV = "llama3.2-3b"
 LAMBDAS = [1, 2]
 

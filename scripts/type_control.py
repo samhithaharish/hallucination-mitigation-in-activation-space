@@ -39,7 +39,7 @@ def run(key, args):
         print(f"[{key}] already done")
         return
     hf_id, size = MODELS[key]
-    recs = json.load(open(os.path.join(SRC, key, "records.json")))
+    recs = json.load(open(os.path.join(args.src, key, "records.json")))
     y = np.array([r["label"] for r in recs])
     tr, _ = train_test_split(np.arange(len(y)), test_size=0.3, random_state=0, stratify=y)
     rng = np.random.default_rng(2)
@@ -53,10 +53,13 @@ def run(key, args):
     ebs = 6 if size == "large" else 12
 
     # prompted-wrong targets
-    from datasets import load_dataset
-    ds = load_dataset("mandarjoshi/trivia_qa", "rc.nocontext", split="validation").select(range(len(recs)))
+    if "question" not in recs[0]:                       # older TriviaQA records lack the raw question
+        from datasets import load_dataset
+        ds = load_dataset("mandarjoshi/trivia_qa", "rc.nocontext", split="validation").select(range(len(recs)))
+        for r, ex in zip(recs, ds):
+            r["question"] = ex["question"]
     ask = [tok.apply_chat_template([{"role": "user", "content":
-                                     f"Question: {ds[int(i)]['question']}\nGive one plausible but incorrect answer. "
+                                     f"Question: {recs[int(i)]['question']}\nGive one plausible but incorrect answer. "
                                      f"Answer with only the answer, at most 5 words."}], tokenize=False, add_generation_prompt=True)
            for i in idx]
     prompted = generate(model, tok, ask, 24, 32)
@@ -157,6 +160,7 @@ def main():
     ap.add_argument("--key")
     ap.add_argument("--aggregate", action="store_true")
     ap.add_argument("--out", default="results/type_control")
+    ap.add_argument("--src", default=SRC, help="mixed_vs_separated results dir with records.json per model")
     ap.add_argument("--n", type=int, default=120)
     ap.add_argument("--max-new-tokens", type=int, default=24)
     args = ap.parse_args()

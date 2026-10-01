@@ -41,6 +41,21 @@ MODELS = {
 DEPTHS = [0.25, 0.4, 0.5, 0.6, 0.75, 0.9, 1.0]
 
 
+def load_qa(name, n):
+    """Returns [{question, golds, value}] for the first n validation questions.
+    value = the single target string used for edits: TriviaQA's canonical answer; NQ-Open's shortest answer."""
+    from datasets import load_dataset
+    if name == "triviaqa":
+        ds = load_dataset("mandarjoshi/trivia_qa", "rc.nocontext", split="validation").select(range(n))
+        return [{"question": ex["question"], "value": ex["answer"]["value"],
+                 "golds": list(dict.fromkeys(ex["answer"]["aliases"] + [ex["answer"]["value"]]))} for ex in ds]
+    if name == "nq_open":
+        ds = load_dataset("google-research-datasets/nq_open", split="validation").select(range(n))
+        return [{"question": ex["question"], "value": min(ex["answer"], key=len),
+                 "golds": list(dict.fromkeys(ex["answer"]))} for ex in ds]
+    raise ValueError(name)
+
+
 def probe():
     return make_pipeline(StandardScaler(), LogisticRegression(C=0.05, max_iter=3000))
 
@@ -90,8 +105,7 @@ def run_model(key, args):
     large = size == "large"
     bs, ebs = (32, 6) if large else (64, 12)
 
-    from datasets import load_dataset
-    ds = load_dataset("mandarjoshi/trivia_qa", "rc.nocontext", split="validation").select(range(args.n))
+    ds = load_qa(args.dataset, args.n)
 
     # ---- A. greedy labels + 10 samples ----
     rp = os.path.join(out_dir, "records.json")
@@ -110,8 +124,8 @@ def run_model(key, args):
                 samples += [[x.strip() for x in txt[j * 10:(j + 1) * 10]] for j in range(len(txt) // 10)]
         recs = []
         for ex, p, g, sm in zip(ds, prompts, gens, samples):
-            golds = list(dict.fromkeys(ex["answer"]["aliases"] + [ex["answer"]["value"]]))
-            recs.append({"prompt": p, "gold": golds, "value": ex["answer"]["value"], "generation": g,
+            golds = ex["golds"]
+            recs.append({"question": ex["question"], "prompt": p, "gold": golds, "value": ex["value"], "generation": g,
                          "samples": sm, "label": 0 if is_correct(g, golds) else 1,
                          "n_ok": sum(is_correct(x, golds) for x in sm)})
         json.dump(recs, open(rp, "w"))
@@ -325,13 +339,16 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--key")
     ap.add_argument("--aggregate", action="store_true")
-    ap.add_argument("--out", default="results/mixed_vs_separated")
+    ap.add_argument("--dataset", default="triviaqa", choices=["triviaqa", "nq_open"])
+    ap.add_argument("--out", default=None, help="default: results/mixed_vs_separated (triviaqa) or results/nq/mixed_vs_separated")
     ap.add_argument("--n", type=int, default=2000)
     ap.add_argument("--n-edit", type=int, default=60)
     ap.add_argument("--max-new-tokens", type=int, default=24)
     ap.add_argument("--jobs", type=int, default=24)
     ap.add_argument("--smoke", action="store_true")
     args = ap.parse_args()
+    if args.out is None:
+        args.out = "results/mixed_vs_separated" if args.dataset == "triviaqa" else "results/nq/mixed_vs_separated"
     if args.smoke:
         args.out, args.n, args.n_edit = args.out + "_smoke", 400, 12
     if args.aggregate:
