@@ -1,9 +1,7 @@
 # Detectable, Not Correctable: Hallucination Signals vs Internal Edits in LLMs
 
-Target venue: **ICML 2027** (main conference). Status: experiments done across 10 models on TriviaQA and replicated
-on NQ-Open; writing not started.
 
-## The claim (Path A: analysis paper)
+## The claim
 
 > Language models carry an internal signal that they are about to hallucinate, but editing their internal
 > activations cannot reliably fix the hallucination: a small edit reaches the model's own **plausible wrong
