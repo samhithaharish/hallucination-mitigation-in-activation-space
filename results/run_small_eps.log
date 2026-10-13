@@ -1,0 +1,21 @@
+Thu Oct  1 15:22:40 MST 2026 start llama3.1-8b triviaqa (attempt 1)
+Thu Oct  1 15:46:17 MST 2026 done llama3.1-8b triviaqa
+Thu Oct  1 15:46:17 MST 2026 start llama3.1-8b nq_open (attempt 1)
+Thu Oct  1 15:59:04 MST 2026 done llama3.1-8b nq_open
+Thu Oct  1 15:59:04 MST 2026 start qwen2.5-7b triviaqa (attempt 1)
+Thu Oct  1 16:21:10 MST 2026 done qwen2.5-7b triviaqa
+Thu Oct  1 16:21:10 MST 2026 start qwen2.5-7b nq_open (attempt 1)
+Thu Oct  1 16:30:16 MST 2026 done qwen2.5-7b nq_open
+Thu Oct  1 16:30:16 MST 2026 start olmo2-7b triviaqa (attempt 1)
+Thu Oct  1 16:40:38 MST 2026 done olmo2-7b triviaqa
+Thu Oct  1 16:40:38 MST 2026 start olmo2-7b nq_open (attempt 1)
+Thu Oct  1 16:47:04 MST 2026 done olmo2-7b nq_open
+Thu Oct  1 16:47:04 MST 2026 start granite3.1-8b triviaqa (attempt 1)
+Thu Oct  1 17:07:51 MST 2026 done granite3.1-8b triviaqa
+Thu Oct  1 17:07:51 MST 2026 start granite3.1-8b nq_open (attempt 1)
+Thu Oct  1 17:23:38 MST 2026 done granite3.1-8b nq_open
+Thu Oct  1 17:23:38 MST 2026 start mistral-7b triviaqa (attempt 1)
+Thu Oct  1 17:33:03 MST 2026 done mistral-7b triviaqa
+Thu Oct  1 17:33:03 MST 2026 start mistral-7b nq_open (attempt 1)
+Thu Oct  1 17:38:33 MST 2026 done mistral-7b nq_open
+Thu Oct  1 17:38:33 MST 2026 SMALL EPS DONE

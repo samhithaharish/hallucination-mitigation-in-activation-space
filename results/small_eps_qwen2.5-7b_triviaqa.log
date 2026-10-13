@@ -1,0 +1,11 @@
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files:  25%|██▌       | 1/4 [02:21<07:04, 141.58s/it]Fetching 4 files:  50%|█████     | 2/4 [02:24<02:00, 60.13s/it] Fetching 4 files:  75%|███████▌  | 3/4 [02:28<00:34, 34.51s/it]Fetching 4 files: 100%|██████████| 4/4 [03:02<00:00, 34.24s/it]Fetching 4 files: 100%|██████████| 4/4 [03:02<00:00, 45.63s/it]
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]Loading weights:   0%|          | 1/339 [00:00<01:04,  5.24it/s]Loading weights:  12%|█▏        | 42/339 [00:00<00:01, 173.70it/s]Loading weights:  26%|██▌       | 88/339 [00:00<00:00, 269.94it/s]Loading weights:  40%|███▉      | 135/339 [00:00<00:00, 322.72it/s]Loading weights:  54%|█████▍    | 184/339 [00:00<00:00, 369.26it/s]Loading weights:  66%|██████▌   | 224/339 [00:00<00:00, 376.47it/s]Loading weights:  79%|███████▉  | 269/339 [00:00<00:00, 391.24it/s]Loading weights:  93%|█████████▎| 316/339 [00:00<00:00, 406.77it/s]Loading weights: 100%|██████████| 339/339 [00:00<00:00, 342.10it/s]
+[qwen2.5-7b] gold            eps 0.01: n=120 hit 0.217 (125s)
+[qwen2.5-7b] gold            eps 0.02: n=120 hit 0.333 (251s)
+[qwen2.5-7b] gold            eps 0.03: n=120 hit 0.542 (375s)
+[qwen2.5-7b] sampled_wrong   eps 0.01: n=104 hit 0.587 (502s)
+[qwen2.5-7b] sampled_wrong   eps 0.02: n=104 hit 0.798 (629s)
+[qwen2.5-7b] sampled_wrong   eps 0.03: n=104 hit 0.875 (757s)
+[qwen2.5-7b] random          eps 0.01: n=120 hit 0.000 (882s)
+[qwen2.5-7b] random          eps 0.02: n=120 hit 0.000 (1007s)
+[qwen2.5-7b] random          eps 0.03: n=120 hit 0.000 (1132s)

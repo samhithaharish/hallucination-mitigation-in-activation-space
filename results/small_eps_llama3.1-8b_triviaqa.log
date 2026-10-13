@@ -1,0 +1,12 @@
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files:  25%|██▌       | 1/4 [01:07<03:21, 67.14s/it]Fetching 4 files:  50%|█████     | 2/4 [03:09<03:18, 99.39s/it]Fetching 4 files:  75%|███████▌  | 3/4 [03:09<00:54, 54.30s/it]Fetching 4 files: 100%|██████████| 4/4 [03:11<00:00, 33.69s/it]Fetching 4 files: 100%|██████████| 4/4 [03:11<00:00, 47.96s/it]
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<00:34,  8.50it/s]Loading weights:  11%|█         | 32/291 [00:00<00:01, 170.80it/s]Loading weights:  21%|██▏       | 62/291 [00:00<00:01, 226.71it/s]Loading weights:  34%|███▍      | 100/291 [00:00<00:00, 284.57it/s]Loading weights:  45%|████▍     | 130/291 [00:00<00:00, 281.55it/s]Loading weights:  58%|█████▊    | 168/291 [00:00<00:00, 310.20it/s]Loading weights:  70%|██████▉   | 203/291 [00:00<00:00, 322.40it/s]Loading weights:  82%|████████▏ | 238/291 [00:00<00:00, 330.98it/s]Loading weights:  93%|█████████▎| 272/291 [00:00<00:00, 333.25it/s]Loading weights: 100%|██████████| 291/291 [00:00<00:00, 294.31it/s]
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer TokenizersBackend. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+[llama3.1-8b] gold            eps 0.01: n=120 hit 0.200 (138s)
+[llama3.1-8b] gold            eps 0.02: n=120 hit 0.392 (277s)
+[llama3.1-8b] gold            eps 0.03: n=120 hit 0.508 (415s)
+[llama3.1-8b] sampled_wrong   eps 0.01: n=111 hit 0.270 (549s)
+[llama3.1-8b] sampled_wrong   eps 0.02: n=111 hit 0.514 (683s)
+[llama3.1-8b] sampled_wrong   eps 0.03: n=111 hit 0.685 (815s)
+[llama3.1-8b] random          eps 0.01: n=120 hit 0.000 (947s)
+[llama3.1-8b] random          eps 0.02: n=120 hit 0.000 (1078s)
+[llama3.1-8b] random          eps 0.03: n=120 hit 0.000 (1210s)

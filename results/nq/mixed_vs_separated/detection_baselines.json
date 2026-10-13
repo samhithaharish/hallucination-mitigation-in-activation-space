@@ -1,0 +1,72 @@
+[
+ {
+  "key": "granite3.1-2b",
+  "n_test": 600,
+  "probe_question": 0.7128533366965679,
+  "neg_logprob_greedy": 0.727514937491132,
+  "one_minus_agreement": 0.6752928378868377
+ },
+ {
+  "key": "granite3.1-8b",
+  "n_test": 600,
+  "probe_question": 0.6978396201194128,
+  "neg_logprob_greedy": 0.7266616593041465,
+  "one_minus_agreement": 0.6890300569057046
+ },
+ {
+  "key": "llama3.1-8b",
+  "n_test": 600,
+  "probe_question": 0.6294599095321893,
+  "neg_logprob_greedy": 0.7132312125757343,
+  "one_minus_agreement": 0.683604776133505
+ },
+ {
+  "key": "llama3.2-3b",
+  "n_test": 600,
+  "probe_question": 0.6701227520711254,
+  "neg_logprob_greedy": 0.7118104667609618,
+  "one_minus_agreement": 0.6871969084663568
+ },
+ {
+  "key": "mistral-7b",
+  "n_test": 600,
+  "probe_question": 0.6708222949457171,
+  "neg_logprob_greedy": null,
+  "one_minus_agreement": 0.6470897615708275
+ },
+ {
+  "key": "olmo2-1b",
+  "n_test": 600,
+  "probe_question": 0.6827308112346335,
+  "neg_logprob_greedy": 0.7539413626053597,
+  "one_minus_agreement": 0.6700456441992663
+ },
+ {
+  "key": "olmo2-7b",
+  "n_test": 600,
+  "probe_question": 0.6715422508525957,
+  "neg_logprob_greedy": 0.7608488063660477,
+  "one_minus_agreement": 0.7055702917771883
+ },
+ {
+  "key": "qwen2.5-3b",
+  "n_test": 600,
+  "probe_question": 0.6999760496693012,
+  "neg_logprob_greedy": 0.7796016875771478,
+  "one_minus_agreement": 0.6886733359125997
+ },
+ {
+  "key": "qwen2.5-7b",
+  "n_test": 600,
+  "probe_question": 0.7093697679980865,
+  "neg_logprob_greedy": 0.7555010762975365,
+  "one_minus_agreement": 0.7318673762257832
+ },
+ {
+  "key": "smollm2-1.7b",
+  "n_test": 600,
+  "probe_question": 0.700820581060102,
+  "neg_logprob_greedy": 0.7863666606181576,
+  "one_minus_agreement": 0.6482993608742111
+ }
+]

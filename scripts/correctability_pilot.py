@@ -39,11 +39,19 @@ class Edit:
         self.h.remove()
 
 
+def answer_sep(tok, prompt):
+    """Text to put between a chat prompt and a stored (stripped) answer so the answer is tokenized the way the
+    model generates it. Mistral's template ends in '[/INST]' and its answers start with a '▁word' token; joined
+    without the space, 'Ross' becomes 'R'+'oss', tokens Mistral never produces. Other models' templates end in a
+    newline or their answers start without a space marker, so they get ''."""
+    return " " if "mistral" in tok.name_or_path.lower() and not prompt[-1:].isspace() else ""
+
+
 def batch_nll_inputs(tok, prompts, targets, device):
     ids, labels = [], []
     for p, t in zip(prompts, targets):
         pi = tok(p, add_special_tokens=False)["input_ids"]
-        ti = tok(p + t, add_special_tokens=False)["input_ids"][len(pi):]
+        ti = tok(p + answer_sep(tok, p) + t, add_special_tokens=False)["input_ids"][len(pi):]
         ids.append(pi + ti)
         labels.append([-100] * len(pi) + ti)
     T = max(map(len, ids))

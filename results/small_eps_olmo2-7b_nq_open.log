@@ -1,0 +1,10 @@
+Loading weights:   0%|          | 0/355 [00:00<?, ?it/s]Loading weights:   1%|▏         | 5/355 [00:00<00:07, 47.62it/s]Loading weights:  14%|█▎        | 48/355 [00:00<00:01, 256.67it/s]Loading weights:  26%|██▌       | 92/355 [00:00<00:00, 331.84it/s]Loading weights:  39%|███▊      | 137/355 [00:00<00:00, 369.37it/s]Loading weights:  51%|█████     | 181/355 [00:00<00:00, 393.27it/s]Loading weights:  63%|██████▎   | 225/355 [00:00<00:00, 407.91it/s]Loading weights:  76%|███████▌  | 269/355 [00:00<00:00, 417.13it/s]Loading weights:  88%|████████▊ | 313/355 [00:00<00:00, 423.19it/s]Loading weights: 100%|██████████| 355/355 [00:00<00:00, 390.00it/s]
+[olmo2-7b] gold            eps 0.01: n=120 hit 0.142 (42s)
+[olmo2-7b] gold            eps 0.02: n=120 hit 0.283 (84s)
+[olmo2-7b] gold            eps 0.03: n=120 hit 0.442 (126s)
+[olmo2-7b] sampled_wrong   eps 0.01: n=116 hit 0.474 (168s)
+[olmo2-7b] sampled_wrong   eps 0.02: n=116 hit 0.621 (211s)
+[olmo2-7b] sampled_wrong   eps 0.03: n=116 hit 0.810 (252s)
+[olmo2-7b] random          eps 0.01: n=120 hit 0.000 (294s)
+[olmo2-7b] random          eps 0.02: n=120 hit 0.000 (336s)
+[olmo2-7b] random          eps 0.03: n=120 hit 0.033 (378s)

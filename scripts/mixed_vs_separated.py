@@ -24,7 +24,7 @@ from sklearn.preprocessing import StandardScaler
 
 sys.path.insert(0, os.path.dirname(__file__))
 from go_nogo import build_prompt, generate, is_correct, load_model, normalize  # noqa: E402
-from correctability_pilot import batch_nll_inputs, generate_with, optimize_delta  # noqa: E402
+from correctability_pilot import answer_sep, batch_nll_inputs, generate_with, optimize_delta  # noqa: E402
 
 MODELS = {
     "llama3.2-3b": ("meta-llama/Llama-3.2-3B-Instruct", "small"),
@@ -69,7 +69,8 @@ def teacher_forced_mean(model, tok, prompts, answers, layers, bs):
     """Returns (mean-over-answer-token states at `layers` (N, len(layers), H), mean answer-token log-prob (N,))."""
     out, lps = [], []
     for s in range(0, len(prompts), bs):
-        P, A = prompts[s:s + bs], answers[s:s + bs]
+        P = prompts[s:s + bs]
+        A = [answer_sep(tok, p) + a for p, a in zip(P, answers[s:s + bs])]
         n_ans = [max(1, len(tok(p + a, add_special_tokens=False)["input_ids"]) -
                      len(tok(p, add_special_tokens=False)["input_ids"])) for p, a in zip(P, A)]
         enc = tok([p + a for p, a in zip(P, A)], return_tensors="pt", padding=True,
