@@ -1,103 +1,70 @@
-# Detectable, Not Correctable: Hallucination Signals vs Internal Edits in LLMs
+# Activation drift for choosing a recovery strategy
 
+We are studying whether a language model's initial activations can tell us
+**which recovery strategy is likely to help**: retrieve more evidence, reason
+again, filter evidence, or keep the current answer.
 
-## The claim
+The current direction is to learn how strategies change activations, then match
+those changes to the model's activation drift. We want to do this without
+training the strategy chooser on labels saying which mitigation succeeded.
+Offline calibration runs are still needed to measure strategy effects.
 
-> Language models carry an internal signal that they are about to hallucinate, but editing their internal
-> activations cannot reliably fix the hallucination: a small edit reaches the model's own **plausible wrong
-> answers** as easily as, or more easily than, the **true** answer. Internal edits track plausibility, not
-> truth. That is why steering fails, and why "steering recovers the answer" is weak evidence that a model
-> "secretly knows" it.
+**Current status: the experiments are complete, but reliable selection from
+activation drift has not been demonstrated.** Repeatable average strategy
+changes are measurable; they are not yet established repair directions.
 
-What does help is modest and works on the model's outputs, not its activations: when the detector fires,
-choose among the model's own sampled answers, or abstain (Path B, one section of the paper).
+## Start here
 
-## Paper outline and evidence so far
+- [Results and what they mean](RESULTS.md)
+- [Current method and code](experiments/activation_drift/README.md)
+- [Proposed next experiment](NEXT_EXPERIMENT.md) — not yet implemented or run
+- [How to reproduce](REPRODUCE.md)
 
-All tests are pre-registered (`docs/prereg_*.md`, committed before the data existed) and scored on held-out
-questions with paired-bootstrap 95% CIs. Models: 5 small (Llama-3.2-3B, Qwen2.5-3B, OLMo-2-1B, Granite-3.1-2B,
-SmolLM2-1.7B) and 5 large (Llama-3.1-8B, Qwen2.5-7B, OLMo-2-7B, Granite-3.1-8B, Mistral-7B-v0.3), all instruct.
+## Completed comparisons
 
-| # | Finding | Evidence (TriviaQA) | Pre-registration |
-|---|---|---|---|
-| 1 | **Hallucination is detectable internally**, before the answer is written | Probe AUROC 0.73–0.80 across 10 models, peaking around mid-depth | `prereg_go_nogo.md`, `prereg_mixed_vs_separated.md` |
-| 2 | **Fixed steering does not correct it** | 5 methods (CAA mean/last-token, probe direction, gold-vs-wrong contrastive, ITI), with and without detector gating: best +0.9 pts, CI [−0.2, +2.2] | `prereg_steering_v2.md` |
-| 3 | **Corrective edits are question-specific** | Per-question edits that fix an answer are nearly orthogonal across questions (cos ≈ 0.01–0.16); their mean transfers at 4–13% of the per-question rate (all 10 models). A learned state→edit corrector gives +1.3 pts, CI [−0.2, +3.1], no better than LoRA | `prereg_correctability_pilot.md`, `prereg_corrector_stage1.md` |
-| 4 | **Edits reach plausible answers, not true ones** (headline) | At 5% of activation norm, the model's own sampled wrong answer is reached as often as or more often than gold in **10/10** models (significantly more often in 7/10); unrelated answers are hard (1–12% in 8 models, higher only in the large OLMo/Granite) | `prereg_type_control.md` |
-| 5 | **No scale effect from 1B to 8B** | Small vs large: detection p = 0.42, knows-fraction p = 0.21, edit transfer p = 0.66; all 10 models "mixed" | `prereg_mixed_vs_separated.md` |
-| 6 | **Correct and wrong answers separate better after answering** | Answer-level probe 0.79–0.87 vs question-level 0.73–0.80, 10/10 models | `prereg_mixed_vs_separated.md` |
-| 7 | **What helps (Path B):** detector-gated selection among the model's own samples | Beats greedy in 6/9 held-out models (+0.8 to +2.7 pts); higher selective accuracy at matched coverage 8–9/9; no reliability gain over calibrated abstention | `prereg_generate_then_select.md` |
+| Experiment | Question | Finding |
+|---|---|---|
+| Supervised recovery selection | Do initial activations improve prediction of labelled strategy gains? | Improved over behavioral features on Qwen; no replicated gain on Phi |
+| Activation-drift selection | Can predicted strategy movements identify a useful remedy without strategy-success labels? | Improved over keeping the initial answer, but did not establish an advantage over strong fixed-strategy controls |
 
-## To do before submission
+The models were Qwen2.5-7B-Instruct and Phi-3.5-mini-instruct on HotpotQA
+*distractor*. Recovery selection used 2,000 matched test questions per model;
+the later drift study used 1,000 fresh test questions per model. Details,
+confidence intervals and limits are in [RESULTS.md](RESULTS.md).
 
-| Item | Status |
-|---|---|
-| Second dataset (NQ-Open) for findings 1, 4, 5, 6, 7 | **done**: findings 1, 4, 5, 6 replicate (headline: sampled-wrong significantly easier than gold in 9/10, tie in 1; all 10 mixed; answer-level > question-level 9/10; no scale effect). Finding 7 does **not** replicate (selection beats greedy significantly in only 2/9). Results in `results/nq/` |
-| Audit the answer check (containment) with an LLM judge on a few hundred answers | **done** (`prereg_judge_audit.md`, `results/judge_audit/`): containment agrees with a Qwen2.5-7B judge on 94% of TriviaQA and 88% of NQ-Open answers (kappa 0.88 / 0.69); 5–18% of "sampled wrong" targets are actually correct paraphrases. After dropping every target either judge calls correct, the headline still holds in 10/10 models on both datasets |
-| Same-type control at a smaller edit size for the large models (they hit the ceiling at ε = 0.05) | not started |
-| Models above 8B (needs the cluster or quantization) | optional |
-| One-page summary for the advisor, then a paper draft | not started |
-| Related-work positioning (see `docs/related_work_2026-09-29.md`) | done; to be written up |
+## What is in this branch
 
-## Path B (method paper) and why it is not the headline
-
-A detector-gated generate-then-select method with calibrated abstention. It works but gains only 1–3 points
-against 10–18 points of headroom (a correct answer is among the samples that much more often than greedy is
-right), so it supports the analysis rather than carrying the paper.
-
-## How the project got here
-
-The project began as "the layer that best detects a hallucination differs from the layer where steering best
-corrects it". Re-running it with gold-answer scoring and held-out tests showed that steering does not correct
-hallucinations at any layer (finding 2), so there is no correction layer to compare. That led to the per-question
-edit analysis (finding 3), the 10-model sweep (findings 5–7) and the same-type control (finding 4), which gives
-the current claim. Each step's pre-registration and result is in `docs/` and the git history.
-
-## Layout
-
-```
-scripts/
-  go_nogo.py              detection layer + mean-difference steering sweep (Llama-3.2-3B, finding 1-2)
-  steering_v2.py          5 steering methods, detector-gated variants (finding 2)
-  correctability_pilot.py per-question gradient edits by layer, random-answer control (finding 3)
-  corrector_stage1.py     learned state->edit corrector vs fixed vector vs LoRA (finding 3)
-  mixed_vs_separated.py   10-model sweep: detection, knows-fraction, edit structure, answer-level probe,
-                          saves scores for Path B (--dataset triviaqa | nq_open)
-  type_control.py         gold vs model-plausible wrong answers vs random (finding 4)
-  path_b.py               generate-then-select with calibrated abstention (finding 7), CPU only
-  clean_notebook.py       strip outputs and scan notebooks for secrets before committing
-docs/
-  prereg_*.md             one pre-registration per experiment, with logged deviations
-  related_work_*.md       what is already published, framing by framing
-  method_design.md        the learned-corrector design (tested in stage 1, not the paper's method)
-  notebook_inventory.md   the original Colab notebooks and where they came from
-results/                  per-experiment outputs (JSON, logs, figures); large arrays are git-ignored
-notebooks/                original Colab notebooks, outputs stripped and credentials redacted
-src/facr/, scripts/run_experiment.py, tests/   the earlier pipeline (token-F1 labels, fixed alpha); kept for
-                          reference, superseded by the scripts above
+```text
+experiments/
+  activation_drift/     Current direction-based experiment and tests
+  recovery_scale/       Earlier supervised comparison and tests
+  recovery_help/        Shared prompts, capture, scoring and budget allocation
+  paths.py              Configurable paths and pinned model/data versions
+  prepare.py            Restore the exact recorded cohorts and freeze run sources
+results/
+  activation_drift/     Recorded summary, figure and cohort IDs
+  recovery_scale/       Recorded summary, figure, cohort IDs and model checksums
+  recovery_pilot/       Prior cohort exclusions and independent scorer checksum
 ```
 
-## Reproduce
+Raw activations, model weights, fitted predictors and generated answers are kept
+outside Git. The small committed result files let readers inspect the findings;
+full reproduction needs the dependencies, data and GPU runs described in
+[REPRODUCE.md](REPRODUCE.md).
 
-```bash
-pip install -r requirements.txt
-export HF_TOKEN=...                       # needs access to the gated Llama models
+## Next scientific question
 
-python scripts/go_nogo.py                                   # finding 1-2 base data (Llama-3.2-3B)
-python scripts/steering_v2.py                               # finding 2
-python scripts/mixed_vs_separated.py --key llama3.1-8b      # one model of the sweep (see MODELS in the script)
-python scripts/mixed_vs_separated.py --aggregate
-python scripts/type_control.py --key llama3.1-8b
-python scripts/type_control.py --aggregate
-python scripts/path_b.py
-```
+For matched clean, missing-evidence and distractor versions of the same question,
+does a remedy reverse the failure-associated activation change, and does that
+reversal track actual answer repair? Establish that relationship before learning
+a predictor that must work from a single initial execution. The
+[next-experiment document](NEXT_EXPERIMENT.md) specifies the controls and the
+conditions under which we should stop or proceed.
 
-Everything runs on one 24 GB GPU (RTX 4090); 8B models need about 20 GB free. Every stage caches its
-outputs, so a crashed run resumes. Layer index k means the output of transformer block k−1
-(`hidden_states` convention). Labels: an answer is correct if any accepted gold answer appears in it
-after normalization.
+## Earlier detection and steering work
 
-## Security
-
-Never commit tokens. `.env` is git-ignored. Run `python scripts/clean_notebook.py <nb> --check` on any
-notebook before committing it.
+The repository's existing `scripts/`, `src/`, notebooks and older results contain
+the earlier detection/steering study that motivated this project. Its
+[previous overview](https://github.com/samhithaharish/hallucination-mitigation-in-activation-space/blob/04f07bd349e0fd188525bc068d1b3976fcced3d5/README.md)
+remains available in history. The current experiment does not establish a
+causal faulty layer, a universal repair direction, or universal irrecoverability.

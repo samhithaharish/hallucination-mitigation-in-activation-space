@@ -1,0 +1,16 @@
+# Versions recorded for the recovery and activation-drift experiments.
+# Python 3.12; CUDA is needed for model collection, not for the unit tests.
+torch==2.11.0
+transformers==5.9.0
+vllm==0.22.0
+numpy==2.3.5
+scipy==1.17.1
+scikit-learn==1.9.0
+joblib==1.5.3
+pyarrow==24.0.0
+sentence-transformers==5.5.1
+matplotlib==3.11.1
+pytest==9.1.1
+huggingface_hub
+accelerate
+sentencepiece

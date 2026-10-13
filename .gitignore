@@ -16,3 +16,11 @@ __pycache__/
 hf_token*
 notebooks/archive/*.ipynb
 results/cache/
+
+# New experiment outputs and downloaded assets
+runs/
+.cache/
+.pytest_cache/
+*.joblib
+*.pkl
+*.parquet
