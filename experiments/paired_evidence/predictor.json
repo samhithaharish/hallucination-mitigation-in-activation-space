@@ -1,1 +1,1 @@
-{"alpha": 10.0, "features": "state", "kind": "ridge"}
+{"alpha": 100.0, "features": "state", "kind": "ridge"}
