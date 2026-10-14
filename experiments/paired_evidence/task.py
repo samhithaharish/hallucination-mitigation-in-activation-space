@@ -53,15 +53,18 @@ def build_case(raw, fillers, seed=20261013):
     clean=support+neutral
     missing=copy.deepcopy(clean)
     removed=int(rng.integers(2))
-    missing[removed]=limited(fillers[8],len(support[removed]['text'].split()))
+    replacement=limited(fillers[8],len(support[removed]['text'].split()))
+    missing[removed]=replacement
     noisy=support+distractors
+    pool=paragraphs+neutral+[replacement,limited(fillers[9])]
+    pool=[pool[int(i)] for i in rng.permutation(len(pool))]
     versions={name:{'id':raw['id'],'question':raw['question'],
                    'current':[copy.deepcopy(items[int(i)]) for i in order],
-                   'candidates':copy.deepcopy(paragraphs)}
+                   'candidates':copy.deepcopy(pool)}
               for name,items in zip(CONDITIONS,(clean,missing,noisy))}
     return {'id':raw['id'],'question':raw['question'],'answer':raw['answer'],
             'removed_title':support[removed]['title'],
-            'support_titles':list(required),'versions':versions}
+            'support_titles':list(required),'filler_titles':[p['title'] for p in fillers[:10]],'versions':versions}
 
 
 def evidence(paragraphs):

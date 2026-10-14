@@ -31,7 +31,7 @@ def test_conditions_preserve_question_and_complete_support_without_public_labels
     for name,public in case['versions'].items():
         assert public['question']==r['question'] and len(public['current'])==10
         assert set(public)=={'id','question','current','candidates'}
-        assert len(public['candidates'])==10
+        assert len(public['candidates'])==20
         assert len({p['title'] for p in public['current']})==10
         support=set(p['title'] for p in public['current'])&{'A','B'}
         assert len(support)==(1 if name=='missing' else 2)
@@ -84,3 +84,14 @@ def test_focus_preserves_every_passage_and_moves_selected_evidence_to_end():
     assert result[-2:]==selected
     assert sorted((p['title'],p['text']) for p in result)==sorted((p['title'],p['text']) for p in e['current'])
     assert len({p['title'] for p in result})==10
+
+
+def test_candidate_membership_and_order_do_not_reveal_the_condition():
+    t=module();case=t.build_case(raw(),fillers(),8)
+    pools=[v['candidates'] for v in case['versions'].values()]
+    assert all(pool==pools[0] for pool in pools)
+    assert len(pools[0])==20
+    pool={p['title']:p for p in pools[0]}
+    for version in case['versions'].values():
+        assert sum(p['title'] in pool for p in version['current'])==10
+        assert all(p==pool[p['title']] for p in version['current'])

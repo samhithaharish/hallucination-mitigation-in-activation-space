@@ -20,6 +20,7 @@ def execute(cases,generate,decide=None):
     if decide is not None:
         decide(baseline['states'].reshape(len(cases),3,*baseline['states'].shape[1:]),
                prompts,baseline['confidence'])
+    mitigation_start=time.time()
     flat=[{'condition':condition,'actions':[]} for _ in cases for condition in CONDITIONS]
     allstates=[]; selection_result=None; selected=None
     for action in ACTIONS:
@@ -51,7 +52,7 @@ def execute(cases,generate,decide=None):
                 record['aux']={k:aux[k][i] for k in ('texts','prompt_ids','output_ids','input_tokens','output_tokens')}
             row['actions'].append(record)
     states=np.stack(allstates,axis=1).reshape(len(cases),3,len(ACTIONS),*baseline['states'].shape[1:])
-    rows=[{'id':case['id'],'versions':flat[3*i:3*i+3]} for i,case in enumerate(cases)]
+    rows=[{'id':case['id'],'mitigation_start_time_unix':mitigation_start,'versions':flat[3*i:3*i+3]} for i,case in enumerate(cases)]
     return states,rows
 
 
@@ -118,7 +119,8 @@ def collect(key,splits,batch_size=8,predictor=None):
             chunk=raw[start:start+batch_size]
             def decide(states,texts,confidence):
                 if predictor is None:return
-                prediction=predictor.predict(states,texts,np.array(confidence).reshape(len(chunk),3,4))
+                public=[r['versions'][c] for r in chunk for c in CONDITIONS]
+                prediction=predictor.predict(states,texts,np.array(confidence).reshape(len(chunk),3,4),public=public)
                 predpath=root/f'predictions_{start:05d}.npz'
                 if predpath.exists():raise ValueError('Orphan predictions: preserve before restarting in a new run')
                 np.savez_compressed(predpath,**prediction)
@@ -128,7 +130,7 @@ def collect(key,splits,batch_size=8,predictor=None):
             temporary=npz.with_suffix('.npz.tmp')
             with temporary.open('wb') as f:np.savez_compressed(f,states=states)
             temporary.replace(npz)
-            dump(path,{'fingerprint':fingerprint,'states_sha256':file_digest(npz),'rows':rows,'completed_time_unix':time.time()})
+            dump(path,{'fingerprint':fingerprint,'states_sha256':file_digest(npz),'rows':rows,'mitigation_start_time_unix':rows[0]['mitigation_start_time_unix'],'completed_time_unix':time.time()})
             print(json.dumps({'model':key,'split':split,'done':start+len(chunk),'total':len(raw),
                               'seconds':round(time.monotonic()-started,1)}),flush=True)
         dump(root/'complete.json',{'n':len(raw),'seconds_this_run':time.monotonic()-started})

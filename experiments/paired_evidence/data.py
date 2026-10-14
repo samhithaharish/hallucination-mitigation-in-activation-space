@@ -1,5 +1,6 @@
 """Fresh base-question splits; every controlled version stays with its base."""
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import numpy as np
@@ -11,7 +12,7 @@ from .task import build_case, valid_support
 
 OUT=RUNS/'paired_evidence'
 COUNTS={'calibration':32,'pilot':200,'train':400,'validation':100,'test':800,'natural':200}
-SEED=20261013
+SEED=20261014
 
 
 def prepare():
@@ -27,6 +28,9 @@ def prepare():
     excluded=set()
     for path in [REPO/'results'/n/'cohorts.json' for n in ('recovery_pilot','recovery_scale','activation_drift')]:
         m=json.loads(path.read_text());excluded.update(i for ids in m['ids'].values() for i in ids)
+    qualification=REPO/'results/paired_evidence/qualification_cohorts.json'
+    if qualification.exists():
+        m=json.loads(qualification.read_text());excluded.update(i for ids in m['ids'].values() for i in ids)
     excluded_questions={normalize(r['question']) for r in rows if r['id'] in excluded}
     eligible=[r for r in rows if r['id'] not in excluded and normalize(r['question']) not in excluded_questions
               and len(set(r['supporting_facts']['title']))==2 and len(set(r['context']['title']))==10
@@ -46,22 +50,26 @@ def prepare():
         embargo.update(t for r in selected for t in r['supporting_facts']['title'])
     # Filler passages come from a disjoint background pool, never from test bases.
     background=[r for r in eligible if r['id'] not in used]
+    context_embargo={t for rr in split_raw.values() for r in rr for t in r['context']['title']}
     filler_pool=[];seen_titles=set()
     for r in background:
         for title,ss in zip(r['context']['title'],r['context']['sentences']):
             words=' '.join(ss).split()
-            if title not in seen_titles and title not in embargo and len(words)>=180:
+            if title not in seen_titles and title not in context_embargo and len(words)>=180:
                 filler_pool.append({'title':title,'text':' '.join(words[:180])});seen_titles.add(title)
         if len(filler_pool)>=5000:break
     if len(filler_pool)<100:raise ValueError('Insufficient independent filler passages')
+    split_names=tuple(COUNTS)
+    filler_folds={name:[p for p in filler_pool if split_names[int(hashlib.sha256(p['title'].encode()).hexdigest()[:8],16)%len(split_names)]==name] for name in split_names}
+    if min(map(len,filler_folds.values()))<100:raise ValueError('Insufficient disjoint filler pools')
     ids={};hashes={}
     for split,raw in split_raw.items():
-        cases=[]
+        cases=[];split_fillers=filler_folds[split]
         for j,r in enumerate(raw):
             q=set(tokens(r['question'])); blocked=set(r['context']['title'])
-            choices=rng.permutation(len(filler_pool));fillers=[]
+            choices=rng.permutation(len(split_fillers));fillers=[]
             for k in choices:
-                p=filler_pool[int(k)]
+                p=split_fillers[int(k)]
                 if p['title'] in blocked or len(q&set(tokens(p['title'])))>1:continue
                 fillers.append(p);blocked.add(p['title'])
                 if len(fillers)==10:break
@@ -70,7 +78,7 @@ def prepare():
         ids[split]=[r['id'] for r in cases];hashes[split]=file_digest(OUT/'data'/f'{split}.json')
         if split=='natural':dump(OUT/'data'/'natural_original.json',raw)
     manifest={'seed':SEED,'counts':COUNTS,'ids':ids,'hashes':hashes,
-              'excluded_previous_ids':len(excluded),'support_title_disjoint':True,
+              'excluded_previous_ids':len(excluded),'support_title_disjoint':True,'filler_title_disjoint':True,'candidate_pool':'same shuffled union of source and filler articles in all conditions',
               'source_hashes':{p.name:file_digest(p) for p in sorted(CORPUS.glob('train-*.parquet'))}}
     dump(manifest_path,manifest)
     print(json.dumps({k:v for k,v in manifest.items() if k not in ('ids','source_hashes')},indent=2))
