@@ -97,7 +97,10 @@ The learned strategy policy chooses the largest predicted reduction
 
 Validation error is the mean squared Euclidean displacement error; keep has
 score zero. This is a conservative heuristic, not a probability of successful
-repair. A separate condition policy uses the nearest condition coordinate and
+repair. The frozen model also predicts sham/empty control moves with the same
+configuration and saves its choices if those controls were allowed. These moves
+are excluded from the search metric and deployed policy, and reported separately
+to test whether the learned score also rewards information deletion. A separate condition policy uses the nearest condition coordinate and
 the predefined map clean→keep, missing→retrieve, distractor→keep. The independent v3
 pilot supported retrieval for missing evidence but did not establish a focus
 benefit, so this sparse mapping was fixed before fitting or observing final test

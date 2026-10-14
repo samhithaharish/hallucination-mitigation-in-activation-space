@@ -42,3 +42,18 @@ def test_policy_uses_initial_states_and_is_equivariant_to_condition_order():
     shuffled=p.predict(h[60:,order,0])
     np.testing.assert_array_equal(shuffled['choices'],result['choices'][:,order])
     np.testing.assert_allclose(shuffled['scores'],result['scores'][:,order],atol=1e-6)
+
+
+def test_empty_control_is_audited_without_changing_the_search_objective():
+    f=module();h=synthetic()
+    h[:,1,1,0,0]=.5;h[:,2,3,0,1]=.5
+    h[:,:,5,:,:2]=0
+    c=f.Coordinates(components=2).fit(h[:60,:,0],h[60:,:,0])
+    p=f.Directions(c,kind='ridge',alpha=.01).fit(h[:60],h[60:])
+    pred=p.predict(h[60:,:,0])
+    assert (pred['choices']<4).all()
+    assert (pred['control_choices'][:,1:]==5).all()
+    changed=h.copy();changed[:,:,5,0,:2]=2.
+    other=f.Directions(c,kind='ridge',alpha=.01).fit(changed[:60],changed[60:])
+    assert p.details['validation_activation_nmse']==other.details['validation_activation_nmse']
+    np.testing.assert_array_equal(pred['choices'],other.predict(h[60:,:,0])['choices'])

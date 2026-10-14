@@ -49,7 +49,7 @@ def report():
           acceptance['strategy_fields_add_value'] else 'did not establish added value over the condition rule on both backbones.'), '',
         'Each backbone: 400 training, 100 validation, 800 fresh test base questions; '
         'three paired versions per base (2,400 test inputs). The 200-base pilot is separate. '
-        'All test decisions were saved before any mitigation preprocessing. No mitigation-success '
+        'The benchmark weights the three conditions equally, not by natural failure prevalence. All test decisions were saved before any mitigation preprocessing. No mitigation-success '
         'labels were used for fitting or model selection.', '',
         '## Test answer F1 (%)', '',
         '| Backbone | Keep | Best always-on action | Strategy changes | Condition rule | Public input | Confidence |',
@@ -98,7 +98,10 @@ def report():
         g=r['oracle_same_action_gap']
         lines.append('| '+key+' | '+' | '.join(percentage(g[k]) for k in
                      ('empty_maximizer_rate','empty_f1','original_bad_keep_f1'))+' |')
-    lines += ['', '## What these results establish', '',
+    lines += ['', 'The learned score with sham/empty controls allowed (diagnostic only): '+ '; '.join(
+        k+' empty selections '+str(r['learned_control_policy']['counts']['empty'])+' / '+str(r['n_versions'])
+        +', F1 '+percentage(r['learned_control_policy']['f1']) for k,r in results.items())+'.', '',
+        '## What these results establish', '',
         'The benchmark controls evidence interventions; its labels describe input conditions. '
         'They do not identify a defective layer or prove an internal failure mechanism. '
         'Natural-error transfer, other tasks, other backbones, semantic controls and stronger '

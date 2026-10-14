@@ -127,7 +127,7 @@ def frozen_predictions(key,split,collected):
         for name,value in prediction.items():
             max_difference=max(max_difference,float(np.max(np.abs(value-saved[name]))))
             np.testing.assert_allclose(value,saved[name],atol=1e-5,rtol=1e-6)
-            if name.endswith('rule') or name=='choices':np.testing.assert_array_equal(value,saved[name])
+            if name.endswith('rule') or name.endswith('choices'):np.testing.assert_array_equal(value,saved[name])
             result.setdefault(name,[]).append(saved[name])
         start+=n
     return {k:np.concatenate(v) for k,v in result.items()},{'n_bases':start,'max_reload_difference':max_difference,'all_choices_precede_actions':True}
@@ -175,6 +175,7 @@ def evaluate(key,split='pilot',draws=4000):
         'note':'Oracle gap uses clean counterparts and actual action states; it is not a deployable selector.'}
     if split=='test':
         predictions,audit=frozen_predictions(key,split,data)
+        result['learned_control_policy']=stats(f1,em,tokens,predictions['control_choices'])
         selected_f1=f1[:,:,:SELECTABLE];selected_em=em[:,:,:SELECTABLE];selected_tokens=tokens[:,:,:SELECTABLE]
         best=int(f1.mean((0,1)).argmax())
         policies={}

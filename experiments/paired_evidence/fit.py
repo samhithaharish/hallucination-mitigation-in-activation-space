@@ -147,7 +147,7 @@ class Directions:
         x,z=self.coordinates.transform(train[:,:,0]);vx,vz=self.coordinates.transform(validation[:,:,0])
         inputs,vinputs=self.inputs(x,z),self.inputs(vx,vz)
         self.operators=[None];self.means=[np.zeros(2)];errors=[0.];nmse=[]
-        for action in range(1,SELECTABLE):
+        for action in range(1,len(ACTIONS)):
             delta=(self.coordinates.transform(train[:,:,action])[1]-z).reshape(-1,2)
             vd=(self.coordinates.transform(validation[:,:,action])[1]-vz).reshape(-1,2)
             mean=delta.mean(0);self.means.append(mean)
@@ -155,7 +155,8 @@ class Directions:
             prediction=np.broadcast_to(mean,vd.shape) if operator is None else operator.predict(vinputs)
             squared=(prediction-vd)**2
             errors.append(float(squared.sum(1).mean()))
-            nmse.append(float(np.mean(squared/np.maximum(delta.var(0),.01))))
+            if action<SELECTABLE:
+                nmse.append(float(np.mean(squared/np.maximum(delta.var(0),.01))))
             self.operators.append(operator)
         self.penalty=np.array(errors)
         self.details={'kind':self.kind,'alpha':self.alpha,'features':self.features,
@@ -166,14 +167,15 @@ class Directions:
         x,z=self.coordinates.transform(states);shape=z.shape[:-1]
         inputs=self.inputs(x,z)
         moves=[np.zeros_like(z)]
-        for action in range(1,SELECTABLE):
+        for action in range(1,len(ACTIONS)):
             op=self.operators[action]
             movement=np.broadcast_to(self.means[action],z.shape) if op is None else op.predict(inputs).reshape(*shape,2)
             moves.append(movement)
         moves=np.stack(moves,axis=-2)
         score=np.sum(z*z,axis=-1)[...,None]-np.sum((z[...,None,:]+moves)**2,axis=-1)-self.penalty
         labels=np.sum((z[...,None,:]-CODES)**2,axis=-1).argmin(-1)
-        result={'scores':score,'choices':score.argmax(-1),'risk':np.sum(z*z,axis=-1),
+        result={'scores':score[...,:SELECTABLE],'choices':score[...,:SELECTABLE].argmax(-1),
+                'control_scores':score,'control_choices':score.argmax(-1),'risk':np.sum(z*z,axis=-1),
                 'coordinates':z,'class_rule':CONDITION_ACTIONS[labels]}
         if texts is not None and confidence is not None:
             result['observable_rule']=self.observable.predict(texts,confidence,public).reshape(shape)
