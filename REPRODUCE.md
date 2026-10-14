@@ -1,7 +1,7 @@
 # Running the current experiments
 
 The older recovery/drift results are from their completed original runs. The
-paired-evidence study is a newly executed GPU experiment with frozen hashes
+paired-evidence and response-policy studies are newly executed GPU experiments with frozen hashes
 and decision timing audits. Raw generations, activation arrays, fitted models and training logs
 are not committed. Reconstructing their numerical analyses requires collecting
 those artifacts again, or obtaining the original artifacts with their original
@@ -135,6 +135,90 @@ Raw artifacts stay below the run root. Compact exports go to
 `results/paired_evidence`; use a separate checkout to retain published results.
 [Method and controls](experiments/paired_evidence/README.md).
 
+## Error-risk and fixed clean-reference follow-up
+
+Reuse the completed paired run's train/validation executions and coordinates.
+Start from a clean experiment checkout. If you have just regenerated the paired
+report, commit those result exports on your reproduction branch before fitting.
+Model fitting refuses uncommitted source/result changes.
+
+```bash
+export PAIRED_RUN_ROOT="$ACTIVATION_RUNS"
+export ACTIVATION_RUNS="$PWD/runs/error_reproduction"
+python -m experiments.error_field.data --source "$PAIRED_RUN_ROOT/paired_evidence"
+python -m experiments.error_field.fit
+python -m experiments.error_field.reference
+```
+
+The first fit uses baseline-answer correctness and activation logit transitions;
+the second adds the paired clean-state policy without changing the first policy.
+Both compare 13 configurations using validation activation-derived error only.
+No strategy-success labels select their learned parameters. The new 800-base test
+cohort excludes all prior question IDs and source v3 candidate-pool titles for
+supports/fillers. See the method for the narrower older-title exclusion scope.
+
+If reproducing the secondary budget check, register it **before either test
+collector completes**. Use a fresh output directory so the published registration
+is preserved:
+
+```bash
+export RETRIEVAL_BUDGET_RESULTS="$ACTIVATION_RUNS/retrieval_budget_results"
+python -m experiments.retrieval_budget.evaluate --freeze
+```
+
+The output override is a post-run packaging improvement; original registrations
+and their hashes are retained unchanged. Keep this variable set while scoring
+and reporting the secondary study.
+
+```bash
+CUDA_VISIBLE_DEVICES=0 python -m experiments.paired_evidence.collect --model qwen7b --splits test --predictor "$ACTIVATION_RUNS/paired_evidence/qwen7b/fitted/best.joblib"
+CUDA_VISIBLE_DEVICES=1 python -m experiments.paired_evidence.collect --model phi35 --splits test --predictor "$ACTIVATION_RUNS/paired_evidence/phi35/fitted/best.joblib"
+python -m experiments.error_field.evaluate --model qwen7b
+python -m experiments.error_field.evaluate --model phi35
+python -m experiments.error_field.report
+python -m experiments.error_field.diagnose --model qwen7b
+python -m experiments.error_field.diagnose --model phi35
+python -m experiments.error_field.diagnose --report
+```
+
+The diagnostic uses actual post-action states and a separately named actual-clean
+oracle. It is descriptive and cannot be used as a single-input policy. Its
+additional public/confidence budget controls were added posthoc; the original
+acceptance decisions are not changed. Its report derives values from JSON rather
+than embedding this run's numbers.
+
+For the secondary report, score both original exploratory and fresh cohorts:
+
+```bash
+ACTIVATION_RUNS="$PAIRED_RUN_ROOT" python -m experiments.retrieval_budget.evaluate --model qwen7b --label exploration
+ACTIVATION_RUNS="$PAIRED_RUN_ROOT" python -m experiments.retrieval_budget.evaluate --model phi35 --label exploration
+python -m experiments.retrieval_budget.evaluate --model qwen7b --label replication
+python -m experiments.retrieval_budget.evaluate --model phi35 --label replication
+python -m experiments.retrieval_budget.report
+```
+
+A fresh reconstruction may reproduce the protocol and cohort IDs without being
+an independent scientific replication: the published outcomes are already known.
+A new hypothesis test requires an independently reserved cohort and new record.
+
+### Replaying the recorded local artifacts
+
+The published branch includes a search-initialization fix and result-path override
+made **after** the experiments. Source guards correctly refuse those changed
+files against the original frozen artifacts. Do not rewrite provenance hashes.
+For exact original analysis, use a separate checkout of the recorded sources:
+
+- Response-policy scoring: commit `2390f595eed958fa6d65dfa849096fecebb407b1`.
+- Secondary budget scoring with its registration file: commit
+  `3864ba7` (the registered analysis sources are from `4ab3b57`).
+- The paired run's frozen source checkpoint is recorded in
+  `results/paired_evidence/provenance.json`.
+
+Set ACTIVATION_RUNS to the existing artifact root in that checkout. Replaying
+requires the original ignored generations/states/models; the committed compact
+JSON files alone do not reconstruct them. Fresh runs on the current published
+source freeze their own matching hashes and can use the current commands above.
+
 ## Earlier supervised recovery study
 
 With the same environment and prepared assets:
@@ -154,7 +238,8 @@ collects two 128-question repeats, and audits. Outputs appear under
 - Current drift experiment, supervised comparison, and their required helpers/tests.
 - Recorded summary metrics and one figure per study.
 - Cohort IDs/checksums, pinned model identities and scorer provenance.
-- Completed paired-evidence study, activation-only search record and frozen provenance.
+- Completed paired-evidence and response-policy studies, activation-only search,
+  secondary registration, offline diagnostics and frozen provenance.
 
 Source calculations, prompts, action definitions and fitting grids were retained.
 Changes cover configurable paths, importable module names, restoring cohorts,

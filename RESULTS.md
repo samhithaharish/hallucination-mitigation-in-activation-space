@@ -5,8 +5,8 @@ strategy. The stronger version learns strategy effects from activation changes,
 without fitting the strategy chooser to mitigation-success labels.
 
 **That stronger claim is not established.** We have completed experiments and
-useful measurements, including negative results. The newest
-[paired-evidence experiment](results/paired_evidence/README.md) is complete.
+useful measurements, including negative results. The paired evidence study and a
+[fresh response-policy follow-up](results/error_field/README.md) are complete.
 
 ## 1. Predicting recovery from labelled examples
 
@@ -126,7 +126,62 @@ Evidence: [full paired results](results/paired_evidence/README.md),
 [comparisons](results/paired_evidence/routing_comparison.png), and
 [method](experiments/paired_evidence/README.md).
 
-## 4. Earlier causal diagnosis attempt
+## 4. Forecasting baseline-error changes and a fixed clean reference
+
+The follow-up reused the 400/100 development executions and reserved another
+800 fresh base questions, each with three paired conditions, per backbone.
+Its design and model weights were frozen before inspecting the preceding
+paired study's heldout answer-quality results. New test supporting/filler titles
+were absent from source v3 candidate pools; title disjointness from the older
+v2 qualification cohort is not guaranteed.
+
+The error-risk method fits a baseline exact-match error probe, freezes it, and
+forecasts its logit changes under each strategy. Those transition targets use
+activation states without mitigation-success labels. An alternative denoises
+the initial state toward its matched-question clean state and forecasts action
+state changes. Its fitting uses no correctness labels. Each method keeps its
+own fixed validation residual penalty and was evaluated without test refitting.
+
+| Model | Keep F1 | Error-risk policy | Clean-reference policy | Error-risk minus own-risk fixed control (pp, 95% interval) |
+|---|---:|---:|---:|---|
+| Qwen2.5-7B | 70.88 | 74.35 | 71.12 | +1.55 [+0.15, +2.11] |
+| Phi-3.5-mini | 69.66 | 71.77 | 69.93 | +1.23 [+0.12, +1.83] |
+
+The error-risk policy improves over keep, its own-risk fixed-action control,
+and shuffled routing on both models. Its gains over the public condition rule
+also have positive intervals on both. However, it does **not** beat every
+prespecified control on both models: Qwen's comparisons with the activation
+condition rule and earlier condition transitions include zero, as does Phi's
+comparison with public-feature transitions. Neither new policy passes the
+full criterion. Mean extra calls for the error-risk policy are 0.590/0.613.
+
+A secondary analysis of the simpler missing-evidence detector was recorded
+before either new collector completed, after exploratory comparisons on the
+first paired test. It matches call budgets and permits hindsight action and
+threshold selection from activation/public/confidence rankings. Its fresh
+replication failed. This does not revise the first study's primary decision.
+
+An additional **posthoc descriptive** control applies the same strong
+public/confidence budget comparison to the error-risk policy. Its differences
+from confidence-ranked fixed actions are −0.40 pp [−1.76, +0.77] on Qwen and
++0.22 pp [−0.87, +1.05] on Phi. An activation advantage over that control is
+not established. These controls were not fitted deployment policies.
+
+Offline diagnostics use actual post-action activations, unavailable to a
+single-input selector. The unpenalized baseline-error readout chooses actions
+with F1 78.67 on Qwen but only 69.86 on Phi, versus keep 70.88/69.66. Thus
+readout transport across interventions is not uniformly supported. Even with
+actual action states, the predicted-clean distance plus its fixed penalty
+chooses keep in 2,399/2,400 Qwen and 2,386/2,400 Phi inputs. The clean-reference
+objective itself limits intervention, independently of forecasting accuracy.
+These are descriptive objective checks, not deployable policy results.
+
+Evidence: [full response-policy results](results/error_field/README.md),
+[offline diagnostics](results/error_field/OFFLINE_DIAGNOSTICS.md),
+[secondary budget results](results/retrieval_budget/README.md), and
+[method/assumptions](experiments/error_field/README.md).
+
+## 5. Earlier causal diagnosis attempt
 
 An earlier controlled color/shape task tried targeted activation patches on
 Qwen-7B, Qwen-3B and Granite-2B. The learned patches rarely produced the intended

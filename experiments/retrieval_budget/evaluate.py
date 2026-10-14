@@ -2,6 +2,7 @@
 import argparse
 from datetime import datetime,timezone
 import json
+import os
 from pathlib import Path
 import subprocess
 import joblib
@@ -14,7 +15,7 @@ from experiments.paired_evidence.evaluate import (arrays,frozen_predictions,qual
 from experiments.recovery_help.data import dump,file_digest
 
 MODELS=('qwen7b','phi35')
-ROOT=REPO/'results/retrieval_budget'
+ROOT=Path(os.environ.get('RETRIEVAL_BUDGET_RESULTS',REPO/'results/retrieval_budget')).expanduser().resolve()
 CONTROLS=('vs_keep','vs_fixed_activation_gate','vs_fixed_public_gate',
           'vs_fixed_confidence_gate','vs_risk_shuffle')
 BOOTSTRAP=dict(draws=4000,seed=20261013,bins=10,unit='base_question',

@@ -42,16 +42,22 @@ hypothesis. Report success or failure as recorded, including all controls.
 
 ## Registration and execution
 
-From committed sources, with ACTIVATION_RUNS pointing to the new run root:
+From committed sources, with ACTIVATION_RUNS pointing to the new run root,
+choose a fresh output path to preserve the published registration:
 
 ```bash
+export RETRIEVAL_BUDGET_RESULTS="$ACTIVATION_RUNS/retrieval_budget_results"
 python -m experiments.retrieval_budget.evaluate --freeze
 ```
 
 This refuses registration after either new test collector completes. It saves
 UTC time, code commit, evaluator/imported helper source hashes, cohort hash,
 frozen predictor hashes and the fixed 4,000-draw/seed/bin settings in
-`results/retrieval_budget/registration.json`. The primary error-logit and
+`RETRIEVAL_BUDGET_RESULTS/registration.json` (the default is
+`results/retrieval_budget/registration.json`). Keep the override set for every
+secondary evaluation/report command. This output-path option was added after the
+recorded run; original hashes remain unchanged. For replay of its local artifacts,
+use the registered checkpoint described in the root reproduction guide. The primary error-logit and
 clean-reference studies, their source hashes, and their saved policies remain
 unchanged.
 

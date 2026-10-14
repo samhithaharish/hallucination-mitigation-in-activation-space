@@ -127,3 +127,16 @@ backbones to pass their exploratory routing criterion. There are two prespecifie
 policy claims (nominal one-sided 2.5% each via lower two-sided 95% bootstrap
 bounds); their family threshold is nominally 5%, with bootstrap approximation
 and broader iterative research caveats. Neither policy is selected by test F1.
+
+
+## Results and offline checks
+
+[Heldout results](../../results/error_field/README.md) retain both policy failures
+and the error-risk policy's improvements over keep and its own-risk fixed control.
+[Offline diagnostics](../../results/error_field/OFFLINE_DIAGNOSTICS.md) use actual
+post-action states to separate objectives/references from forecasting. Run
+`python -m experiments.error_field.diagnose --model MODEL` for both models, then
+`python -m experiments.error_field.diagnose --report`. The strong confidence-budget
+controls in that diagnostic are explicitly posthoc. They do not revise primary
+acceptance. Exact-checkpoint artifact replay is described in
+[reproduction](../../REPRODUCE.md).
