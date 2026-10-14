@@ -10,7 +10,8 @@ import joblib
 import numpy as np
 from scipy.stats import spearmanr
 from experiments.paired_evidence.data import OUT
-from experiments.paired_evidence.evaluate import arrays,frozen_predictions,quality,stats,interval
+from experiments.paired_evidence.evaluate import arrays,frozen_predictions,quality,stats,interval,matched_interval
+from experiments.retrieval_budget.evaluate import missing_margin,analysis_sources
 from experiments.recovery_help.data import dump,file_digest
 from experiments.paths import REPO
 
@@ -42,13 +43,22 @@ def diagnose(key):
             agreement_with_frozen_reference_policy=float(np.mean(choices==prediction['reference_choices'])))
     actual_gain=f1-f1[:,:,:1]
     correlation=spearmanr(q_gain[:,:,1:4].ravel(),actual_gain[:,:,1:4].ravel())
+    strong_controls={}
+    for name,extractor in (('public',model.observable),('confidence',model.confidence)):
+        inputs=extractor.features(data['texts'],data['confidence'],
+            public=data['public'] if name=='public' else None)
+        margin=missing_margin(extractor.model.predict(inputs)).reshape(shape)
+        strong_controls[name]=matched_interval(f1,prediction['choices'],margin,4000)
     result=dict(model=key,post_action_information_used=True,actual_clean_used_only_in_named_oracle=True,
         usable_for_deployment=False,acceptance_decision_changed=False,
         n_base_questions=len(cases),offline_objectives=results,
         actual_error_logit_reduction_vs_actual_f1_gain_spearman=float(correlation.statistic),
         forecast_active_error_logit_transition_mse=float(np.mean((prediction['forecast_error_logits'][:,:,1:4]-q[:,:,1:4])**2)),
+        strong_budget_controls=strong_controls,
+        strong_budget_controls_posthoc_descriptive=True,
         oracle_action_f1=float(f1[:,:,:4].max(-1).mean()),prediction_audit=audit,
-        source_sha256=file_digest(__file__),model_sha256=file_digest(OUT/key/'fitted/best.joblib'),
+        source_sha256=file_digest(__file__),source_hashes=analysis_sources(),
+        model_sha256=file_digest(OUT/key/'fitted/best.joblib'),
         time_utc=datetime.now(timezone.utc).isoformat(),
         note='Descriptive offline oracle decomposition, not a fresh policy claim or mitigation-success fitting')
     dump(REPO/'results/error_field'/f'{key}_offline_diagnostics.json',result)
