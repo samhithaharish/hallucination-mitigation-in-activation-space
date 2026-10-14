@@ -21,6 +21,7 @@ from .data import OUT
 
 MODELS = ('qwen7b', 'phi35')
 CONFIG = Path(__file__).with_name('predictor.json')
+LOADED_SOURCE_HASH = file_digest(Path(__file__))
 
 
 def command(args):
@@ -47,6 +48,8 @@ def search(wait=False):
             if time.monotonic() > deadline:
                 raise TimeoutError('Development collection did not finish')
             time.sleep(30)
+    if file_digest(Path(__file__)) != LOADED_SOURCE_HASH:
+        raise ValueError('Search source changed while queued; relaunch the committed version')
     if command(['git', 'status', '--porcelain']):
         raise ValueError('Commit existing changes before starting the loop')
     guard = [sys.executable, '-m', 'pytest', '-q']
@@ -122,6 +125,10 @@ def search(wait=False):
     summary = dict(initial_metric=initial, final_metric=best, selected_trial=best_trial,
                    kept=sum(r['status']=='keep' for r in details), trials=details, frozen=frozen,
                    action_success_labels_used=False)
+    prior = directory/'queued_grid_attempt/trials.json'
+    if prior.exists():
+        summary['aborted_queued_trials'] = json.loads(prior.read_text())
+        summary['aborted_reason'] = 'Waiting process had loaded the earlier grid; stopped before test and restarted from committed source'
     dump(directory/'summary.json', summary)
     dump(directory/'handoff.json', dict(version='2.1.0', source='loop', status='BOUNDED',
          results_tsv=str(ledger), config=dict(scope=str(CONFIG), direction='lower_is_better',

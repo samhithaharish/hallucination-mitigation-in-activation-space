@@ -121,6 +121,10 @@ def report():
         'identify fresh and excluded exploratory cohorts; search.json and provenance.json record '
         'activation-only selection and frozen source/model hashes. Raw states, generated answers and '
         'fitted objects stay in the local ignored run root.', '']
+    if search.get('aborted_queued_trials'):
+        lines += ['An earlier queued search loaded a stale trial grid and was stopped before '
+                  'heldout collection. Its attempted trials were preserved; the committed grid '
+                  'was then run afresh. Both records are included in search.json.', '']
     (root/'README.md').write_text('\n'.join(lines))
     figure(results, root)
     print(json.dumps(acceptance, indent=2))

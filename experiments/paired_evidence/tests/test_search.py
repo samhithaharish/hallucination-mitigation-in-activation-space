@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+import pytest
 
 
 def test_failed_trial_is_recorded_and_later_trials_finish(monkeypatch,tmp_path):
@@ -30,3 +31,13 @@ def test_failed_trial_is_recorded_and_later_trials_finish(monkeypatch,tmp_path):
     summary=json.loads((root/'summary.json').read_text())
     assert summary['selected_trial']=='trial_00'
     assert all((s.OUT/key/'fitted/best.joblib').exists() for key in s.MODELS)
+
+
+def test_queued_search_rejects_source_changes_before_any_git_mutation(monkeypatch):
+    from experiments.paired_evidence import search as s
+    monkeypatch.setenv('PYTHONHASHSEED','0')
+    monkeypatch.setattr(s,'LOADED_SOURCE_HASH','stale queued source',raising=False)
+    def forbidden(args):pytest.fail('Git or fitting ran despite stale queued source')
+    monkeypatch.setattr(s,'command',forbidden)
+    with pytest.raises(ValueError,match='source changed'):
+        s.search()
