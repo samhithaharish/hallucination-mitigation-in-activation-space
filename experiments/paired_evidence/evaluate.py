@@ -157,6 +157,9 @@ def evaluate(key,split='pilot',draws=4000):
     all_gap_choices=gap.argmax(-1);gap_choices=gap[:,:,:SELECTABLE].argmax(-1)
     gains=f1[:,1:]-f1[:,1:,:1]
     rho=spearmanr(gap.ravel(),gains.ravel()).statistic
+    clean_correct_bad_wrong=(em[:,0,0,None]==1)&(em[:,1:,0]==0)
+    deletion_counterexample=(clean_correct_bad_wrong&(em[:,0,5,None]==0)&(em[:,1:,5]==0)
+                            &(gap[:,:,-1]>=gap.max(-1)-1e-10))
     result={'model':key,'split':split,'n_base_questions':len(cases),'n_versions':3*len(cases),
         'fixed':{condition:{action: {'f1':float(f1[:,c,a].mean()),'em':float(em[:,c,a].mean())}
                   for a,action in enumerate(ACTIONS)} for c,condition in enumerate(CONDITIONS)},
@@ -165,6 +168,8 @@ def evaluate(key,split='pilot',draws=4000):
             'empty_choice_rate':float((all_gap_choices==ACTIONS.index('empty')).mean()),
             'empty_maximizer_rate':float(np.mean(gap[:,:,-1]>=gap.max(-1)-1e-10)),
             'empty_f1':float(f1[:,1:,-1].mean()),'original_bad_keep_f1':float(f1[:,1:,0].mean()),
+            'clean_correct_bad_wrong_pairs':int(clean_correct_bad_wrong.sum()),
+            'empty_maximizer_both_answers_wrong_counterexamples':int(deletion_counterexample.sum()),
             'gap_vs_gain_spearman':None if not np.isfinite(rho) else float(rho)},
         'crossed_remedy_contrasts':{
             'retrieve_minus_keep_missing':interval(f1[:,1,1]-f1[:,1,0],draws),

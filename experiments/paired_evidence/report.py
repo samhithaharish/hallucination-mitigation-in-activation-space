@@ -91,13 +91,16 @@ def report():
         'Transforming both a corrupted and a matched clean prompt with the same action, then minimizing '
         'their activation distance, has a deletion-collapse degeneracy. Emptying the evidence makes '
         'both prompts identical and therefore maximally closes that distance, regardless of answer truth. '
-        'This is a failure of this specific score, not a proof that all activation geometry is useless.', '',
-        '| Backbone | Empty is a gap-score maximizer (%) | Empty F1 | Original corrupted-input F1 |',
-        '|---|---:|---:|---:|']
+        'Counterexamples start with a correct clean answer and incorrect corrupted answer, yet emptying '
+        'makes both answers wrong while maximizing the gap score. This is a failure of this specific '
+        'score, not a proof that all activation geometry is useless.', '',
+        '| Backbone | Empty is a gap-score maximizer (%) | Empty F1 | Original corrupted-input F1 | Both wrong counterexamples |',
+        '|---|---:|---:|---:|---:|']
     for key,r in results.items():
         g=r['oracle_same_action_gap']
         lines.append('| '+key+' | '+' | '.join(percentage(g[k]) for k in
-                     ('empty_maximizer_rate','empty_f1','original_bad_keep_f1'))+' |')
+                     ('empty_maximizer_rate','empty_f1','original_bad_keep_f1'))+' | '+
+                     str(g['empty_maximizer_both_answers_wrong_counterexamples'])+' |')
     lines += ['', 'The learned score with sham/empty controls allowed (diagnostic only): '+ '; '.join(
         k+' empty selections '+str(r['learned_control_policy']['counts']['empty'])+' / '+str(r['n_versions'])
         +', F1 '+percentage(r['learned_control_policy']['f1']) for k,r in results.items())+'.', '',
