@@ -10,7 +10,7 @@ from experiments.recovery_help.task import extract_answer
 from experiments.paths import REPO,MODEL_PATHS
 from .data import OUT,prepare
 from .task import (CONDITIONS,ACTIONS,answer_prompt,query_prompt,selection_prompt,
-                   expand,select_passages)
+                   expand,select_passages,focus)
 
 
 def execute(cases,generate,decide=None):
@@ -21,7 +21,7 @@ def execute(cases,generate,decide=None):
         decide(baseline['states'].reshape(len(cases),3,*baseline['states'].shape[1:]),
                prompts,baseline['confidence'])
     flat=[{'condition':condition,'actions':[]} for _ in cases for condition in CONDITIONS]
-    allstates=[]
+    allstates=[]; selection_result=None; selected=None
     for action in ACTIONS:
         aux=None;valid=[True]*len(public)
         if action=='keep':result=baseline; action_prompts=prompts
@@ -29,10 +29,13 @@ def execute(cases,generate,decide=None):
             if action=='retrieve':
                 aux=generate([query_prompt(e) for e in public],capture=False)
                 paragraphs=[expand(e,q) for e,q in zip(public,aux['texts'])]
-            elif action=='filter':
-                aux=generate([selection_prompt(e) for e in public],capture=False)
-                selected=[select_passages(e,text) for e,text in zip(public,aux['texts'])]
-                paragraphs=[s[0] for s in selected];valid=[s[1] for s in selected]
+            elif action in ('filter','focus'):
+                if selection_result is None:
+                    selection_result=generate([selection_prompt(e) for e in public],capture=False)
+                    selected=[select_passages(e,text) for e,text in zip(public,selection_result['texts'])]
+                aux=selection_result; valid=[s[1] for s in selected]
+                paragraphs=([s[0] for s in selected] if action=='filter' else
+                    [focus(e,s[0]) for e,s in zip(public,selected)])
             elif action=='empty':paragraphs=[[] for _ in public]
             else:paragraphs=[e['current'] for e in public]
             action_prompts=[answer_prompt(e,p,sham=(action=='sham')) for e,p in zip(public,paragraphs)]
@@ -42,7 +45,7 @@ def execute(cases,generate,decide=None):
             record={k:result[k][i] for k in ('texts','prompt_ids','output_ids','input_tokens','output_tokens','confidence')}
             record['name']=action;record['answer']=extract_answer(record.pop('texts'))
             record['text']=result['texts'][i];record['prompt']=action_prompts[i]
-            record['calls']=0 if action=='keep' else (2 if action in ('retrieve','filter') else 1)
+            record['calls']=0 if action=='keep' else (2 if action in ('retrieve','filter','focus') else 1)
             record['selection_valid']=valid[i]
             if aux is not None:
                 record['aux']={k:aux[k][i] for k in ('texts','prompt_ids','output_ids','input_tokens','output_tokens')}

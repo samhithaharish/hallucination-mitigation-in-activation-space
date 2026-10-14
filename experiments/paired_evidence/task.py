@@ -7,7 +7,7 @@ import numpy as np
 from experiments.recovery_help.task import retrieval_scores
 
 CONDITIONS = ('clean','missing','distractor')
-ACTIONS = ('keep','retrieve','filter','sham','empty')
+ACTIONS = ('keep','retrieve','filter','focus','sham','empty')
 
 
 def limited(paragraph, n=120):
@@ -119,3 +119,8 @@ def select_passages(example, text):
     scores=retrieval_scores(example['question'],example['current'])
     rank=sorted(range(len(scores)),key=lambda i:(-scores[i],i))[:4]
     return [copy.deepcopy(example['current'][i]) for i in sorted(rank)],False
+
+
+def focus(example, selected):
+    chosen={p['title'] for p in selected}
+    return [copy.deepcopy(p) for p in example['current'] if p['title'] not in chosen]+copy.deepcopy(selected)

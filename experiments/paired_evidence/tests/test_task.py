@@ -75,3 +75,12 @@ def test_invalid_support_annotations_are_rejected_before_building_pairs():
     assert not t.valid_support(r)
     with pytest.raises(ValueError,match='support annotation'):
         t.build_case(r,fillers(),3)
+
+
+def test_focus_preserves_every_passage_and_moves_selected_evidence_to_end():
+    t=module();e=t.build_case(raw(),fillers(),3)['versions']['distractor']
+    selected=[e['current'][3],e['current'][1]]
+    result=t.focus(e,selected)
+    assert result[-2:]==selected
+    assert sorted((p['title'],p['text']) for p in result)==sorted((p['title'],p['text']) for p in e['current'])
+    assert len({p['title'] for p in result})==10

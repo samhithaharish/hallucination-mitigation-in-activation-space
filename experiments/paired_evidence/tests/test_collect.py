@@ -22,7 +22,7 @@ def test_choices_are_saved_before_any_mitigation_and_collection_has_no_success_l
     cases=[build_case(raw(),fillers(),2)]
     states,records=c.execute(cases,generator,decide)
     assert events[:3]==['answer','saved','preprocess']
-    assert states.shape==(1,3,5,6,4)
+    assert states.shape==(1,3,6,6,4)
     assert len(records)==1 and len(records[0]['versions'])==3
     for v in records[0]['versions']:
         for action in v['actions']:

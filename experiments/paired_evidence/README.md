@@ -19,8 +19,11 @@ article pool. Recovery actions receive no labels or support annotations. Retriev
 uses an LLM-written query to add up to four BM25-ranked candidate articles.
 Filtering uses an LLM to select up to four current articles; invalid selections
 fall back to a declared BM25 rule. Each active strategy uses two generations.
-Keep, a harmless instruction change, and empty evidence provide controls. Only
-keep/retrieve/filter can be selected by the policy.
+An evidence-preserving focus action moves the selected articles to the end while
+retaining every passage. Keep, a harmless instruction change, and empty evidence
+provide controls. Keep/retrieve/filter/focus can be selected by the policy. The
+filter/focus branches share their identical public passage-selection preprocessing
+during offline collection; either would cost two calls when selected alone.
 
 States are measured at the last prompt token at six fixed fractional depths,
 before any answer tokens are supplied to the measurement model. Generations use
@@ -56,3 +59,7 @@ models; evaluate.py scores outputs after method freezing. The local autoresearch
 loop is bounded to 12 activation-model comparisons, and cannot optimize final
 mitigation success. Method updates after a failed test require a new cohort and
 an explicit new experiment record.
+
+Independent 32-base calibration exposed harmful evidence removal by filtering.
+Focus was added before observing the fresh 200-base feasibility cohort. Original
+calibration outputs remain under the v1 run root; subsequent runs use v2.
