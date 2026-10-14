@@ -34,6 +34,8 @@ def test_policy_uses_initial_states_and_is_equivariant_to_condition_order():
     c=f.Coordinates(components=2).fit(h[:60,:,0],h[60:,:,0])
     p=f.Directions(c,kind='ridge',alpha=.01,features='state').fit(h[:60],h[60:])
     result=p.predict(h[60:,:,0])
+    # Input diagnosis routes only the independently supported missing-evidence remedy.
+    np.testing.assert_array_equal(result['class_rule'],np.tile([0,1,0],(20,1)))
     assert (result['choices'][:,1]==1).all()
     assert (result['choices'][:,2]==3).all()
     order=[2,0,1]

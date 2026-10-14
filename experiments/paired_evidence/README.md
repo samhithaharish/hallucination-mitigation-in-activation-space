@@ -98,8 +98,11 @@ The learned strategy policy chooses the largest predicted reduction
 Validation error is the mean squared Euclidean displacement error; keep has
 score zero. This is a conservative heuristic, not a probability of successful
 repair. A separate condition policy uses the nearest condition coordinate and
-the predefined map clean→keep, missing→retrieve, distractor→focus. This simpler
-policy tests whether detecting the input problem is already sufficient.
+the predefined map clean→keep, missing→retrieve, distractor→keep. The independent v3
+pilot supported retrieval for missing evidence but did not establish a focus
+benefit, so this sparse mapping was fixed before fitting or observing final test
+outcomes. Observable comparators use the identical map. This simpler policy
+tests whether detecting missing evidence is already sufficient.
 
 Observable baselines predict the same condition targets from (1) prompt TF-IDF,
 confidence, length and public pool metadata; or (2) confidence and length. They

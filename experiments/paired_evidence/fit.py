@@ -15,6 +15,7 @@ from .task import CONDITIONS,ACTIONS
 
 CODES=np.array([[0.,0.],[1.,0.],[0.,1.]],np.float32)
 SELECTABLE=4
+CONDITION_ACTIONS=np.array([0,1,0])
 
 
 def load(key,split):
@@ -130,7 +131,7 @@ class Observable:
     def predict(self,texts,confidence,public=None):
         z=self.model.predict(self.features(texts,confidence,public=public))
         labels=np.sum((z[:,None]-CODES[None])**2,axis=-1).argmin(1)
-        return np.array([0,1,3])[labels]
+        return CONDITION_ACTIONS[labels]
 
 
 class Directions:
@@ -173,7 +174,7 @@ class Directions:
         score=np.sum(z*z,axis=-1)[...,None]-np.sum((z[...,None,:]+moves)**2,axis=-1)-self.penalty
         labels=np.sum((z[...,None,:]-CODES)**2,axis=-1).argmin(-1)
         result={'scores':score,'choices':score.argmax(-1),'risk':np.sum(z*z,axis=-1),
-                'coordinates':z,'class_rule':np.array([0,1,3])[labels]}
+                'coordinates':z,'class_rule':CONDITION_ACTIONS[labels]}
         if texts is not None and confidence is not None:
             result['observable_rule']=self.observable.predict(texts,confidence,public).reshape(shape)
             result['confidence_rule']=self.confidence.predict(texts,confidence).reshape(shape)
