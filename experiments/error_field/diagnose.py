@@ -46,7 +46,7 @@ def diagnose(key):
         usable_for_deployment=False,acceptance_decision_changed=False,
         n_base_questions=len(cases),offline_objectives=results,
         actual_error_logit_reduction_vs_actual_f1_gain_spearman=float(correlation.statistic),
-        forecast_error_logit_transition_mse=float(np.mean((prediction['forecast_error_logits'][:,:,:4]-q[:,:,:4])**2)),
+        forecast_active_error_logit_transition_mse=float(np.mean((prediction['forecast_error_logits'][:,:,1:4]-q[:,:,1:4])**2)),
         oracle_action_f1=float(f1[:,:,:4].max(-1).mean()),prediction_audit=audit,
         source_sha256=file_digest(__file__),model_sha256=file_digest(OUT/key/'fitted/best.joblib'),
         time_utc=datetime.now(timezone.utc).isoformat(),
