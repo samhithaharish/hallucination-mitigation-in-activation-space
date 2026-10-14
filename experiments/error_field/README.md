@@ -81,3 +81,36 @@ Both model/source hashes and pre-mitigation prediction timestamps are checked.
 Article-title disjointness is relative to the source v3 candidate pools; all
 prior question IDs are excluded, while title overlap with the earlier v2
 qualification cohort is not guaranteed.
+
+## Paired clean-state comparison
+
+Before executing the fresh test, add a second fixed policy that uses no
+correctness labels. Train D(x_initial) to predict the matched clean baseline
+state x_clean for the same training question, using every input variant.
+Ridge strengths .01 through 1,000 and an identity fallback are selected by
+validation clean-state MSE. The deployment input is x_initial alone; its actual
+clean counterpart is unavailable.
+
+Independently fit mean/linear/bilinear predictors of each strategy's projected
+state change. Choose their shared configuration by state-transition NMSE across
+both models. With r = x_initial - D(x_initial), score
+
+    ||r||² - ||r + predicted_state_change_a||² - validation_error_trace_a.
+
+D(x_initial) stays fixed while comparing actions. This avoids defining progress
+by moving both the corrupted state and its reference. The uncertainty trace is
+a global validation estimate, not calibrated conditional uncertainty. Public and
+confidence controls learn the same state changes and initial residual from free
+features. No correctness targets are used to fit this comparison. The original
+error-logit policy remains intact and is checked for identical validation
+predictions after adding these attributes.
+
+After `python -m experiments.error_field.fit`, commit all method sources and run
+`python -m experiments.error_field.reference` **before** test collection. It keeps
+`fitted/error_only.joblib` and its original metadata, then freezes the composite
+router as `fitted/best.joblib`. Both policies' decisions are saved before actions
+on the same new cohort. Both must separately beat all listed controls on both
+backbones to pass their exploratory routing criterion. There are two prespecified
+policy claims (nominal one-sided 2.5% each via lower two-sided 95% bootstrap
+bounds); their family threshold is nominally 5%, with bootstrap approximation
+and broader iterative research caveats. Neither policy is selected by test F1.
