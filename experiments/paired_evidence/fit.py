@@ -141,7 +141,14 @@ class Directions:
         self.fingerprint='unfrozen'
 
     def inputs(self,x,z):
-        return (np.concatenate([x,z],axis=-1) if self.features=='state' else z).reshape(-1,(x.shape[-1]+2) if self.features=='state' else 2)
+        if self.features=='z':return z.reshape(-1,2)
+        parts=[x,z]
+        if self.features=='bilinear':
+            interaction=(x[..., :,None]*z[...,None,:]).reshape(*x.shape[:-1],-1)
+            parts.append(interaction)
+        elif self.features!='state':raise ValueError('Unknown response features: '+self.features)
+        values=np.concatenate(parts,axis=-1)
+        return values.reshape(-1,values.shape[-1])
 
     def fit(self,train,validation):
         x,z=self.coordinates.transform(train[:,:,0]);vx,vz=self.coordinates.transform(validation[:,:,0])

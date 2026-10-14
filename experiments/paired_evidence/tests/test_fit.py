@@ -29,10 +29,11 @@ def test_pair_coordinates_generalize_without_answer_or_reward_arguments():
     with pytest.raises(TypeError):c.fit(h[:60,:,0],h[60:,:,0],action_rewards=np.zeros((60,3)))
 
 
-def test_policy_uses_initial_states_and_is_equivariant_to_condition_order():
+@pytest.mark.parametrize('features',['state','z','bilinear'])
+def test_policy_uses_initial_states_and_is_equivariant_to_condition_order(features):
     f=module();h=synthetic()
     c=f.Coordinates(components=2).fit(h[:60,:,0],h[60:,:,0])
-    p=f.Directions(c,kind='ridge',alpha=.01,features='state').fit(h[:60],h[60:])
+    p=f.Directions(c,kind='ridge',alpha=.01,features=features).fit(h[:60],h[60:])
     result=p.predict(h[60:,:,0])
     # Input diagnosis routes only the independently supported missing-evidence remedy.
     np.testing.assert_array_equal(result['class_rule'],np.tile([0,1,0],(20,1)))
@@ -57,3 +58,17 @@ def test_empty_control_is_audited_without_changing_the_search_objective():
     other=f.Directions(c,kind='ridge',alpha=.01).fit(changed[:60],changed[60:])
     assert p.details['validation_activation_nmse']==other.details['validation_activation_nmse']
     np.testing.assert_array_equal(pred['choices'],other.predict(h[60:,:,0])['choices'])
+
+
+def test_bilinear_response_can_forecast_context_condition_interactions():
+    from sklearn.linear_model import Ridge
+    f=module();rng=np.random.default_rng(5)
+    x=rng.normal(size=(200,1,3));z=rng.normal(size=(200,1,2))
+    target=(x[...,0]*z[...,1]).ravel()
+    errors={}
+    for features in ('state','bilinear'):
+        design=f.Directions(None,features=features).inputs(x,z)
+        model=Ridge(alpha=.01).fit(design[:150],target[:150])
+        errors[features]=np.mean((model.predict(design[150:])-target[150:])**2)
+    assert errors['bilinear']<1e-4
+    assert errors['state']>.1

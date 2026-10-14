@@ -85,8 +85,11 @@ projection nor predictor receives answer-quality targets. At inference, the
 clean counterpart and the condition identity are unavailable.
 
 The action model predicts delta_a = z(h_after,a)-z(h_initial). Candidate models
-are the unconditional mean and ridge predictors from either z alone or the
-projected initial states plus z. Twelve ridge configurations are compared using
+are the unconditional mean and ridge predictors from z alone, the projected
+initial states plus z, or those states with bilinear state-by-condition
+interactions. The last feature map permits an action's effect to depend jointly
+on context and evidence condition; it does not identify a causal layer pathway.
+The three maps use ridge strengths 1, 10, 100 and 1,000. Twelve configurations are compared using
 validation displacement MSE normalized by training displacement variance, with
 a variance floor of 0.01. One configuration is chosen by mean NMSE across both
 backbones. Each backbone has its own fitted parameters.

@@ -77,8 +77,8 @@ def search(wait=False):
     record(0, command(['git', 'rev-parse', 'HEAD']), initial, 0., 'baseline',
            'mean displacement', per_model)
     candidates = [dict(kind='ridge', alpha=alpha, features=features)
-                  for features in ('state', 'z')
-                  for alpha in (.01, .1, 1., 10., 100., 1000.)]
+                  for features in ('z', 'state', 'bilinear')
+                  for alpha in (1., 10., 100., 1000.)]
     for i, config in enumerate(candidates, 1):
         description = f"{config['features']} ridge alpha={config['alpha']}"
         CONFIG.write_text(json.dumps(config, sort_keys=True)+'\n')
