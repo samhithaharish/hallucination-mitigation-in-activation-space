@@ -54,10 +54,12 @@ def shuffle_interval(f1,choices,risk,draws=4000,bins=10):
 
 
 def matched_fixed(f1,choices,risk):
-    n=choices.size;k=int((choices>0).sum());priority=np.argsort(-risk.ravel(),kind='stable')[:k]
+    n=choices.size;budget=2*int((choices>0).sum())
+    priority=np.argsort(-risk.ravel(),kind='stable');costs=(0,2,2,2,1,1)
     candidates=[]
     for action in range(1,f1.shape[-1]):
-        candidate=np.zeros(n,int);candidate[priority]=action
+        k=min(n,budget//costs[action])
+        candidate=np.zeros(n,int);candidate[priority[:k]]=action
         value=quality(f1,candidate.reshape(choices.shape))
         candidates.append((float(value.mean()),action,value))
     return max(candidates,key=lambda x:x[0])
@@ -174,14 +176,14 @@ def evaluate(key,split='pilot',draws=4000):
     if split=='test':
         predictions,audit=frozen_predictions(key,split,data)
         selected_f1=f1[:,:,:SELECTABLE];selected_em=em[:,:,:SELECTABLE];selected_tokens=tokens[:,:,:SELECTABLE]
-        best=int(selected_f1.mean((0,1)).argmax())
+        best=int(f1.mean((0,1)).argmax())
         policies={}
         for name in ('choices','class_rule','observable_rule','confidence_rule'):
             choices=predictions[name];q=quality(selected_f1,choices)
             policies[name]={**stats(selected_f1,selected_em,selected_tokens,choices),
                 'vs_keep':interval(q-selected_f1[:,:,0],draws),
-                'vs_hindsight_best_fixed':interval(q-selected_f1[:,:,best],draws),
-                'vs_matched_risk_fixed':matched_interval(selected_f1,choices,predictions['risk'],draws),
+                'vs_hindsight_best_fixed':interval(q-f1[:,:,best],draws),
+                'vs_matched_risk_fixed':matched_interval(f1,choices,predictions['risk'],draws),
                 'vs_risk_matched_shuffle':shuffle_interval(selected_f1,choices,predictions['risk'],draws)}
         for name in ('choices','class_rule'):
             primary=quality(selected_f1,predictions[name])

@@ -60,3 +60,12 @@ def test_replication_requires_the_same_policy_on_both_backbones():
     p['acceptance']=q['acceptance']
     assert e.replicated_acceptance({'qwen7b':q,'phi35':p})['routing']['choices']
     assert e.replicated_acceptance({'qwen7b':q,'phi35':p})['strategy_fields_add_value']
+
+
+def test_matched_fixed_spends_a_call_budget_on_more_cheaper_actions():
+    e=module();f1=np.zeros((1,3,6));f1[:,:,1]=.6;f1[:,:,4]=1.
+    choices=np.array([[1,0,0]]);risk=np.array([[3.,2.,1.]])
+    value,action,per_input=e.matched_fixed(f1,choices,risk)
+    assert action==4
+    np.testing.assert_allclose(per_input,[[1.,1.,0.]])
+    assert value==pytest.approx(2/3)

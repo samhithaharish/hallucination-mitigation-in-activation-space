@@ -57,11 +57,12 @@ def report():
     for key,r in results.items():
         baseline=np.mean([r['fixed'][c]['keep']['f1'] for c in ('clean','missing','distractor')])
         fixed=max(np.mean([r['fixed'][c][a]['f1'] for c in ('clean','missing','distractor')])
-                  for a in ('keep','retrieve','filter','focus'))
+                  for a in ('keep','retrieve','filter','focus','sham','empty'))
         values=[baseline,fixed]+[r['policies'][p]['f1'] for p in NAMES]
         lines.append('| '+key+' | '+' | '.join(percentage(v) for v in values)+' |')
     lines += ['', 'Best always-on action is chosen in hindsight. Matched-risk fixed controls below '
-              'use the same number of extra generation calls as the policy, which does not match tokens or latency.', '',
+        'use at most the same extra-generation-call budget as the policy, including cheaper sham and empty controls; '
+        'this does not match tokens or latency.', '',
               '## Paired F1 differences (percentage points, 95% intervals)', '',
               'Intervals resample 800 base questions, retaining all three variants. Positive lower bounds '
               'are required against **every** listed control and on both backbones for the same policy.', '',

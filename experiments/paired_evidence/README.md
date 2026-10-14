@@ -114,7 +114,7 @@ mitigation preprocessing call, and checked again during scoring.
 Two activation policies are prespecified: the learned strategy policy and the
 condition policy. For a routing claim, the *same* policy must have a strictly
 positive lower 95% paired-bootstrap bound against each of: keep, the strongest
-fixed remedy at the same number of extra generation calls, risk-bin-shuffled
+fixed remedy within the same extra-generation-call budget, risk-bin-shuffled
 routing, the public-input comparator, and the confidence comparator, on **both**
 backbones. All variants are resampled together by base question. There are two
 prespecified policy claims; using lower ends of two-sided 95% intervals gives a
@@ -126,9 +126,10 @@ condition policy. This distinction prevents calling condition detection evidence
 for a useful learned strategy geometry.
 
 The fixed-remedy control is chosen in hindsight and recomputed in each base
-bootstrap. Its activation-risk gate receives the same number of active calls as
-the evaluated policy. This matches generation-call count, not token count or
-latency. Also report the strongest always-on remedy, costs, rescue, harm, and
+bootstrap. Its activation-risk gate receives the evaluated policy's extra-generation-call budget. It can use
+retrieve/filter/focus (two calls each) or sham/empty (one call each); cheaper
+actions may cover more inputs, up to all of them. Unused calls are allowed once
+all inputs are covered. This matches a call-budget cap, not token count or latency. Also report the strongest always-on remedy, costs, rescue, harm, and
 an oracle ceiling. A positive result would establish controlled evidence-repair
 routing, not a universal hallucination detector, a causal layer pathway, natural
 failure diagnosis, or proof that an unrepaired answer is irrecoverable.
