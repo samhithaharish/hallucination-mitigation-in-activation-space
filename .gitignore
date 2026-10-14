@@ -24,3 +24,6 @@ runs/
 *.joblib
 *.pkl
 *.parquet
+
+# Local research-loop ledger; publish only reviewed scientific artifacts
+autoresearch/
