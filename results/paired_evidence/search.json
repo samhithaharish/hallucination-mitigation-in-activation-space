@@ -1,0 +1,341 @@
+{
+  "initial_metric": 0.9674430688222249,
+  "final_metric": 0.4505875979860624,
+  "selected_trial": "trial_07",
+  "kept": 5,
+  "trials": [
+    {
+      "iteration": 0,
+      "timestamp": "2026-10-14T07:51:04.188766+00:00",
+      "commit": "8134b91ae544b8d2a7889b93079671aa27c350c8",
+      "metric": 0.9674430688222249,
+      "status": "baseline",
+      "description": "mean displacement",
+      "per_model": {
+        "qwen7b": 0.9889065623283386,
+        "phi35": 0.9459795753161112
+      },
+      "guard": "pass"
+    },
+    {
+      "iteration": 1,
+      "timestamp": "2026-10-14T07:51:23.355556+00:00",
+      "commit": "1f5ac3a203a4b1917d07cd257d4d9cb47d1cb43a",
+      "metric": 0.49604665239652,
+      "status": "keep",
+      "description": "z ridge alpha=1.0",
+      "per_model": {
+        "qwen7b": 0.47848774989446,
+        "phi35": 0.51360555489858
+      },
+      "guard": "pass"
+    },
+    {
+      "iteration": 2,
+      "timestamp": "2026-10-14T07:51:42.271553+00:00",
+      "commit": "369edaef61d9f0f4a4be0fb3293a879cb13fd84e",
+      "metric": 0.49567703902721405,
+      "status": "keep",
+      "description": "z ridge alpha=10.0",
+      "per_model": {
+        "qwen7b": 0.4790712893009186,
+        "phi35": 0.5122827887535095
+      },
+      "guard": "pass"
+    },
+    {
+      "iteration": 3,
+      "timestamp": "2026-10-14T07:52:01.278616+00:00",
+      "commit": "68a9273ae31f42691139e4fc5ee7ff4aaa878550",
+      "metric": 0.5305062085390091,
+      "status": "discard",
+      "description": "z ridge alpha=100.0",
+      "per_model": {
+        "qwen7b": 0.5180250902970632,
+        "phi35": 0.542987326780955
+      },
+      "guard": "pass"
+    },
+    {
+      "iteration": 4,
+      "timestamp": "2026-10-14T07:52:20.333260+00:00",
+      "commit": "d65714caa9215930779c66c8408be04f76b6ea77",
+      "metric": 0.7832950750986736,
+      "status": "discard",
+      "description": "z ridge alpha=1000.0",
+      "per_model": {
+        "qwen7b": 0.786472737789154,
+        "phi35": 0.780117412408193
+      },
+      "guard": "pass"
+    },
+    {
+      "iteration": 5,
+      "timestamp": "2026-10-14T07:52:39.577657+00:00",
+      "commit": "27d0040d1048ee0dcffac4084e575020fb144e6e",
+      "metric": 0.46104536205530167,
+      "status": "keep",
+      "description": "state ridge alpha=1.0",
+      "per_model": {
+        "qwen7b": 0.4478324105342229,
+        "phi35": 0.47425831357638043
+      },
+      "guard": "pass"
+    },
+    {
+      "iteration": 6,
+      "timestamp": "2026-10-14T07:52:58.457821+00:00",
+      "commit": "e10582a578cbd551ec181b2f612a6106f905c1ce",
+      "metric": 0.45759459833304084,
+      "status": "keep",
+      "description": "state ridge alpha=10.0",
+      "per_model": {
+        "qwen7b": 0.44722287356853485,
+        "phi35": 0.4679663230975469
+      },
+      "guard": "pass"
+    },
+    {
+      "iteration": 7,
+      "timestamp": "2026-10-14T07:53:17.228332+00:00",
+      "commit": "3f4852bc9aef407775870465d56384461bfe3668",
+      "metric": 0.4505875979860624,
+      "status": "keep",
+      "description": "state ridge alpha=100.0",
+      "per_model": {
+        "qwen7b": 0.4434812317291896,
+        "phi35": 0.4576939642429352
+      },
+      "guard": "pass"
+    },
+    {
+      "iteration": 8,
+      "timestamp": "2026-10-14T07:53:36.278169+00:00",
+      "commit": "8e284a3df88cdfc239859f0fc0debc62d7bf6c66",
+      "metric": 0.4908375466863314,
+      "status": "discard",
+      "description": "state ridge alpha=1000.0",
+      "per_model": {
+        "qwen7b": 0.47866880397001904,
+        "phi35": 0.5030062894026438
+      },
+      "guard": "pass"
+    },
+    {
+      "iteration": 9,
+      "timestamp": "2026-10-14T07:53:55.042499+00:00",
+      "commit": "611fcea813fe8f8f73d1b88385f58ea700eebf49",
+      "metric": 0.5234026586016018,
+      "status": "discard",
+      "description": "bilinear ridge alpha=1.0",
+      "per_model": {
+        "qwen7b": 0.5112999826669693,
+        "phi35": 0.5355053345362345
+      },
+      "guard": "pass"
+    },
+    {
+      "iteration": 10,
+      "timestamp": "2026-10-14T07:54:13.870975+00:00",
+      "commit": "0594462b64e0ef14c4100cd6eb6d38dd96c5cb82",
+      "metric": 0.48786743481953937,
+      "status": "discard",
+      "description": "bilinear ridge alpha=10.0",
+      "per_model": {
+        "qwen7b": 0.48218612869580585,
+        "phi35": 0.4935487409432729
+      },
+      "guard": "pass"
+    },
+    {
+      "iteration": 11,
+      "timestamp": "2026-10-14T07:54:32.922144+00:00",
+      "commit": "eaee12f145e2ba106ab36716b6e8c271249d2fe3",
+      "metric": 0.4520129238565763,
+      "status": "discard",
+      "description": "bilinear ridge alpha=100.0",
+      "per_model": {
+        "qwen7b": 0.4512808322906494,
+        "phi35": 0.45274501542250317
+      },
+      "guard": "pass"
+    },
+    {
+      "iteration": 12,
+      "timestamp": "2026-10-14T07:54:51.671626+00:00",
+      "commit": "63b42635b0c1aad523449da84840af8b350dfbc7",
+      "metric": 0.4676682651042938,
+      "status": "discard",
+      "description": "bilinear ridge alpha=1000.0",
+      "per_model": {
+        "qwen7b": 0.4616783360640208,
+        "phi35": 0.47365819414456684
+      },
+      "guard": "pass"
+    }
+  ],
+  "frozen": {
+    "qwen7b": {
+      "config": {
+        "alpha": 100.0,
+        "features": "state",
+        "kind": "ridge"
+      },
+      "metric": {
+        "kind": "ridge",
+        "alpha": 100.0,
+        "features": "state",
+        "validation_activation_nmse": 0.4434812317291896,
+        "penalty": [
+          0.0,
+          0.059993669390678406,
+          0.11164212226867676,
+          0.021169645711779594,
+          0.002362398197874427,
+          0.018335120752453804
+        ]
+      },
+      "fingerprint": "4803bbc3a4d3926483168c76a44eebd7e16f21e1de2cc3602d6e0552fa012146",
+      "sha256": "fa6ded3fe77daeab777c2e530674205046cf01727cfb704c9a3ead5173057bb5",
+      "time_unix": 1791964384.5301287,
+      "action_success_labels_used": false,
+      "frozen_time_unix": 1791964491.6762736,
+      "selected_trial": "trial_07",
+      "shared_validation_activation_nmse": 0.4505875979860624,
+      "selection_metric": "mean validation activation NMSE across both backbones",
+      "checkpoint": "44415f1aa93772fdb8820fec90b21b7d786fe6e7",
+      "source_hashes": {
+        "__init__.py": "259422882d2abe02eabfbc405103cc4cc09a5a8a4104cf5733878f5bba0d96a5",
+        "task.py": "cfcc4586bce520e5c4aa778e89db4daaed24a3d44ac2adf0b11606c687bc50e7",
+        "collect.py": "c9d1cffc5db8ac7c810953deb2a34b98e56ecc299a52421c83a93e1432782a3d",
+        "evaluate.py": "66b5aab68b6f6af9da195c209fe728898cbc646713da546ba997cf5af5900614",
+        "data.py": "e6dd3ef3b25a4d686b8cb736cc9ff98c83dcefb7b51dcbee4ef504403b1c1ba8",
+        "report.py": "176d801c9c613b7ec10ceea862e9c6e4b9d83298a9dfe91c009a1fd786e0051b",
+        "fit.py": "7b2a1d7c915434e6b75f0845987d1a5c5df0cab28a365f7e6cbe5a56ce610b0c",
+        "search.py": "d24977b82b686ad66c55b9d00084dbecf1c3a0c36e061ed05c58be43511c1c6b"
+      }
+    },
+    "phi35": {
+      "config": {
+        "alpha": 100.0,
+        "features": "state",
+        "kind": "ridge"
+      },
+      "metric": {
+        "kind": "ridge",
+        "alpha": 100.0,
+        "features": "state",
+        "validation_activation_nmse": 0.4576939642429352,
+        "penalty": [
+          0.0,
+          0.07448790222406387,
+          0.04716530442237854,
+          0.014830449596047401,
+          0.0013465655501931906,
+          0.02892765961587429
+        ]
+      },
+      "fingerprint": "7fb838c78de691f2630e101ab727d24b489bd68df799827c45c5644407e43388",
+      "sha256": "27db433a1e20a758f638f140e3e1e1550e9e34a3151fa5ddb799380b40482069",
+      "time_unix": 1791964390.4989352,
+      "action_success_labels_used": false,
+      "frozen_time_unix": 1791964491.6829607,
+      "selected_trial": "trial_07",
+      "shared_validation_activation_nmse": 0.4505875979860624,
+      "selection_metric": "mean validation activation NMSE across both backbones",
+      "checkpoint": "44415f1aa93772fdb8820fec90b21b7d786fe6e7",
+      "source_hashes": {
+        "__init__.py": "259422882d2abe02eabfbc405103cc4cc09a5a8a4104cf5733878f5bba0d96a5",
+        "task.py": "cfcc4586bce520e5c4aa778e89db4daaed24a3d44ac2adf0b11606c687bc50e7",
+        "collect.py": "c9d1cffc5db8ac7c810953deb2a34b98e56ecc299a52421c83a93e1432782a3d",
+        "evaluate.py": "66b5aab68b6f6af9da195c209fe728898cbc646713da546ba997cf5af5900614",
+        "data.py": "e6dd3ef3b25a4d686b8cb736cc9ff98c83dcefb7b51dcbee4ef504403b1c1ba8",
+        "report.py": "176d801c9c613b7ec10ceea862e9c6e4b9d83298a9dfe91c009a1fd786e0051b",
+        "fit.py": "7b2a1d7c915434e6b75f0845987d1a5c5df0cab28a365f7e6cbe5a56ce610b0c",
+        "search.py": "d24977b82b686ad66c55b9d00084dbecf1c3a0c36e061ed05c58be43511c1c6b"
+      }
+    }
+  },
+  "action_success_labels_used": false,
+  "aborted_queued_trials": [
+    {
+      "iteration": 0,
+      "timestamp": "2026-10-14T07:47:35.533869+00:00",
+      "commit": "ccb2c2bf204fd065ba1c7080454fef1e1462f25e",
+      "metric": 0.9674430290857952,
+      "status": "baseline",
+      "description": "mean displacement",
+      "per_model": {
+        "qwen7b": 0.9889065821965536,
+        "phi35": 0.9459794759750366
+      },
+      "guard": "pass"
+    },
+    {
+      "iteration": 1,
+      "timestamp": "2026-10-14T07:47:54.881403+00:00",
+      "commit": "0c17f71dd39562ed8104ff99dbf74b9cd93e99cf",
+      "metric": 0.46166164179643,
+      "status": "keep",
+      "description": "state ridge alpha=0.01",
+      "per_model": {
+        "qwen7b": 0.44778623680273694,
+        "phi35": 0.475537046790123
+      },
+      "guard": "pass"
+    },
+    {
+      "iteration": 2,
+      "timestamp": "2026-10-14T07:48:13.687151+00:00",
+      "commit": "5a1d2d857bb3ec4f20b894218a3acdac815f05ed",
+      "metric": 0.4615998864173889,
+      "status": "keep",
+      "description": "state ridge alpha=0.1",
+      "per_model": {
+        "qwen7b": 0.44779226183891296,
+        "phi35": 0.47540751099586487
+      },
+      "guard": "pass"
+    },
+    {
+      "iteration": 3,
+      "timestamp": "2026-10-14T07:48:32.540211+00:00",
+      "commit": "5a8d77af7db6a4bd12a05dcff19fcbff8f14eb3f",
+      "metric": 0.46104536205530167,
+      "status": "keep",
+      "description": "state ridge alpha=1.0",
+      "per_model": {
+        "qwen7b": 0.4478324105342229,
+        "phi35": 0.47425831357638043
+      },
+      "guard": "pass"
+    },
+    {
+      "iteration": 4,
+      "timestamp": "2026-10-14T07:48:51.154210+00:00",
+      "commit": "956cbe4008bf65987afece16c065d4f040b2a13c",
+      "metric": 0.45759459833304084,
+      "status": "keep",
+      "description": "state ridge alpha=10.0",
+      "per_model": {
+        "qwen7b": 0.44722287356853485,
+        "phi35": 0.4679663230975469
+      },
+      "guard": "pass"
+    },
+    {
+      "iteration": 5,
+      "timestamp": "2026-10-14T07:49:10.036882+00:00",
+      "commit": "ccb9ed174401cd85aefeb2711b2b7b60dcc41250",
+      "metric": 0.4505875979860624,
+      "status": "keep",
+      "description": "state ridge alpha=100.0",
+      "per_model": {
+        "qwen7b": 0.4434812317291896,
+        "phi35": 0.4576939642429352
+      },
+      "guard": "pass"
+    }
+  ],
+  "aborted_reason": "Waiting process had loaded the earlier grid; stopped before test and restarted from committed source"
+}

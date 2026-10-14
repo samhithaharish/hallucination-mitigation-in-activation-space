@@ -1,8 +1,8 @@
 # Running the current experiments
 
-The committed results are from the completed original runs. The code here has
-portable paths and package imports; it has not been used to claim a new GPU
-replication. Raw generations, activation arrays, fitted models and training logs
+The older recovery/drift results are from their completed original runs. The
+paired-evidence study is a newly executed GPU experiment with frozen hashes
+and decision timing audits. Raw generations, activation arrays, fitted models and training logs
 are not committed. Reconstructing their numerical analyses requires collecting
 those artifacts again, or obtaining the original artifacts with their original
 source version. Original fitted geometry objects are not a drop-in input to this
@@ -93,6 +93,48 @@ before candidate mitigations execute. Fitting reads only calibration/validation
 states and baseline correctness. Analysis is the stage that scores mitigated
 answers. Supplementary evaluations are saved separately.
 
+## Paired evidence experiment
+
+Use the same pinned assets and generation environment above. The data builder
+reads committed prior cohort IDs for exclusions and reconstructs the corrected
+v3 cohorts deterministically. Choose a fresh run root:
+
+```bash
+export ACTIVATION_RUNS="$PWD/runs/paired_reproduction"
+python -m experiments.paired_evidence.data
+CUDA_VISIBLE_DEVICES=0 python -m experiments.paired_evidence.collect --model qwen7b --splits pilot train validation
+CUDA_VISIBLE_DEVICES=1 python -m experiments.paired_evidence.collect --model phi35 --splits pilot train validation
+```
+
+The two collection commands can run concurrently. From a clean git worktree,
+run the bounded activation-only model search, then collect test with the frozen
+predictors:
+
+```bash
+python -m experiments.paired_evidence.search
+CUDA_VISIBLE_DEVICES=0 python -m experiments.paired_evidence.collect --model qwen7b --splits test --predictor "$ACTIVATION_RUNS/paired_evidence/qwen7b/fitted/best.joblib"
+CUDA_VISIBLE_DEVICES=1 python -m experiments.paired_evidence.collect --model phi35 --splits test --predictor "$ACTIVATION_RUNS/paired_evidence/phi35/fitted/best.joblib"
+python -m experiments.paired_evidence.evaluate --model qwen7b --split test
+python -m experiments.paired_evidence.evaluate --model phi35 --split test
+python -m experiments.paired_evidence.evaluate --model qwen7b --split pilot
+python -m experiments.paired_evidence.evaluate --model phi35 --split pilot
+python -m experiments.paired_evidence.report
+```
+
+The search commits trial configurations and keep/revert decisions on the current
+branch; use an experiment branch. It refuses dirty or stale loaded sources.
+The published search now explicitly resets and commits the mean baseline when
+starting from the saved winning configuration, and handles no-op configuration
+changes. This initialization fix was made after the recorded run; its original
+source hashes and checkpoint are preserved in provenance.json. It does not
+change the trial grid, fitted objectives or recorded results.
+Twelve ridge configurations and the mean baseline are evaluated using validation
+activation error only. The independent pilot informed action design and the
+fixed condition map; do not describe the whole design as outcome-free.
+Raw artifacts stay below the run root. Compact exports go to
+`results/paired_evidence`; use a separate checkout to retain published results.
+[Method and controls](experiments/paired_evidence/README.md).
+
 ## Earlier supervised recovery study
 
 With the same environment and prepared assets:
@@ -112,7 +154,7 @@ collects two 128-question repeats, and audits. Outputs appear under
 - Current drift experiment, supervised comparison, and their required helpers/tests.
 - Recorded summary metrics and one figure per study.
 - Cohort IDs/checksums, pinned model identities and scorer provenance.
-- The proposed next test, explicitly labelled as unrun.
+- Completed paired-evidence study, activation-only search record and frozen provenance.
 
 Source calculations, prompts, action definitions and fitting grids were retained.
 Changes cover configurable paths, importable module names, restoring cohorts,

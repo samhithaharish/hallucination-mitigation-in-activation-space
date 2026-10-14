@@ -5,8 +5,8 @@ strategy. The stronger version learns strategy effects from activation changes,
 without fitting the strategy chooser to mitigation-success labels.
 
 **That stronger claim is not established.** We have completed experiments and
-some useful measurements, including negative results. The proposed paired
-experiment in [NEXT_EXPERIMENT.md](NEXT_EXPERIMENT.md) has not been run.
+useful measurements, including negative results. The newest
+[paired-evidence experiment](results/paired_evidence/README.md) is complete.
 
 ## 1. Predicting recovery from labelled examples
 
@@ -92,7 +92,41 @@ directions. Prompt wording, evidence changes and generated answer format can
 all contribute. The measurement near the end of an answer often precedes
 closing markup rather than the semantic answer itself.
 
-## 3. Earlier causal diagnosis attempt
+## 3. Paired evidence interventions and activation-only search
+
+For each of 800 fresh base questions per model, the new study constructed clean,
+missing-evidence and distractor variants. A separate 400/100 train/validation
+split fit paired activation coordinates and strategy-transition predictors.
+Supporting titles were separated across these splits. A corrected common
+candidate pool removed a detected public membership shortcut; all earlier
+qualification questions were excluded. The independent pilot informed the
+strategy definitions and the fixed missing-only retrieval map. Learned fitting
+and configuration selection used no mitigation-success targets.
+
+| Model | Keep F1 | Learned transitions | Condition rule | Condition minus public-input rule, 95% interval |
+|---|---:|---:|---:|---|
+| Qwen2.5-7B | 70.71 | 73.30 | 74.78 | +0.76 [+0.17, +1.37] |
+| Phi-3.5-mini | 66.44 | 69.13 | 69.49 | +0.03 [−0.62, +0.68] |
+
+The condition rule improved over keep and the strongest risk-gated fixed action
+within its call budget on both backbones. Its advantage over public inputs did
+not replicate on Phi. Learned transitions did not add reliable value over the
+simpler condition rule. Neither policy passed all prespecified comparisons on
+both backbones. The bounded autoresearch loop reduced validation activation
+NMSE from 0.9674 to 0.4506; that did not establish better repair selection.
+
+The original same-action paired-gap criterion has an exact deletion degeneracy:
+empty evidence makes both clean and corrupted prompts identical and maximizes
+gap closure. In 280 Qwen and 271 Phi pairs, the clean original answer was correct,
+the corrupted answer was wrong, and emptying made both answers wrong while
+maximizing the score. These counts concern pairs, not independent questions.
+This invalidates that particular repair score, not activation methods generally.
+
+Evidence: [full paired results](results/paired_evidence/README.md),
+[comparisons](results/paired_evidence/routing_comparison.png), and
+[method](experiments/paired_evidence/README.md).
+
+## 4. Earlier causal diagnosis attempt
 
 An earlier controlled color/shape task tried targeted activation patches on
 Qwen-7B, Qwen-3B and Granite-2B. The learned patches rarely produced the intended
@@ -112,6 +146,6 @@ the [previous README](https://github.com/samhithaharish/hallucination-mitigation
 - The relationship transfers to natural errors, other tasks or unseen strategies.
 - Failure under the tested action menu implies that an answer cannot be repaired.
 
-The saved summaries describe the original completed runs. This branch packages
-their code with portable paths and setup; it does not claim a new model run or a
-positive result from the next experiment.
+The older summaries describe their original completed runs. The paired study
+is a newly executed GPU experiment with frozen model/source hashes and
+pre-mitigation decision timestamps in its committed provenance.

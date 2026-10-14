@@ -3,7 +3,8 @@
 This experiment asks whether controlled evidence perturbations can teach a small
 activation model to choose between adding evidence and filtering evidence on
 new questions. It is a narrower task than identifying every cause of an LLM error.
-The current experiment is in progress; no positive result is asserted here.
+The experiment is complete: [heldout results](../../results/paired_evidence/README.md).
+Neither activation policy passed every control on both backbones.
 
 Each HotpotQA base question has three paired versions: two supporting articles
 plus unrelated filler; one supporting article replaced by filler; supporting
@@ -153,7 +154,7 @@ Use separate CUDA_VISIBLE_DEVICES for the two collectors. Review pilot feasibili
 before freezing the predictor. Pilot outcomes informed action design and the
 fixed missing-only condition map; this is not an entirely outcome-free design
 process. Learned probe and transition parameters and activation-configuration
-selection do not use mitigation-success targets. The final test is untouched.
+selection do not use mitigation-success targets. In a new reproduction, keep final test outcomes untouched until the predictor is frozen.
 
 From a clean git worktree, with PYTHONHASHSEED=0 and the same ACTIVATION_RUNS,
 run `python -m experiments.paired_evidence.search`. The bounded autoresearch loop
