@@ -55,9 +55,13 @@ frozen predictor hashes and the fixed 4,000-draw/seed/bin settings in
 clean-reference studies, their source hashes, and their saved policies remain
 unchanged.
 
-After collection:
+After collection, score both the original exploratory run and the new run
+before building the combined report. Keep ACTIVATION_RUNS set to the new root
+except for the two explicit overrides (replace the example original path):
 
 ```bash
+ACTIVATION_RUNS=/path/to/original/run-root python -m experiments.retrieval_budget.evaluate --model qwen7b --label exploration
+ACTIVATION_RUNS=/path/to/original/run-root python -m experiments.retrieval_budget.evaluate --model phi35 --label exploration
 python -m experiments.retrieval_budget.evaluate --model qwen7b --label replication
 python -m experiments.retrieval_budget.evaluate --model phi35 --label replication
 python -m experiments.retrieval_budget.report
