@@ -131,6 +131,24 @@ def frozen_predictions(key,split,collected):
     return {k:np.concatenate(v) for k,v in result.items()},{'n_bases':start,'max_reload_difference':max_difference,'all_choices_precede_actions':True}
 
 
+def acceptance(policies):
+    controls=('vs_keep','vs_matched_risk_fixed','vs_risk_matched_shuffle',
+              'vs_observable_rule','vs_confidence_rule')
+    routing={name:all(policies[name][control]['ci95'][0]>0 for control in controls)
+             for name in ('choices','class_rule')}
+    return {'routing':routing,'strategy_fields_add_value':bool(routing['choices'] and
+            policies['choices']['vs_class_rule']['ci95'][0]>0)}
+
+
+def replicated_acceptance(results):
+    if set(results)!={'qwen7b','phi35'}:
+        raise ValueError('Both prespecified backbones are required')
+    return {'routing':{name:all(r['acceptance']['routing'][name] for r in results.values())
+                       for name in ('choices','class_rule')},
+            'strategy_fields_add_value':all(r['acceptance']['strategy_fields_add_value']
+                                           for r in results.values())}
+
+
 def evaluate(key,split='pilot',draws=4000):
     data,rows,cases,f1,em,tokens=arrays(key,split)
     gap=gap_scores(data['states']);bad=f1[:,1:];bad_em=em[:,1:];bad_tokens=tokens[:,1:]
@@ -165,16 +183,17 @@ def evaluate(key,split='pilot',draws=4000):
                 'vs_hindsight_best_fixed':interval(q-selected_f1[:,:,best],draws),
                 'vs_matched_risk_fixed':matched_interval(selected_f1,choices,predictions['risk'],draws),
                 'vs_risk_matched_shuffle':shuffle_interval(selected_f1,choices,predictions['risk'],draws)}
-        primary=quality(selected_f1,predictions['choices'])
-        for baseline in ('class_rule','observable_rule','confidence_rule'):
-            policies['choices']['vs_'+baseline]=interval(primary-quality(selected_f1,predictions[baseline]),draws)
+        for name in ('choices','class_rule'):
+            primary=quality(selected_f1,predictions[name])
+            for baseline in ('class_rule','observable_rule','confidence_rule'):
+                if baseline!=name:
+                    policies[name]['vs_'+baseline]=interval(primary-quality(selected_f1,predictions[baseline]),draws)
         result.update({'policies':policies,'prediction_audit':audit,'hindsight_fixed_action':ACTIONS[best],
                        'oracle_f1':float(selected_f1.max(-1).mean()),
                        'condition_accuracy':float(np.mean(np.sum((predictions['coordinates'][...,None,:]-
                            np.array([[0.,0.],[1.,0.],[0.,1.]]))**2,axis=-1).argmin(-1)==np.arange(3)))})
-        primary=policies['choices']
-        result['primary_criterion_passed']=(primary['vs_matched_risk_fixed']['ci95'][0]>0 and
-                                          primary['vs_observable_rule']['ci95'][0]>0)
+        result['acceptance']=acceptance(policies)
+        result['primary_criterion_passed']=result['acceptance']['routing']['choices']
     dump(OUT/key/f'{split}_evaluation.json',result)
     np.savez_compressed(OUT/key/f'{split}_scored.npz',f1=f1,em=em,gap=gap,tokens=tokens)
     print(json.dumps(result,indent=2),flush=True)

@@ -36,3 +36,27 @@ def test_prediction_written_after_mitigation_started_is_rejected():
     with pytest.raises(ValueError,match='before mitigation'):
         e.check_timing({'time_unix':100.},{'mitigation_start_time_unix':90.,'completed_time_unix':110.})
     e.check_timing({'time_unix':80.},{'mitigation_start_time_unix':90.,'completed_time_unix':110.})
+
+
+def test_acceptance_requires_all_controls_and_distinguishes_field_added_value():
+    e=module()
+    positive={'ci95':[.01,.03]};negative={'ci95':[-.01,.03]}
+    controls=['vs_keep','vs_matched_risk_fixed','vs_risk_matched_shuffle',
+              'vs_observable_rule','vs_confidence_rule']
+    policies={name:{k:positive for k in controls} for name in ('choices','class_rule')}
+    policies['choices']['vs_class_rule']=negative
+    result=e.acceptance(policies)
+    assert result['routing']['choices'] and result['routing']['class_rule']
+    assert not result['strategy_fields_add_value']
+    policies['choices']['vs_confidence_rule']=negative
+    assert not e.acceptance(policies)['routing']['choices']
+
+
+def test_replication_requires_the_same_policy_on_both_backbones():
+    e=module()
+    q={'acceptance':{'routing':{'choices':True,'class_rule':False},'strategy_fields_add_value':True}}
+    p={'acceptance':{'routing':{'choices':False,'class_rule':True},'strategy_fields_add_value':False}}
+    assert not any(e.replicated_acceptance({'qwen7b':q,'phi35':p})['routing'].values())
+    p['acceptance']=q['acceptance']
+    assert e.replicated_acceptance({'qwen7b':q,'phi35':p})['routing']['choices']
+    assert e.replicated_acceptance({'qwen7b':q,'phi35':p})['strategy_fields_add_value']

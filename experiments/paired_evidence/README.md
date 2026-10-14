@@ -62,4 +62,108 @@ an explicit new experiment record.
 
 Independent 32-base calibration exposed harmful evidence removal by filtering.
 Focus was added before observing the fresh 200-base feasibility cohort. Original
-calibration outputs remain under the v1 run root; subsequent runs use v2.
+calibration outputs remain under the v1 run root; v2 was exploratory qualification; the corrected frozen experiment uses v3.
+
+## Frozen v3 protocol
+
+The first 200-question qualification cohort exposed a public-input shortcut:
+current-passage membership in the old candidate pool revealed the condition.
+Those questions and all other v2 cohorts are excluded from v3. They provide
+exploratory checks only. V3 uses the same shuffled 20-article union pool across
+all three variants; all ten current articles appear in that pool. Background
+filler titles are disjoint across splits and absent from every selected source
+question's context. Candidate-pool membership, BM25 coverage and scores are also
+available to the observable comparator. Benchmark-construction choices can still
+leave linguistic artifacts, so success is limited to these interventions.
+
+For base question i, let h(i,c,a) contain the six prompt states for input condition
+c and action a. Paired baseline differences h(i,c,keep)-h(i,clean,keep), including
+the zero clean difference, define up to 16 principal directions per layer. A
+linear map from projected initial states predicts the two condition coordinates
+z. Its ridge strength is selected using validation condition MSE. Neither the
+projection nor predictor receives answer-quality targets. At inference, the
+clean counterpart and the condition identity are unavailable.
+
+The action model predicts delta_a = z(h_after,a)-z(h_initial). Candidate models
+are the unconditional mean and ridge predictors from either z alone or the
+projected initial states plus z. Twelve ridge configurations are compared using
+validation displacement MSE normalized by training displacement variance, with
+a variance floor of 0.01. One configuration is chosen by mean NMSE across both
+backbones. Each backbone has its own fitted parameters.
+
+The learned strategy policy chooses the largest predicted reduction
+
+    score(a) = ||z||² - ||z + predicted_delta_a||² - validation_error_a.
+
+Validation error is the mean squared Euclidean displacement error; keep has
+score zero. This is a conservative heuristic, not a probability of successful
+repair. A separate condition policy uses the nearest condition coordinate and
+the predefined map clean→keep, missing→retrieve, distractor→focus. This simpler
+policy tests whether detecting the input problem is already sufficient.
+
+Observable baselines predict the same condition targets from (1) prompt TF-IDF,
+confidence, length and public pool metadata; or (2) confidence and length. They
+receive the same validation ridge-strength selection. No policy is fitted using
+which mitigation answered correctly. Baseline confidence requires the original
+answer generation; selection never executes trial mitigations on the new input.
+Predictions, IDs, model hashes and timestamps are saved before the first actual
+mitigation preprocessing call, and checked again during scoring.
+
+### Acceptance and interpretation
+
+Two activation policies are prespecified: the learned strategy policy and the
+condition policy. For a routing claim, the *same* policy must have a strictly
+positive lower 95% paired-bootstrap bound against each of: keep, the strongest
+fixed remedy at the same number of extra generation calls, risk-bin-shuffled
+routing, the public-input comparator, and the confidence comparator, on **both**
+backbones. All variants are resampled together by base question. There are two
+prespecified policy claims; using lower ends of two-sided 95% intervals gives a
+nominal one-sided 2.5% threshold per policy (Bonferroni total 5%). These are
+bootstrap approximations, not exact finite-sample error guarantees. Requiring
+all comparators and both backbones is an intersection criterion. A claim that
+learning strategy changes adds value additionally requires beating the simpler
+condition policy. This distinction prevents calling condition detection evidence
+for a useful learned strategy geometry.
+
+The fixed-remedy control is chosen in hindsight and recomputed in each base
+bootstrap. Its activation-risk gate receives the same number of active calls as
+the evaluated policy. This matches generation-call count, not token count or
+latency. Also report the strongest always-on remedy, costs, rescue, harm, and
+an oracle ceiling. A positive result would establish controlled evidence-repair
+routing, not a universal hallucination detector, a causal layer pathway, natural
+failure diagnosis, or proof that an unrepaired answer is irrecoverable.
+
+## Run
+
+Use the pinned local models/data and dependencies in the repository's main
+reproduction instructions. Set ACTIVATION_RUNS to an empty run root. Execute
+`python -m experiments.paired_evidence.data`, then collect each backbone with
+`python -m experiments.paired_evidence.collect --model MODEL --splits pilot train validation`.
+Use separate CUDA_VISIBLE_DEVICES for the two collectors. Review pilot feasibility
+before freezing the predictor; do not fit or tune to pilot mitigation successes.
+
+From a clean git worktree, with PYTHONHASHSEED=0 and the same ACTIVATION_RUNS,
+run `python -m experiments.paired_evidence.search`. The bounded autoresearch loop
+commits each predictor configuration, verifies activation NMSE, runs the task's
+CPU tests, and keeps or reverts the change. Its ledger stays in the ignored
+`autoresearch/loop-261013-paired` directory. It freezes fitted/best.joblib and
+metadata separately for each model. Then collect test using `--splits test
+--predictor RUN_ROOT/paired_evidence/MODEL/fitted/best.joblib`. Only afterward
+run `python -m experiments.paired_evidence.evaluate --model MODEL --split test`.
+Generation requires PYTHONHASHSEED=0; the established local commands also use
+OMP_NUM_THREADS=4 and OPENBLAS_NUM_THREADS=4. Generated states and raw outputs
+remain in the ignored run root; publish compact results and provenance.
+
+## Closely related work
+
+Activation-based retrieval decisions are established: [Probing-RAG](https://arxiv.org/abs/2410.13339)
+uses intermediate hidden states to decide whether to retrieve again.
+[Knowing Before Answering](https://arxiv.org/abs/2608.27661) trains linear models
+on internal signals to distinguish sufficient, insufficient and conflicting
+evidence across 16 backbones. [ProbeRAG](https://arxiv.org/abs/2510.12460)
+combines context pruning, latent conflict detection and attention intervention.
+Therefore, detecting an evidence condition from activations is not itself a
+novel contribution. The unproven question here is whether paired strategy-state
+changes, without mitigation-success labels, add useful repair selection beyond
+a condition rule and strong observable controls. Empirical success and novelty
+are separate requirements; this pilot cannot establish an ICML contribution.

@@ -110,11 +110,21 @@ class Observable:
         x=np.concatenate(parts,axis=1)
         return self.scale.fit_transform(x) if fitting else self.scale.transform(x)
 
-    def fit(self,texts,confidence,public=None):
+    def fit(self,texts,confidence,public=None,validation=None):
         self.scale=StandardScaler()
         if self.text:self.vectorizer=TfidfVectorizer(max_features=20000,min_df=2,ngram_range=(1,2),sublinear_tf=True)
         x=self.features(texts,confidence,True,public)
-        self.model=Ridge(alpha=10.).fit(x,np.tile(CODES,(len(texts)//3,1)))
+        target=np.tile(CODES,(len(texts)//3,1))
+        if validation is None:
+            self.model=Ridge(alpha=10.).fit(x,target)
+        else:
+            vx=self.features(validation['texts'],validation['confidence'],public=validation['public'] if self.pool else None)
+            vt=np.tile(CODES,(len(vx)//3,1));candidates=[]
+            for alpha in (.01,.1,1.,10.,100.,1000.):
+                model=Ridge(alpha=alpha).fit(x,target)
+                candidates.append((float(np.mean((model.predict(vx)-vt)**2)),alpha,model))
+            error,alpha,self.model=min(candidates,key=lambda row:row[0])
+            self.details={'validation_condition_mse':error,'alpha':alpha}
         return self
 
     def predict(self,texts,confidence,public=None):
@@ -181,12 +191,13 @@ def coordinate_bundle(key):
         if meta['fingerprint']!=fingerprint or meta['sha256']!=file_digest(path):raise ValueError('Changed frozen coordinate bundle')
         return joblib.load(path),train,val
     coordinates=Coordinates().fit(train['states'][:,:,0],val['states'][:,:,0])
-    observable=Observable(True,pool=True).fit(train['texts'],train['confidence'],train['public'])
-    confidence=Observable(False).fit(train['texts'],train['confidence'])
+    observable=Observable(True,pool=True).fit(train['texts'],train['confidence'],train['public'],validation=val)
+    confidence=Observable(False).fit(train['texts'],train['confidence'],validation=val)
     bundle=(coordinates,observable,confidence)
     joblib.dump(bundle,path)
     dump(path.with_suffix('.json'),{'fingerprint':fingerprint,'sha256':file_digest(path),
-         'coordinates':coordinates.details,'action_success_labels_used':False})
+         'coordinates':coordinates.details,'observable':observable.details,'confidence':confidence.details,
+         'action_success_labels_used':False})
     return bundle,train,val
 
 
