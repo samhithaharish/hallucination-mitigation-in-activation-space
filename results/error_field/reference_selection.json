@@ -1,0 +1,441 @@
+{
+  "best": {
+    "index": 7,
+    "config": {
+      "kind": "ridge",
+      "alpha": 100.0,
+      "features": "state"
+    },
+    "metric": 0.6245540032784144,
+    "per_model": {
+      "qwen7b": 0.576102207104365,
+      "phi35": 0.6730057994524637
+    }
+  },
+  "trials": [
+    {
+      "index": 0,
+      "config": {
+        "kind": "mean",
+        "alpha": 0.0,
+        "features": "state"
+      },
+      "metric": 0.9323630332946777,
+      "per_model": {
+        "qwen7b": 0.9767100612322489,
+        "phi35": 0.8880160053571066
+      }
+    },
+    {
+      "index": 1,
+      "config": {
+        "kind": "ridge",
+        "alpha": 1.0,
+        "features": "z"
+      },
+      "metric": 0.8843373457590739,
+      "per_model": {
+        "qwen7b": 0.9181337157885233,
+        "phi35": 0.8505409757296244
+      }
+    },
+    {
+      "index": 2,
+      "config": {
+        "kind": "ridge",
+        "alpha": 10.0,
+        "features": "z"
+      },
+      "metric": 0.8843100468317667,
+      "per_model": {
+        "qwen7b": 0.918294350306193,
+        "phi35": 0.8503257433573405
+      }
+    },
+    {
+      "index": 3,
+      "config": {
+        "kind": "ridge",
+        "alpha": 100.0,
+        "features": "z"
+      },
+      "metric": 0.8879806200663249,
+      "per_model": {
+        "qwen7b": 0.9233235319455465,
+        "phi35": 0.8526377081871033
+      }
+    },
+    {
+      "index": 4,
+      "config": {
+        "kind": "ridge",
+        "alpha": 1000.0,
+        "features": "z"
+      },
+      "metric": 0.9137574930985769,
+      "per_model": {
+        "qwen7b": 0.9541161259015402,
+        "phi35": 0.8733988602956136
+      }
+    },
+    {
+      "index": 5,
+      "config": {
+        "kind": "ridge",
+        "alpha": 1.0,
+        "features": "state"
+      },
+      "metric": 0.6467920889457067,
+      "per_model": {
+        "qwen7b": 0.5913733740647634,
+        "phi35": 0.70221080382665
+      }
+    },
+    {
+      "index": 6,
+      "config": {
+        "kind": "ridge",
+        "alpha": 10.0,
+        "features": "state"
+      },
+      "metric": 0.6391767412424088,
+      "per_model": {
+        "qwen7b": 0.5863646368185679,
+        "phi35": 0.6919888456662496
+      }
+    },
+    {
+      "index": 7,
+      "config": {
+        "kind": "ridge",
+        "alpha": 100.0,
+        "features": "state"
+      },
+      "metric": 0.6245540032784144,
+      "per_model": {
+        "qwen7b": 0.576102207104365,
+        "phi35": 0.6730057994524637
+      }
+    },
+    {
+      "index": 8,
+      "config": {
+        "kind": "ridge",
+        "alpha": 1000.0,
+        "features": "state"
+      },
+      "metric": 0.6530990103880565,
+      "per_model": {
+        "qwen7b": 0.6146523952484131,
+        "phi35": 0.6915456255276998
+      }
+    },
+    {
+      "index": 9,
+      "config": {
+        "kind": "ridge",
+        "alpha": 1.0,
+        "features": "bilinear"
+      },
+      "metric": 0.7578599353631337,
+      "per_model": {
+        "qwen7b": 0.6926233569780985,
+        "phi35": 0.823096513748169
+      }
+    },
+    {
+      "index": 10,
+      "config": {
+        "kind": "ridge",
+        "alpha": 10.0,
+        "features": "bilinear"
+      },
+      "metric": 0.7034777502218883,
+      "per_model": {
+        "qwen7b": 0.6467207670211792,
+        "phi35": 0.7602347334225973
+      }
+    },
+    {
+      "index": 11,
+      "config": {
+        "kind": "ridge",
+        "alpha": 100.0,
+        "features": "bilinear"
+      },
+      "metric": 0.6375641723473866,
+      "per_model": {
+        "qwen7b": 0.5877153873443604,
+        "phi35": 0.687412957350413
+      }
+    },
+    {
+      "index": 12,
+      "config": {
+        "kind": "ridge",
+        "alpha": 1000.0,
+        "features": "bilinear"
+      },
+      "metric": 0.64125661055247,
+      "per_model": {
+        "qwen7b": 0.5994345545768738,
+        "phi35": 0.683078666528066
+      }
+    }
+  ],
+  "frozen": {
+    "qwen7b": {
+      "config": {
+        "kind": "ridge",
+        "alpha": 100.0,
+        "features": "bilinear"
+      },
+      "shared_validation_activation_nmse": 0.7254667637671883,
+      "probe": {
+        "C": 0.01,
+        "validation_baseline_error_log_loss": 0.6092641949653625,
+        "validation_baseline_error_auroc": 0.7071149189793258,
+        "baseline_correctness_labels_used": true,
+        "mitigation_success_targets_used": false
+      },
+      "comparators": {
+        "public": {
+          "kind": "ridge",
+          "alpha": 100.0,
+          "validation_activation_nmse": 0.9955093016996418
+        },
+        "confidence": {
+          "kind": "ridge",
+          "alpha": 100.0,
+          "validation_activation_nmse": 1.0348205277106828
+        }
+      },
+      "data": {
+        "train": "cbf1d0a1fa2076cbaae67ba24aea6c2a4aceb20a3a01648e72b517db87c4f28b",
+        "validation": "98a9b168e25a0859ec4ed964836fe303349765804400f395856821a70040a0e2",
+        "coordinate_sha256": "22283d09923dc600d28d5fac08a8d10c952d7d9503c1b57d943e674783aad656",
+        "previous_model_sha256": "fa6ded3fe77daeab777c2e530674205046cf01727cfb704c9a3ead5173057bb5"
+      },
+      "sources": {
+        "experiments/error_field/reference.py": "b29a7683b77ac5a0efb213c1659628536e4710c6c0fa4cde118172178696335c",
+        "experiments/error_field/__init__.py": "9a64b332a627425a506f065f4cd9e78a639b237efea63c8fc8e8a6871cf37638",
+        "experiments/error_field/evaluate.py": "801e7bee0e0176635e12da4883bfd24b927931b865277d33249eec882a4cc906",
+        "experiments/error_field/data.py": "acd484040f2c0c92188a3b87e7f8d9a41a0251977d3152fa323292ad6b51fe6b",
+        "experiments/error_field/report.py": "ef3c309c6429819f97c40dd7c61f902ac26971e6be7bf884cd02736a104e9f42",
+        "experiments/error_field/fit.py": "9962a5126357b2dd07e86f9d537f6dc9daeb417a8e353980515b46c2898e4427",
+        "experiments/paired_evidence/__init__.py": "259422882d2abe02eabfbc405103cc4cc09a5a8a4104cf5733878f5bba0d96a5",
+        "experiments/paired_evidence/task.py": "cfcc4586bce520e5c4aa778e89db4daaed24a3d44ac2adf0b11606c687bc50e7",
+        "experiments/paired_evidence/collect.py": "c9d1cffc5db8ac7c810953deb2a34b98e56ecc299a52421c83a93e1432782a3d",
+        "experiments/paired_evidence/evaluate.py": "66b5aab68b6f6af9da195c209fe728898cbc646713da546ba997cf5af5900614",
+        "experiments/paired_evidence/data.py": "e6dd3ef3b25a4d686b8cb736cc9ff98c83dcefb7b51dcbee4ef504403b1c1ba8",
+        "experiments/paired_evidence/report.py": "176d801c9c613b7ec10ceea862e9c6e4b9d83298a9dfe91c009a1fd786e0051b",
+        "experiments/paired_evidence/fit.py": "7b2a1d7c915434e6b75f0845987d1a5c5df0cab28a365f7e6cbe5a56ce610b0c",
+        "experiments/paired_evidence/search.py": "d24977b82b686ad66c55b9d00084dbecf1c3a0c36e061ed05c58be43511c1c6b"
+      },
+      "baseline_correctness_labels_used": true,
+      "mitigation_success_targets_used": false,
+      "pilot_informed_action_design": true,
+      "source_checkpoint": "2390f595eed958fa6d65dfa849096fecebb407b1",
+      "data_manifest_sha256": "6c4fa3a919dfc6822bda2809ca894d18673cc0e44539fdfbfac809069eef9a42",
+      "sha256": "48af3ee18fa1d4e7f13fbf620f536fe9bebd717b799d8f5caf4a3ada402db3dc",
+      "fingerprint": "5cb14438bed40bfe5ad0102e99ec3556d533edc7fa64e1be336d01a0a6e7123c",
+      "frozen_time_unix": 1791966360.2388601,
+      "source_hashes": {
+        "experiments/error_field/reference.py": "b29a7683b77ac5a0efb213c1659628536e4710c6c0fa4cde118172178696335c",
+        "experiments/error_field/__init__.py": "9a64b332a627425a506f065f4cd9e78a639b237efea63c8fc8e8a6871cf37638",
+        "experiments/error_field/evaluate.py": "801e7bee0e0176635e12da4883bfd24b927931b865277d33249eec882a4cc906",
+        "experiments/error_field/data.py": "acd484040f2c0c92188a3b87e7f8d9a41a0251977d3152fa323292ad6b51fe6b",
+        "experiments/error_field/report.py": "ef3c309c6429819f97c40dd7c61f902ac26971e6be7bf884cd02736a104e9f42",
+        "experiments/error_field/fit.py": "9962a5126357b2dd07e86f9d537f6dc9daeb417a8e353980515b46c2898e4427",
+        "experiments/paired_evidence/__init__.py": "259422882d2abe02eabfbc405103cc4cc09a5a8a4104cf5733878f5bba0d96a5",
+        "experiments/paired_evidence/task.py": "cfcc4586bce520e5c4aa778e89db4daaed24a3d44ac2adf0b11606c687bc50e7",
+        "experiments/paired_evidence/collect.py": "c9d1cffc5db8ac7c810953deb2a34b98e56ecc299a52421c83a93e1432782a3d",
+        "experiments/paired_evidence/evaluate.py": "66b5aab68b6f6af9da195c209fe728898cbc646713da546ba997cf5af5900614",
+        "experiments/paired_evidence/data.py": "e6dd3ef3b25a4d686b8cb736cc9ff98c83dcefb7b51dcbee4ef504403b1c1ba8",
+        "experiments/paired_evidence/report.py": "176d801c9c613b7ec10ceea862e9c6e4b9d83298a9dfe91c009a1fd786e0051b",
+        "experiments/paired_evidence/fit.py": "7b2a1d7c915434e6b75f0845987d1a5c5df0cab28a365f7e6cbe5a56ce610b0c",
+        "experiments/paired_evidence/search.py": "d24977b82b686ad66c55b9d00084dbecf1c3a0c36e061ed05c58be43511c1c6b"
+      },
+      "parent_fit_sources": {
+        "experiments/error_field/__init__.py": "9a64b332a627425a506f065f4cd9e78a639b237efea63c8fc8e8a6871cf37638",
+        "experiments/error_field/evaluate.py": "5ce104d17c1c218c9d31adaaa69e6c767817e8b69473828996f78b55ed0341d8",
+        "experiments/error_field/data.py": "acd484040f2c0c92188a3b87e7f8d9a41a0251977d3152fa323292ad6b51fe6b",
+        "experiments/error_field/report.py": "e4be85a2d1c580edf5654c349183e695350f487219c6d3c2ad63cc8ad084085c",
+        "experiments/error_field/fit.py": "9962a5126357b2dd07e86f9d537f6dc9daeb417a8e353980515b46c2898e4427",
+        "experiments/paired_evidence/__init__.py": "259422882d2abe02eabfbc405103cc4cc09a5a8a4104cf5733878f5bba0d96a5",
+        "experiments/paired_evidence/task.py": "cfcc4586bce520e5c4aa778e89db4daaed24a3d44ac2adf0b11606c687bc50e7",
+        "experiments/paired_evidence/collect.py": "c9d1cffc5db8ac7c810953deb2a34b98e56ecc299a52421c83a93e1432782a3d",
+        "experiments/paired_evidence/evaluate.py": "66b5aab68b6f6af9da195c209fe728898cbc646713da546ba997cf5af5900614",
+        "experiments/paired_evidence/data.py": "e6dd3ef3b25a4d686b8cb736cc9ff98c83dcefb7b51dcbee4ef504403b1c1ba8",
+        "experiments/paired_evidence/report.py": "176d801c9c613b7ec10ceea862e9c6e4b9d83298a9dfe91c009a1fd786e0051b",
+        "experiments/paired_evidence/fit.py": "7b2a1d7c915434e6b75f0845987d1a5c5df0cab28a365f7e6cbe5a56ce610b0c",
+        "experiments/paired_evidence/search.py": "d24977b82b686ad66c55b9d00084dbecf1c3a0c36e061ed05c58be43511c1c6b"
+      },
+      "parent_error_router_sha256": "9350da7ee75622a49cc480e6dfbdcc8e795c53c2bbcd4e47e93f683545d4d344",
+      "error_policy_parameters_unchanged": true,
+      "reference": {
+        "config": {
+          "kind": "ridge",
+          "alpha": 100.0,
+          "features": "state"
+        },
+        "shared_validation_activation_nmse": 0.6245540032784144,
+        "denoiser": {
+          "validation_clean_state_mse": 0.32921531796455383,
+          "identity_mse": 0.46594488620758057,
+          "alpha": 100.0
+        },
+        "comparators": {
+          "public": {
+            "residual": {
+              "mse": 0.16015978202738274,
+              "alpha": 100.0
+            },
+            "field_nmse": 0.9125624731355293,
+            "kind": "ridge",
+            "alpha": 100.0
+          },
+          "confidence": {
+            "residual": {
+              "mse": 0.21126628735806166,
+              "alpha": 100.0
+            },
+            "field_nmse": 0.960376650312685,
+            "kind": "ridge",
+            "alpha": 100.0
+          }
+        },
+        "baseline_correctness_labels_used": false,
+        "mitigation_success_targets_used": false
+      }
+    },
+    "phi35": {
+      "config": {
+        "kind": "ridge",
+        "alpha": 100.0,
+        "features": "bilinear"
+      },
+      "shared_validation_activation_nmse": 0.7254667637671883,
+      "probe": {
+        "C": 0.1,
+        "validation_baseline_error_log_loss": 0.5677297115325928,
+        "validation_baseline_error_auroc": 0.7601383642073642,
+        "baseline_correctness_labels_used": true,
+        "mitigation_success_targets_used": false
+      },
+      "comparators": {
+        "public": {
+          "kind": "ridge",
+          "alpha": 100.0,
+          "validation_activation_nmse": 0.8597617339380227
+        },
+        "confidence": {
+          "kind": "ridge",
+          "alpha": 100.0,
+          "validation_activation_nmse": 0.9060244930275805
+        }
+      },
+      "data": {
+        "train": "3f51e8070485f3e082433fb3927ea3e7d1b1b2e2278474b0be0878cdc18ea12c",
+        "validation": "4a1dbb3ef3228a9e9fc1d7c59a2953504310be4d07854f8eead384ee02b6a328",
+        "coordinate_sha256": "79897565db69752eae0c23d29bee5934cae3424a19ec9b2db2c1861c44f9b103",
+        "previous_model_sha256": "27db433a1e20a758f638f140e3e1e1550e9e34a3151fa5ddb799380b40482069"
+      },
+      "sources": {
+        "experiments/error_field/reference.py": "b29a7683b77ac5a0efb213c1659628536e4710c6c0fa4cde118172178696335c",
+        "experiments/error_field/__init__.py": "9a64b332a627425a506f065f4cd9e78a639b237efea63c8fc8e8a6871cf37638",
+        "experiments/error_field/evaluate.py": "801e7bee0e0176635e12da4883bfd24b927931b865277d33249eec882a4cc906",
+        "experiments/error_field/data.py": "acd484040f2c0c92188a3b87e7f8d9a41a0251977d3152fa323292ad6b51fe6b",
+        "experiments/error_field/report.py": "ef3c309c6429819f97c40dd7c61f902ac26971e6be7bf884cd02736a104e9f42",
+        "experiments/error_field/fit.py": "9962a5126357b2dd07e86f9d537f6dc9daeb417a8e353980515b46c2898e4427",
+        "experiments/paired_evidence/__init__.py": "259422882d2abe02eabfbc405103cc4cc09a5a8a4104cf5733878f5bba0d96a5",
+        "experiments/paired_evidence/task.py": "cfcc4586bce520e5c4aa778e89db4daaed24a3d44ac2adf0b11606c687bc50e7",
+        "experiments/paired_evidence/collect.py": "c9d1cffc5db8ac7c810953deb2a34b98e56ecc299a52421c83a93e1432782a3d",
+        "experiments/paired_evidence/evaluate.py": "66b5aab68b6f6af9da195c209fe728898cbc646713da546ba997cf5af5900614",
+        "experiments/paired_evidence/data.py": "e6dd3ef3b25a4d686b8cb736cc9ff98c83dcefb7b51dcbee4ef504403b1c1ba8",
+        "experiments/paired_evidence/report.py": "176d801c9c613b7ec10ceea862e9c6e4b9d83298a9dfe91c009a1fd786e0051b",
+        "experiments/paired_evidence/fit.py": "7b2a1d7c915434e6b75f0845987d1a5c5df0cab28a365f7e6cbe5a56ce610b0c",
+        "experiments/paired_evidence/search.py": "d24977b82b686ad66c55b9d00084dbecf1c3a0c36e061ed05c58be43511c1c6b"
+      },
+      "baseline_correctness_labels_used": true,
+      "mitigation_success_targets_used": false,
+      "pilot_informed_action_design": true,
+      "source_checkpoint": "2390f595eed958fa6d65dfa849096fecebb407b1",
+      "data_manifest_sha256": "6c4fa3a919dfc6822bda2809ca894d18673cc0e44539fdfbfac809069eef9a42",
+      "sha256": "94a46f06d600e8a93647d0581673b3485ffc45736830d0d674437a072ae4097e",
+      "fingerprint": "9c3ce5afe8e3d6b38917831f5ca75b5ab328a0efc13235c3395efaa1f3a9df3c",
+      "frozen_time_unix": 1791966364.972133,
+      "source_hashes": {
+        "experiments/error_field/reference.py": "b29a7683b77ac5a0efb213c1659628536e4710c6c0fa4cde118172178696335c",
+        "experiments/error_field/__init__.py": "9a64b332a627425a506f065f4cd9e78a639b237efea63c8fc8e8a6871cf37638",
+        "experiments/error_field/evaluate.py": "801e7bee0e0176635e12da4883bfd24b927931b865277d33249eec882a4cc906",
+        "experiments/error_field/data.py": "acd484040f2c0c92188a3b87e7f8d9a41a0251977d3152fa323292ad6b51fe6b",
+        "experiments/error_field/report.py": "ef3c309c6429819f97c40dd7c61f902ac26971e6be7bf884cd02736a104e9f42",
+        "experiments/error_field/fit.py": "9962a5126357b2dd07e86f9d537f6dc9daeb417a8e353980515b46c2898e4427",
+        "experiments/paired_evidence/__init__.py": "259422882d2abe02eabfbc405103cc4cc09a5a8a4104cf5733878f5bba0d96a5",
+        "experiments/paired_evidence/task.py": "cfcc4586bce520e5c4aa778e89db4daaed24a3d44ac2adf0b11606c687bc50e7",
+        "experiments/paired_evidence/collect.py": "c9d1cffc5db8ac7c810953deb2a34b98e56ecc299a52421c83a93e1432782a3d",
+        "experiments/paired_evidence/evaluate.py": "66b5aab68b6f6af9da195c209fe728898cbc646713da546ba997cf5af5900614",
+        "experiments/paired_evidence/data.py": "e6dd3ef3b25a4d686b8cb736cc9ff98c83dcefb7b51dcbee4ef504403b1c1ba8",
+        "experiments/paired_evidence/report.py": "176d801c9c613b7ec10ceea862e9c6e4b9d83298a9dfe91c009a1fd786e0051b",
+        "experiments/paired_evidence/fit.py": "7b2a1d7c915434e6b75f0845987d1a5c5df0cab28a365f7e6cbe5a56ce610b0c",
+        "experiments/paired_evidence/search.py": "d24977b82b686ad66c55b9d00084dbecf1c3a0c36e061ed05c58be43511c1c6b"
+      },
+      "parent_fit_sources": {
+        "experiments/error_field/__init__.py": "9a64b332a627425a506f065f4cd9e78a639b237efea63c8fc8e8a6871cf37638",
+        "experiments/error_field/evaluate.py": "5ce104d17c1c218c9d31adaaa69e6c767817e8b69473828996f78b55ed0341d8",
+        "experiments/error_field/data.py": "acd484040f2c0c92188a3b87e7f8d9a41a0251977d3152fa323292ad6b51fe6b",
+        "experiments/error_field/report.py": "e4be85a2d1c580edf5654c349183e695350f487219c6d3c2ad63cc8ad084085c",
+        "experiments/error_field/fit.py": "9962a5126357b2dd07e86f9d537f6dc9daeb417a8e353980515b46c2898e4427",
+        "experiments/paired_evidence/__init__.py": "259422882d2abe02eabfbc405103cc4cc09a5a8a4104cf5733878f5bba0d96a5",
+        "experiments/paired_evidence/task.py": "cfcc4586bce520e5c4aa778e89db4daaed24a3d44ac2adf0b11606c687bc50e7",
+        "experiments/paired_evidence/collect.py": "c9d1cffc5db8ac7c810953deb2a34b98e56ecc299a52421c83a93e1432782a3d",
+        "experiments/paired_evidence/evaluate.py": "66b5aab68b6f6af9da195c209fe728898cbc646713da546ba997cf5af5900614",
+        "experiments/paired_evidence/data.py": "e6dd3ef3b25a4d686b8cb736cc9ff98c83dcefb7b51dcbee4ef504403b1c1ba8",
+        "experiments/paired_evidence/report.py": "176d801c9c613b7ec10ceea862e9c6e4b9d83298a9dfe91c009a1fd786e0051b",
+        "experiments/paired_evidence/fit.py": "7b2a1d7c915434e6b75f0845987d1a5c5df0cab28a365f7e6cbe5a56ce610b0c",
+        "experiments/paired_evidence/search.py": "d24977b82b686ad66c55b9d00084dbecf1c3a0c36e061ed05c58be43511c1c6b"
+      },
+      "parent_error_router_sha256": "e8cea90d91ab4524821adbf263f59f6dd7895e0d23a57ac80694d3214fd1b01c",
+      "error_policy_parameters_unchanged": true,
+      "reference": {
+        "config": {
+          "kind": "ridge",
+          "alpha": 100.0,
+          "features": "state"
+        },
+        "shared_validation_activation_nmse": 0.6245540032784144,
+        "denoiser": {
+          "validation_clean_state_mse": 0.19859327375888824,
+          "identity_mse": 0.2827523946762085,
+          "alpha": 10.0
+        },
+        "comparators": {
+          "public": {
+            "residual": {
+              "mse": 0.11927008304372294,
+              "alpha": 100.0
+            },
+            "field_nmse": 0.8275647306922768,
+            "kind": "ridge",
+            "alpha": 100.0
+          },
+          "confidence": {
+            "residual": {
+              "mse": 0.15585375148674052,
+              "alpha": 100.0
+            },
+            "field_nmse": 0.8538096242367746,
+            "kind": "ridge",
+            "alpha": 100.0
+          }
+        },
+        "baseline_correctness_labels_used": false,
+        "mitigation_success_targets_used": false
+      }
+    }
+  },
+  "baseline_correctness_labels_used": false,
+  "mitigation_success_targets_used": false,
+  "time_unix": 1791966364.9725688
+}

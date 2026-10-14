@@ -1,10 +1,13 @@
 """Report discovery and fresh replication without revising primary decisions."""
 import json
+import os
+from pathlib import Path
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 from .evaluate import ROOT,MODELS,CONTROLS
+from experiments.paths import REPO
 
 LABELS=('Keep','Fixed action + activation risk','Fixed action + public margin',
         'Fixed action + confidence margin','Shuffle within activation risk')
@@ -12,6 +15,10 @@ LABELS=('Keep','Fixed action + activation risk','Fixed action + public margin',
 
 def difference(v):
     return f"{100*v['mean']:+.2f} [{100*v['ci95'][0]:+.2f}, {100*v['ci95'][1]:+.2f}]"
+
+
+def relative(target):
+    return Path(os.path.relpath(target,ROOT)).as_posix()
 
 
 def report():
@@ -56,9 +63,9 @@ def report():
         'retrieval and evidence-condition probing have prior work; this result cannot establish novelty.','',
         'The fresh analysis requires positive lower 95% bounds against every listed control on both '
         'models for the same frozen policy. See [registration](registration.json), '
-        '[method and reproduction](../../experiments/retrieval_budget/README.md), '
-        '[original paired results](../paired_evidence/README.md), and '
-        '[separate response-policy results](../error_field/README.md).','']
+        f"[method and reproduction]({relative(REPO/'experiments/retrieval_budget/README.md')}), "
+        f"[original paired results]({relative(REPO/'results/paired_evidence/README.md')}), and "
+        f"[separate response-policy results]({relative(REPO/'results/error_field/README.md')}).",'']
     (ROOT/'README.md').write_text('\n'.join(lines))
     fig,axes=plt.subplots(1,2,figsize=(11,4),sharey=True)
     for ax,(key,r) in zip(axes,records['replication'].items()):

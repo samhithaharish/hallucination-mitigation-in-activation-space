@@ -1,0 +1,193 @@
+{
+  "model": "qwen7b",
+  "post_action_information_used": true,
+  "actual_clean_used_only_in_named_oracle": true,
+  "usable_for_deployment": false,
+  "acceptance_decision_changed": false,
+  "n_base_questions": 800,
+  "offline_objectives": {
+    "actual_post_action_error_readout": {
+      "f1": 0.7866534870322601,
+      "em": 0.7125,
+      "extra_calls": 1.7058333333333333,
+      "extra_tokens": 1863.6754166666667,
+      "rescued": 296,
+      "harmed": 95,
+      "counts": {
+        "keep": 353,
+        "retrieve": 366,
+        "filter": 1254,
+        "focus": 427,
+        "sham": 0,
+        "empty": 0
+      },
+      "vs_keep": {
+        "mean": 0.07785188164756271,
+        "ci95": [
+          0.0629031583368876,
+          0.09315249698541272
+        ]
+      },
+      "agreement_with_frozen_error_policy": 0.3525,
+      "agreement_with_frozen_reference_policy": 0.14916666666666667
+    },
+    "actual_post_action_error_readout_plus_fixed_penalty": {
+      "f1": 0.7690065342043864,
+      "em": 0.6929166666666666,
+      "extra_calls": 0.9758333333333333,
+      "extra_tokens": 1100.1175,
+      "rescued": 207,
+      "harmed": 53,
+      "counts": {
+        "keep": 1229,
+        "retrieve": 243,
+        "filter": 653,
+        "focus": 275,
+        "sham": 0,
+        "empty": 0
+      },
+      "vs_keep": {
+        "mean": 0.06020492881968882,
+        "ci95": [
+          0.047702681799724395,
+          0.07308823800798364
+        ]
+      },
+      "agreement_with_frozen_error_policy": 0.62125,
+      "agreement_with_frozen_reference_policy": 0.51375
+    },
+    "actual_post_action_distance_to_predicted_clean": {
+      "f1": 0.7119483876483277,
+      "em": 0.6325,
+      "extra_calls": 0.0375,
+      "extra_tokens": 54.93666666666667,
+      "rescued": 11,
+      "harmed": 2,
+      "counts": {
+        "keep": 2355,
+        "retrieve": 16,
+        "filter": 0,
+        "focus": 29,
+        "sham": 0,
+        "empty": 0
+      },
+      "vs_keep": {
+        "mean": 0.0031467822636300894,
+        "ci95": [
+          0.0009660865251897862,
+          0.005558777605244997
+        ]
+      },
+      "agreement_with_frozen_error_policy": 0.69875,
+      "agreement_with_frozen_reference_policy": 0.9816666666666667
+    },
+    "actual_post_action_distance_plus_fixed_penalty": {
+      "f1": 0.7089404942735864,
+      "em": 0.6291666666666667,
+      "extra_calls": 0.0008333333333333334,
+      "extra_tokens": 1.3191666666666666,
+      "rescued": 1,
+      "harmed": 0,
+      "counts": {
+        "keep": 2399,
+        "retrieve": 1,
+        "filter": 0,
+        "focus": 0,
+        "sham": 0,
+        "empty": 0
+      },
+      "vs_keep": {
+        "mean": 0.0001388888888888889,
+        "ci95": [
+          0.0,
+          0.0004166666666666667
+        ]
+      },
+      "agreement_with_frozen_error_policy": 0.7054166666666667,
+      "agreement_with_frozen_reference_policy": 0.99375
+    },
+    "actual_post_action_distance_to_actual_clean": {
+      "f1": 0.7332951496888153,
+      "em": 0.6533333333333333,
+      "extra_calls": 0.45,
+      "extra_tokens": 715.5454166666667,
+      "rescued": 98,
+      "harmed": 39,
+      "counts": {
+        "keep": 1860,
+        "retrieve": 387,
+        "filter": 1,
+        "focus": 152,
+        "sham": 0,
+        "empty": 0
+      },
+      "vs_keep": {
+        "mean": 0.024493544304117734,
+        "ci95": [
+          0.015175603447634087,
+          0.033719638311849376
+        ]
+      },
+      "agreement_with_frozen_error_policy": 0.5854166666666667,
+      "agreement_with_frozen_reference_policy": 0.78125
+    }
+  },
+  "actual_error_logit_reduction_vs_actual_f1_gain_spearman": 0.1484233538954924,
+  "forecast_active_error_logit_transition_mse": 0.2007362869361772,
+  "strong_budget_controls": {
+    "public": {
+      "mean": 0.015247521364209371,
+      "ci95": [
+        0.0020261124570348297,
+        0.027339612629343014
+      ],
+      "hindsight_action": "retrieve"
+    },
+    "confidence": {
+      "mean": -0.004018917583868631,
+      "ci95": [
+        -0.01755850830757385,
+        0.007706928816349817
+      ],
+      "hindsight_action": "filter"
+    }
+  },
+  "strong_budget_controls_posthoc_descriptive": true,
+  "oracle_action_f1": 0.8814408929492135,
+  "prediction_audit": {
+    "n_bases": 800,
+    "max_reload_difference": 0.0,
+    "all_choices_precede_actions": true
+  },
+  "source_sha256": "78980134166e7b900e4880326c601e7dd69eda38be4b5b4dc3e03ccf5f2e3424",
+  "source_hashes": {
+    "experiments/paths.py": "3ef97bedeebfd0f362e0e9efc5c3310c32d572709af52d870527f37c24795707",
+    "experiments/retrieval_budget/__init__.py": "8952e663140a9a59c34bb78ffd003a3d558552616b68f44ab2ede11cd17fff5e",
+    "experiments/retrieval_budget/evaluate.py": "da3749fad43a95c913ff4d882a64cf75f34ebaf4ab13ab96688e99daa4bedc3e",
+    "experiments/retrieval_budget/report.py": "73a5081f167961f58c52bbbdc44fdf4107e6e5b67bcf0be6199acc1bc2fbbd71",
+    "experiments/paired_evidence/__init__.py": "259422882d2abe02eabfbc405103cc4cc09a5a8a4104cf5733878f5bba0d96a5",
+    "experiments/paired_evidence/collect.py": "c9d1cffc5db8ac7c810953deb2a34b98e56ecc299a52421c83a93e1432782a3d",
+    "experiments/paired_evidence/data.py": "e6dd3ef3b25a4d686b8cb736cc9ff98c83dcefb7b51dcbee4ef504403b1c1ba8",
+    "experiments/paired_evidence/evaluate.py": "66b5aab68b6f6af9da195c209fe728898cbc646713da546ba997cf5af5900614",
+    "experiments/paired_evidence/fit.py": "7b2a1d7c915434e6b75f0845987d1a5c5df0cab28a365f7e6cbe5a56ce610b0c",
+    "experiments/paired_evidence/report.py": "176d801c9c613b7ec10ceea862e9c6e4b9d83298a9dfe91c009a1fd786e0051b",
+    "experiments/paired_evidence/search.py": "605cb1004f5a94dbe073e96db10775f1d09f4c50d362575494d74de173a26260",
+    "experiments/paired_evidence/task.py": "cfcc4586bce520e5c4aa778e89db4daaed24a3d44ac2adf0b11606c687bc50e7",
+    "experiments/error_field/__init__.py": "9a64b332a627425a506f065f4cd9e78a639b237efea63c8fc8e8a6871cf37638",
+    "experiments/error_field/data.py": "acd484040f2c0c92188a3b87e7f8d9a41a0251977d3152fa323292ad6b51fe6b",
+    "experiments/error_field/diagnose.py": "78980134166e7b900e4880326c601e7dd69eda38be4b5b4dc3e03ccf5f2e3424",
+    "experiments/error_field/evaluate.py": "801e7bee0e0176635e12da4883bfd24b927931b865277d33249eec882a4cc906",
+    "experiments/error_field/fit.py": "9962a5126357b2dd07e86f9d537f6dc9daeb417a8e353980515b46c2898e4427",
+    "experiments/error_field/reference.py": "b29a7683b77ac5a0efb213c1659628536e4710c6c0fa4cde118172178696335c",
+    "experiments/error_field/report.py": "ef3c309c6429819f97c40dd7c61f902ac26971e6be7bf884cd02736a104e9f42",
+    "experiments/recovery_help/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "experiments/recovery_help/audit.py": "5ee4af04b18756172083764812d8e29fad5b1c7ee82598e6db78af81c147102c",
+    "experiments/recovery_help/backend.py": "3090bbe756406de1ee974cb9f6e2f7e1db7429f735fd1e742d8928261b21f2e0",
+    "experiments/recovery_help/data.py": "c7d5f4170979a5fb6563156b9ad02f1b967f084c0a678baa9d1b1f53c6cb2533",
+    "experiments/recovery_help/policy.py": "28558b27edbac5a98a4a71f79987e5a3c6a2bce0fbdc6d90b05909b121ca3512",
+    "experiments/recovery_help/task.py": "1464964715033c60efa12505a9fb13f91ee0d7df01595815dab0672004ae227a"
+  },
+  "model_sha256": "48af3ee18fa1d4e7f13fbf620f536fe9bebd717b799d8f5caf4a3ada402db3dc",
+  "time_utc": "2026-10-14T09:05:17.335984+00:00",
+  "note": "Descriptive offline oracle decomposition, not a fresh policy claim or mitigation-success fitting"
+}

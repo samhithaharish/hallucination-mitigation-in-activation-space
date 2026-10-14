@@ -1,0 +1,112 @@
+{
+  "model": "phi35",
+  "label": "replication",
+  "n_base_questions": 800,
+  "policy": {
+    "f1": 0.708754364676288,
+    "em": 0.5983333333333334,
+    "extra_calls": 0.485,
+    "extra_tokens": 881.3258333333333,
+    "rescued": 102,
+    "harmed": 72,
+    "counts": {
+      "keep": 1818,
+      "retrieve": 582,
+      "filter": 0,
+      "focus": 0,
+      "sham": 0,
+      "empty": 0
+    }
+  },
+  "baseline_keep_f1": 0.6965949844001315,
+  "comparisons": {
+    "vs_keep": {
+      "mean": 0.01215938027615659,
+      "ci95": [
+        0.0014248788979052132,
+        0.02245024253889386
+      ]
+    },
+    "vs_fixed_activation_gate": {
+      "mean": 0.011269320580949871,
+      "ci95": [
+        -0.001223546808332876,
+        0.01862453488428008
+      ],
+      "hindsight_action": "retrieve"
+    },
+    "vs_fixed_public_gate": {
+      "mean": 0.00739342948717947,
+      "ci95": [
+        -0.0029579130649443784,
+        0.012246470601158063
+      ],
+      "hindsight_action": "retrieve"
+    },
+    "vs_fixed_confidence_gate": {
+      "mean": -0.006681563376996769,
+      "ci95": [
+        -0.017542072904234297,
+        0.0017620972762903732
+      ],
+      "hindsight_action": "retrieve"
+    },
+    "vs_risk_shuffle": {
+      "mean": 0.013011164017283002,
+      "ci95": [
+        0.0063382721487361526,
+        0.020345550030627844
+      ]
+    }
+  },
+  "all_controls_passed": false,
+  "default_public": {
+    "f1": 0.7037259521166255,
+    "em": 0.5916666666666667,
+    "extra_calls": 0.7091666666666666,
+    "extra_tokens": 1274.8991666666666,
+    "rescued": 121,
+    "harmed": 107,
+    "counts": {
+      "keep": 1549,
+      "retrieve": 851,
+      "filter": 0,
+      "focus": 0,
+      "sham": 0,
+      "empty": 0
+    }
+  },
+  "default_confidence": {
+    "f1": 0.7033092701144172,
+    "em": 0.5916666666666667,
+    "extra_calls": 0.04583333333333333,
+    "extra_tokens": 83.36666666666666,
+    "rescued": 17,
+    "harmed": 3,
+    "counts": {
+      "keep": 2345,
+      "retrieve": 55,
+      "filter": 0,
+      "focus": 0,
+      "sham": 0,
+      "empty": 0
+    }
+  },
+  "prediction_audit": {
+    "n_bases": 800,
+    "max_reload_difference": 0.0,
+    "all_choices_precede_actions": true
+  },
+  "bootstrap": {
+    "draws": 4000,
+    "seed": 20261013,
+    "bins": 10,
+    "unit": "base_question",
+    "interval": "percentile",
+    "coverage": 0.95
+  },
+  "registration_sha256": "c7b5916285ebbce39df8496572e33732fe4f839ffbd8907f5db28172c070a344",
+  "cohort_manifest_sha256": "6c4fa3a919dfc6822bda2809ca894d18673cc0e44539fdfbfac809069eef9a42",
+  "evaluated_time_utc": "2026-10-14T08:56:38.214310+00:00",
+  "interpretation": "Secondary cost-budget analysis; original primary acceptance decisions remain unchanged"
+}
