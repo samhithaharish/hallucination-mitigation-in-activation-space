@@ -1,1 +1,1 @@
-{"alpha": 100.0, "features": "state", "kind": "ridge"}
+{"alpha": 1000.0, "features": "bilinear", "kind": "ridge"}
