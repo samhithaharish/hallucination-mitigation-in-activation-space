@@ -1,0 +1,157 @@
+{
+  "model": "qwen7b",
+  "split": "pilot",
+  "n_base_questions": 200,
+  "n_versions": 600,
+  "fixed": {
+    "clean": {
+      "keep": {
+        "f1": 0.7913055555555556,
+        "em": 0.715
+      },
+      "retrieve": {
+        "f1": 0.7759620483537034,
+        "em": 0.715
+      },
+      "filter": {
+        "f1": 0.8149801587301587,
+        "em": 0.755
+      },
+      "focus": {
+        "f1": 0.7963690476190477,
+        "em": 0.72
+      },
+      "sham": {
+        "f1": 0.8316388888888889,
+        "em": 0.75
+      },
+      "empty": {
+        "f1": 0.2720064935064935,
+        "em": 0.21
+      }
+    },
+    "missing": {
+      "keep": {
+        "f1": 0.5666295878035008,
+        "em": 0.485
+      },
+      "retrieve": {
+        "f1": 0.7237462905452036,
+        "em": 0.645
+      },
+      "filter": {
+        "f1": 0.611301948051948,
+        "em": 0.535
+      },
+      "focus": {
+        "f1": 0.5621093857832988,
+        "em": 0.49
+      },
+      "sham": {
+        "f1": 0.5650538302277432,
+        "em": 0.485
+      },
+      "empty": {
+        "f1": 0.2720064935064935,
+        "em": 0.21
+      }
+    },
+    "distractor": {
+      "keep": {
+        "f1": 0.7599318181818182,
+        "em": 0.695
+      },
+      "retrieve": {
+        "f1": 0.7592222222222221,
+        "em": 0.675
+      },
+      "filter": {
+        "f1": 0.7337074314574314,
+        "em": 0.68
+      },
+      "focus": {
+        "f1": 0.7517146464646465,
+        "em": 0.685
+      },
+      "sham": {
+        "f1": 0.7944834054834053,
+        "em": 0.72
+      },
+      "empty": {
+        "f1": 0.2720064935064935,
+        "em": 0.21
+      }
+    }
+  },
+  "oracle_same_action_gap": {
+    "selectable_only": {
+      "f1": 0.7736965579710144,
+      "em": 0.7075,
+      "extra_calls": 1.915,
+      "extra_tokens": 2490.0975,
+      "rescued": 74,
+      "harmed": 27,
+      "counts": {
+        "keep": 17,
+        "retrieve": 211,
+        "filter": 154,
+        "focus": 18,
+        "sham": 0,
+        "empty": 0
+      }
+    },
+    "including_empty_control": {
+      "f1": 0.43511832611832607,
+      "em": 0.3825,
+      "extra_calls": 1.295,
+      "extra_tokens": 555.3025,
+      "rescued": 33,
+      "harmed": 116,
+      "counts": {
+        "keep": 0,
+        "retrieve": 0,
+        "filter": 118,
+        "focus": 0,
+        "sham": 0,
+        "empty": 282
+      }
+    },
+    "empty_choice_rate": 0.705,
+    "empty_maximizer_rate": 1.0,
+    "empty_f1": 0.2720064935064935,
+    "original_bad_keep_f1": 0.6632807029926596,
+    "gap_vs_gain_spearman": -0.09161444405112089
+  },
+  "crossed_remedy_contrasts": {
+    "retrieve_minus_keep_missing": {
+      "mean": 0.15711670274170275,
+      "ci95": [
+        0.07964200937950938,
+        0.23023916396103897
+      ]
+    },
+    "focus_minus_keep_distractor": {
+      "mean": -0.008217171717171717,
+      "ci95": [
+        -0.055972591991342,
+        0.03961816378066379
+      ]
+    },
+    "retrieve_minus_focus_missing": {
+      "mean": 0.16163690476190473,
+      "ci95": [
+        0.08471617063492065,
+        0.2364375496031746
+      ]
+    },
+    "focus_minus_retrieve_distractor": {
+      "mean": -0.0075075757575757554,
+      "ci95": [
+        -0.06208342352092352,
+        0.04542253787878789
+      ]
+    }
+  },
+  "filter_valid_rate": 0.92,
+  "note": "Oracle gap uses clean counterparts and actual action states; it is not a deployable selector."
+}

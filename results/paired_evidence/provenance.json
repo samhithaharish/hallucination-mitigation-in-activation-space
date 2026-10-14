@@ -1,0 +1,142 @@
+{
+  "frozen": {
+    "qwen7b": {
+      "config": {
+        "alpha": 100.0,
+        "features": "state",
+        "kind": "ridge"
+      },
+      "metric": {
+        "kind": "ridge",
+        "alpha": 100.0,
+        "features": "state",
+        "validation_activation_nmse": 0.4434812317291896,
+        "penalty": [
+          0.0,
+          0.059993669390678406,
+          0.11164212226867676,
+          0.021169645711779594,
+          0.002362398197874427,
+          0.018335120752453804
+        ]
+      },
+      "fingerprint": "4803bbc3a4d3926483168c76a44eebd7e16f21e1de2cc3602d6e0552fa012146",
+      "sha256": "fa6ded3fe77daeab777c2e530674205046cf01727cfb704c9a3ead5173057bb5",
+      "time_unix": 1791964384.5301287,
+      "action_success_labels_used": false,
+      "frozen_time_unix": 1791964491.6762736,
+      "selected_trial": "trial_07",
+      "shared_validation_activation_nmse": 0.4505875979860624,
+      "selection_metric": "mean validation activation NMSE across both backbones",
+      "checkpoint": "44415f1aa93772fdb8820fec90b21b7d786fe6e7",
+      "source_hashes": {
+        "__init__.py": "259422882d2abe02eabfbc405103cc4cc09a5a8a4104cf5733878f5bba0d96a5",
+        "task.py": "cfcc4586bce520e5c4aa778e89db4daaed24a3d44ac2adf0b11606c687bc50e7",
+        "collect.py": "c9d1cffc5db8ac7c810953deb2a34b98e56ecc299a52421c83a93e1432782a3d",
+        "evaluate.py": "66b5aab68b6f6af9da195c209fe728898cbc646713da546ba997cf5af5900614",
+        "data.py": "e6dd3ef3b25a4d686b8cb736cc9ff98c83dcefb7b51dcbee4ef504403b1c1ba8",
+        "report.py": "176d801c9c613b7ec10ceea862e9c6e4b9d83298a9dfe91c009a1fd786e0051b",
+        "fit.py": "7b2a1d7c915434e6b75f0845987d1a5c5df0cab28a365f7e6cbe5a56ce610b0c",
+        "search.py": "d24977b82b686ad66c55b9d00084dbecf1c3a0c36e061ed05c58be43511c1c6b"
+      }
+    },
+    "phi35": {
+      "config": {
+        "alpha": 100.0,
+        "features": "state",
+        "kind": "ridge"
+      },
+      "metric": {
+        "kind": "ridge",
+        "alpha": 100.0,
+        "features": "state",
+        "validation_activation_nmse": 0.4576939642429352,
+        "penalty": [
+          0.0,
+          0.07448790222406387,
+          0.04716530442237854,
+          0.014830449596047401,
+          0.0013465655501931906,
+          0.02892765961587429
+        ]
+      },
+      "fingerprint": "7fb838c78de691f2630e101ab727d24b489bd68df799827c45c5644407e43388",
+      "sha256": "27db433a1e20a758f638f140e3e1e1550e9e34a3151fa5ddb799380b40482069",
+      "time_unix": 1791964390.4989352,
+      "action_success_labels_used": false,
+      "frozen_time_unix": 1791964491.6829607,
+      "selected_trial": "trial_07",
+      "shared_validation_activation_nmse": 0.4505875979860624,
+      "selection_metric": "mean validation activation NMSE across both backbones",
+      "checkpoint": "44415f1aa93772fdb8820fec90b21b7d786fe6e7",
+      "source_hashes": {
+        "__init__.py": "259422882d2abe02eabfbc405103cc4cc09a5a8a4104cf5733878f5bba0d96a5",
+        "task.py": "cfcc4586bce520e5c4aa778e89db4daaed24a3d44ac2adf0b11606c687bc50e7",
+        "collect.py": "c9d1cffc5db8ac7c810953deb2a34b98e56ecc299a52421c83a93e1432782a3d",
+        "evaluate.py": "66b5aab68b6f6af9da195c209fe728898cbc646713da546ba997cf5af5900614",
+        "data.py": "e6dd3ef3b25a4d686b8cb736cc9ff98c83dcefb7b51dcbee4ef504403b1c1ba8",
+        "report.py": "176d801c9c613b7ec10ceea862e9c6e4b9d83298a9dfe91c009a1fd786e0051b",
+        "fit.py": "7b2a1d7c915434e6b75f0845987d1a5c5df0cab28a365f7e6cbe5a56ce610b0c",
+        "search.py": "d24977b82b686ad66c55b9d00084dbecf1c3a0c36e061ed05c58be43511c1c6b"
+      }
+    }
+  },
+  "coordinates": {
+    "qwen7b": {
+      "fingerprint": "4ab3351201ca774c0981e90c260d53b4bb777193ec0dcce12a3bc4c58336b7cb",
+      "sha256": "22283d09923dc600d28d5fac08a8d10c952d7d9503c1b57d943e674783aad656",
+      "coordinates": {
+        "validation_condition_mse": 0.046207960695028305,
+        "alpha": 10.0,
+        "features": 96,
+        "validation_condition_accuracy": 0.9466666666666667
+      },
+      "observable": {
+        "validation_condition_mse": 0.03959850153802475,
+        "alpha": 10.0
+      },
+      "confidence": {
+        "validation_condition_mse": 0.21602032109110042,
+        "alpha": 0.01
+      },
+      "action_success_labels_used": false
+    },
+    "phi35": {
+      "fingerprint": "a4cb8568d82a7d0148d81fb6853c94653a5300eaf0cc1d8306180a0b9f4d42bf",
+      "sha256": "79897565db69752eae0c23d29bee5934cae3424a19ec9b2db2c1861c44f9b103",
+      "coordinates": {
+        "validation_condition_mse": 0.06590230017900467,
+        "alpha": 100.0,
+        "features": 96,
+        "validation_condition_accuracy": 0.9066666666666666
+      },
+      "observable": {
+        "validation_condition_mse": 0.038345496881246124,
+        "alpha": 10.0
+      },
+      "confidence": {
+        "validation_condition_mse": 0.22054612375398833,
+        "alpha": 1000.0
+      },
+      "action_success_labels_used": false
+    }
+  },
+  "source_hashes": {
+    "__init__.py": "259422882d2abe02eabfbc405103cc4cc09a5a8a4104cf5733878f5bba0d96a5",
+    "task.py": "cfcc4586bce520e5c4aa778e89db4daaed24a3d44ac2adf0b11606c687bc50e7",
+    "collect.py": "c9d1cffc5db8ac7c810953deb2a34b98e56ecc299a52421c83a93e1432782a3d",
+    "evaluate.py": "66b5aab68b6f6af9da195c209fe728898cbc646713da546ba997cf5af5900614",
+    "data.py": "e6dd3ef3b25a4d686b8cb736cc9ff98c83dcefb7b51dcbee4ef504403b1c1ba8",
+    "report.py": "176d801c9c613b7ec10ceea862e9c6e4b9d83298a9dfe91c009a1fd786e0051b",
+    "fit.py": "7b2a1d7c915434e6b75f0845987d1a5c5df0cab28a365f7e6cbe5a56ce610b0c",
+    "search.py": "d24977b82b686ad66c55b9d00084dbecf1c3a0c36e061ed05c58be43511c1c6b"
+  },
+  "data_manifest_sha256": "d7c3963ded3cae3ef0d6507c14972aaa02c682cfdfdaba01bbf000d3bb9a4fd1",
+  "acceptance": {
+    "routing": {
+      "choices": false,
+      "class_rule": false
+    },
+    "strategy_fields_add_value": false
+  }
+}

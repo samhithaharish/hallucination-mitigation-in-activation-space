@@ -1,0 +1,408 @@
+{
+  "model": "phi35",
+  "split": "test",
+  "n_base_questions": 800,
+  "n_versions": 2400,
+  "fixed": {
+    "clean": {
+      "keep": {
+        "f1": 0.7762907729310594,
+        "em": 0.6775
+      },
+      "retrieve": {
+        "f1": 0.6690176675856823,
+        "em": 0.55
+      },
+      "filter": {
+        "f1": 0.7965398718928131,
+        "em": 0.69
+      },
+      "focus": {
+        "f1": 0.7878831165179849,
+        "em": 0.68875
+      },
+      "sham": {
+        "f1": 0.7751061425674428,
+        "em": 0.6725
+      },
+      "empty": {
+        "f1": 0.2743932317682317,
+        "em": 0.1975
+      }
+    },
+    "missing": {
+      "keep": {
+        "f1": 0.5377034526790719,
+        "em": 0.4375
+      },
+      "retrieve": {
+        "f1": 0.6521005518174635,
+        "em": 0.5425
+      },
+      "filter": {
+        "f1": 0.5569698704073704,
+        "em": 0.46
+      },
+      "focus": {
+        "f1": 0.5478018028330907,
+        "em": 0.4475
+      },
+      "sham": {
+        "f1": 0.5375787576286802,
+        "em": 0.43875
+      },
+      "empty": {
+        "f1": 0.2743932317682317,
+        "em": 0.1975
+      }
+    },
+    "distractor": {
+      "keep": {
+        "f1": 0.6793464493023316,
+        "em": 0.57375
+      },
+      "retrieve": {
+        "f1": 0.6478308979999189,
+        "em": 0.53375
+      },
+      "filter": {
+        "f1": 0.6479547522910526,
+        "em": 0.54875
+      },
+      "focus": {
+        "f1": 0.7018061785028696,
+        "em": 0.59125
+      },
+      "sham": {
+        "f1": 0.6773868039817529,
+        "em": 0.57625
+      },
+      "empty": {
+        "f1": 0.2747503746253746,
+        "em": 0.1975
+      }
+    }
+  },
+  "oracle_same_action_gap": {
+    "selectable_only": {
+      "f1": 0.6938772092576755,
+      "em": 0.585625,
+      "extra_calls": 1.77375,
+      "extra_tokens": 2874.494375,
+      "rescued": 197,
+      "harmed": 69,
+      "counts": {
+        "keep": 181,
+        "retrieve": 955,
+        "filter": 347,
+        "focus": 117,
+        "sham": 0,
+        "empty": 0
+      }
+    },
+    "including_empty_control": {
+      "f1": 0.27477652902652905,
+      "em": 0.1975,
+      "extra_calls": 1.0075,
+      "extra_tokens": 90.474375,
+      "rescued": 89,
+      "harmed": 582,
+      "counts": {
+        "keep": 0,
+        "retrieve": 0,
+        "filter": 12,
+        "focus": 0,
+        "sham": 0,
+        "empty": 1588
+      }
+    },
+    "empty_choice_rate": 0.9925,
+    "empty_maximizer_rate": 1.0,
+    "empty_f1": 0.2745718031968032,
+    "original_bad_keep_f1": 0.6085249509907018,
+    "clean_correct_bad_wrong_pairs": 309,
+    "empty_maximizer_both_answers_wrong_counterexamples": 271,
+    "gap_vs_gain_spearman": -0.059466927940204584
+  },
+  "crossed_remedy_contrasts": {
+    "retrieve_minus_keep_missing": {
+      "mean": 0.1143970991383917,
+      "ci95": [
+        0.08279571034347061,
+        0.14655348543087032
+      ]
+    },
+    "focus_minus_keep_distractor": {
+      "mean": 0.022459729200538025,
+      "ci95": [
+        0.00203634804737746,
+        0.04331584671966106
+      ]
+    },
+    "retrieve_minus_focus_missing": {
+      "mean": 0.10429874898437289,
+      "ci95": [
+        0.07203300095433164,
+        0.13707681739977748
+      ]
+    },
+    "focus_minus_retrieve_distractor": {
+      "mean": 0.053975280502950786,
+      "ci95": [
+        0.03201458200516589,
+        0.07604534376952382
+      ]
+    }
+  },
+  "filter_valid_rate": 0.04583333333333333,
+  "note": "Oracle gap uses clean counterparts and actual action states; it is not a deployable selector.",
+  "learned_control_policy": {
+    "f1": 0.6910957130137664,
+    "em": 0.585,
+    "extra_calls": 1.4679166666666668,
+    "extra_tokens": 2116.64125,
+    "rescued": 192,
+    "harmed": 139,
+    "counts": {
+      "keep": 502,
+      "retrieve": 674,
+      "filter": 840,
+      "focus": 111,
+      "sham": 273,
+      "empty": 0
+    }
+  },
+  "policies": {
+    "choices": {
+      "f1": 0.6913282466838001,
+      "em": 0.5858333333333333,
+      "extra_calls": 1.4016666666666666,
+      "extra_tokens": 2012.1654166666667,
+      "rescued": 193,
+      "harmed": 138,
+      "counts": {
+        "keep": 718,
+        "retrieve": 674,
+        "filter": 852,
+        "focus": 156,
+        "sham": 0,
+        "empty": 0
+      },
+      "vs_keep": {
+        "mean": 0.026881355046312474,
+        "ci95": [
+          0.012751327373642582,
+          0.040651968560908185
+        ]
+      },
+      "vs_hindsight_best_fixed": {
+        "mean": 0.01216454739915165,
+        "ci95": [
+          -0.002230015760037885,
+          0.026190082980515957
+        ]
+      },
+      "vs_matched_risk_fixed": {
+        "mean": 0.002281952503121243,
+        "ci95": [
+          -0.008559734395076842,
+          0.011612818900512474
+        ],
+        "hindsight_action": "retrieve"
+      },
+      "vs_risk_matched_shuffle": {
+        "mean": 0.0157319688640751,
+        "ci95": [
+          0.007903955179506176,
+          0.02294314566236925
+        ]
+      },
+      "vs_class_rule": {
+        "mean": -0.003609594879234972,
+        "ci95": [
+          -0.01386266994171406,
+          0.00628344173957564
+        ]
+      },
+      "vs_observable_rule": {
+        "mean": -0.003344608707998801,
+        "ci95": [
+          -0.014063149851631852,
+          0.007663733756496921
+        ]
+      },
+      "vs_confidence_rule": {
+        "mean": 0.01963287816915913,
+        "ci95": [
+          0.006064084687135189,
+          0.03320062401237178
+        ]
+      }
+    },
+    "class_rule": {
+      "f1": 0.6949378415630351,
+      "em": 0.5904166666666667,
+      "extra_calls": 0.4558333333333333,
+      "extra_tokens": 825.1070833333333,
+      "rescued": 118,
+      "harmed": 52,
+      "counts": {
+        "keep": 1853,
+        "retrieve": 547,
+        "filter": 0,
+        "focus": 0,
+        "sham": 0,
+        "empty": 0
+      },
+      "vs_keep": {
+        "mean": 0.030490949925547444,
+        "ci95": [
+          0.020895992412014085,
+          0.04031727177567445
+        ]
+      },
+      "vs_hindsight_best_fixed": {
+        "mean": 0.015774142278386624,
+        "ci95": [
+          0.0022167776085682267,
+          0.029684410118716444
+        ]
+      },
+      "vs_matched_risk_fixed": {
+        "mean": 0.02336009935679728,
+        "ci95": [
+          0.011904276684948607,
+          0.031183815492929222
+        ],
+        "hindsight_action": "focus"
+      },
+      "vs_risk_matched_shuffle": {
+        "mean": 0.020693933128943444,
+        "ci95": [
+          0.013873956527668239,
+          0.027016808571844478
+        ]
+      },
+      "vs_observable_rule": {
+        "mean": 0.00026498617123617117,
+        "ci95": [
+          -0.006157693319412069,
+          0.006795516173641182
+        ]
+      },
+      "vs_confidence_rule": {
+        "mean": 0.023242473048394097,
+        "ci95": [
+          0.01334676452252884,
+          0.03272834730449862
+        ]
+      }
+    },
+    "observable_rule": {
+      "f1": 0.6946728553917989,
+      "em": 0.5875,
+      "extra_calls": 0.6891666666666667,
+      "extra_tokens": 1247.1229166666667,
+      "rescued": 142,
+      "harmed": 83,
+      "counts": {
+        "keep": 1573,
+        "retrieve": 827,
+        "filter": 0,
+        "focus": 0,
+        "sham": 0,
+        "empty": 0
+      },
+      "vs_keep": {
+        "mean": 0.03022596375431128,
+        "ci95": [
+          0.019328521778054965,
+          0.04186703536419578
+        ]
+      },
+      "vs_hindsight_best_fixed": {
+        "mean": 0.01550915610715045,
+        "ci95": [
+          0.0008587587807789056,
+          0.030625252542248436
+        ]
+      },
+      "vs_matched_risk_fixed": {
+        "mean": 0.018609108355238435,
+        "ci95": [
+          0.006308980451580651,
+          0.027205966301786722
+        ],
+        "hindsight_action": "retrieve"
+      },
+      "vs_risk_matched_shuffle": {
+        "mean": 0.028173301167488157,
+        "ci95": [
+          0.02007673857590424,
+          0.035970533879781094
+        ]
+      }
+    },
+    "confidence_rule": {
+      "f1": 0.6716953685146411,
+      "em": 0.5708333333333333,
+      "extra_calls": 0.050833333333333335,
+      "extra_tokens": 90.715,
+      "rescued": 21,
+      "harmed": 2,
+      "counts": {
+        "keep": 2339,
+        "retrieve": 61,
+        "filter": 0,
+        "focus": 0,
+        "sham": 0,
+        "empty": 0
+      },
+      "vs_keep": {
+        "mean": 0.007248476877153347,
+        "ci95": [
+          0.003940801117455529,
+          0.010924577665662225
+        ]
+      },
+      "vs_hindsight_best_fixed": {
+        "mean": -0.007468330770007475,
+        "ci95": [
+          -0.018248275440918085,
+          0.003440949838949233
+        ]
+      },
+      "vs_matched_risk_fixed": {
+        "mean": 0.005429658999125064,
+        "ci95": [
+          0.0011441500530558202,
+          0.008740574556842939
+        ],
+        "hindsight_action": "filter"
+      },
+      "vs_risk_matched_shuffle": {
+        "mean": 0.006904038074862542,
+        "ci95": [
+          0.003623940114464195,
+          0.01033698847842058
+        ]
+      }
+    }
+  },
+  "prediction_audit": {
+    "n_bases": 800,
+    "max_reload_difference": 0.0,
+    "all_choices_precede_actions": true
+  },
+  "hindsight_fixed_action": "focus",
+  "oracle_f1": 0.8044804263169328,
+  "condition_accuracy": 0.8704166666666666,
+  "acceptance": {
+    "routing": {
+      "choices": false,
+      "class_rule": false
+    },
+    "strategy_fields_add_value": false
+  },
+  "primary_criterion_passed": false
+}

@@ -41,3 +41,39 @@ def test_queued_search_rejects_source_changes_before_any_git_mutation(monkeypatc
     monkeypatch.setattr(s,'command',forbidden)
     with pytest.raises(ValueError,match='source changed'):
         s.search()
+
+
+def test_search_restarts_from_published_winner_and_retains_valid_git_history(monkeypatch,tmp_path):
+    import subprocess
+    from experiments.paired_evidence import search as s
+    config=tmp_path/'predictor.json'
+    winner=dict(kind='ridge',alpha=100.,features='state')
+    config.write_text(json.dumps(winner,sort_keys=True)+'\n')
+    def git(*args):
+        return subprocess.check_output(['git',*args],cwd=tmp_path,text=True).strip()
+    git('init','-q')
+    git('config','user.name','Test User');git('config','user.email','test@example.invalid')
+    git('add','predictor.json');git('commit','-qm','Initial published winner')
+    # Generated experiment artifacts must not dirty the real temporary checkout.
+    (tmp_path/'.git/info/exclude').write_text('autoresearch/\nruns/\n')
+    monkeypatch.setenv('PYTHONHASHSEED','0')
+    monkeypatch.setattr(s,'REPO',tmp_path);monkeypatch.setattr(s,'OUT',tmp_path/'runs')
+    monkeypatch.setattr(s,'CONFIG',config)
+    real_command=s.command
+    monkeypatch.setattr(s,'command',lambda args: '' if args[:3]==[s.sys.executable,'-m','pytest'] else real_command(args))
+    seen=[]
+    def verify(trial):
+        current=json.loads(config.read_text());seen.append(current)
+        if trial=='trial_00':assert current==dict(kind='mean',alpha=0.,features='state')
+        value=.1 if current==winner else (1. if current['kind']=='mean' else .8)
+        for key in s.MODELS:
+            p=s.OUT/key/'fitted'/f'{trial}.joblib';p.parent.mkdir(parents=True,exist_ok=True)
+            p.write_bytes(trial.encode());p.with_suffix('.json').write_text(json.dumps(dict(config=current)))
+        return value,{key:value for key in s.MODELS}
+    monkeypatch.setattr(s,'verify',verify)
+    s.search()
+    assert len(seen)==13
+    assert json.loads(config.read_text())==winner
+    assert git('status','--porcelain')==''
+    summary=json.loads((tmp_path/'autoresearch/loop-261013-paired/summary.json').read_text())
+    assert summary['selected_trial']=='trial_07' and summary['initial_metric']==1.

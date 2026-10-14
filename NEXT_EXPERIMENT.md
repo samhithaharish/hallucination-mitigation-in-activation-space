@@ -1,6 +1,14 @@
 # Next experiment: match a failure to a remedy
 
-**Status: proposed; not implemented or run.**
+**Status: completed with revisions; this is the original proposal.**
+
+The [implemented protocol](experiments/paired_evidence/README.md) and
+[heldout results](results/paired_evidence/README.md) supersede this plan.
+The proposed same-action distance has a deletion-collapse degeneracy: emptying
+evidence makes both compared inputs identical even when both answers are wrong.
+The learned condition and strategy-transition policies did not pass every
+control on both backbones. The text below preserves the original hypothesis;
+it is not a claim that its geometry criterion worked.
 
 ## Question
 

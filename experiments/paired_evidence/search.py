@@ -28,6 +28,16 @@ def command(args):
     return subprocess.check_output(args, cwd=REPO, text=True, stderr=subprocess.STDOUT).strip()
 
 
+def commit_config(config, message):
+    """Return whether a commit was made, so no-op trials never revert history."""
+    if json.loads(CONFIG.read_text()) == config:
+        return False
+    CONFIG.write_text(json.dumps(config, sort_keys=True)+'\n')
+    command(['git', 'add', str(CONFIG.relative_to(REPO))])
+    command(['git', 'commit', '-m', message])
+    return True
+
+
 def verify(trial):
     metrics = {}
     for key in MODELS:
@@ -75,6 +85,8 @@ def search(wait=False):
         print(json.dumps(details[-1]), flush=True)
         dump(directory/'trials.json', details)
 
+    commit_config(dict(kind='mean', alpha=0., features='state'),
+                  'Establish mean displacement search baseline')
     initial, per_model = verify('trial_00')
     best, best_trial = initial, 'trial_00'
     record(0, command(['git', 'rev-parse', 'HEAD']), initial, 0., 'baseline',
@@ -84,9 +96,7 @@ def search(wait=False):
                   for alpha in (1., 10., 100., 1000.)]
     for i, config in enumerate(candidates, 1):
         description = f"{config['features']} ridge alpha={config['alpha']}"
-        CONFIG.write_text(json.dumps(config, sort_keys=True)+'\n')
-        command(['git', 'add', str(CONFIG.relative_to(REPO))])
-        command(['git', 'commit', '-m', 'experiment: '+description])
+        changed = commit_config(config, 'experiment: '+description)
         commit = command(['git', 'rev-parse', 'HEAD'])
         trial = f'trial_{i:02d}'
         per_model = {}
@@ -94,7 +104,8 @@ def search(wait=False):
             metric, per_model = verify(trial)
             command(guard)
         except Exception as error:
-            command(['git', 'revert', 'HEAD', '--no-edit'])
+            if changed:
+                command(['git', 'revert', 'HEAD', '--no-edit'])
             (directory/f'{trial}_error.txt').write_text(str(error)+'\n'+getattr(error, 'output', ''))
             record(i, commit, None, None, 'crash', description,
                    per_model, guard_status='error')
@@ -104,7 +115,8 @@ def search(wait=False):
             best, best_trial = metric, trial
             status = 'keep'
         else:
-            command(['git', 'revert', 'HEAD', '--no-edit'])
+            if changed:
+                command(['git', 'revert', 'HEAD', '--no-edit'])
             status = 'discard'
         record(i, commit, metric, delta, status, description, per_model)
     frozen = {}
