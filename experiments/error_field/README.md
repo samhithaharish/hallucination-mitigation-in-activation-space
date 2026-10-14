@@ -35,7 +35,9 @@ The key assumption is that a baseline error probe remains useful on modified
 prompts. Predicting its transitions accurately does not establish that assumption;
 heldout answer quality and deletion controls must test it. The study may fail.
 Recovery always means recovery by the available action bank, not universal
-recoverability. The fixed action bank and condition maps were designed with
+recoverability. Probe error labels are benchmark exact-match failures, not
+independent annotations of factual hallucination; answer F1 is reported as the
+main continuous quality measure. The fixed action bank and condition maps were designed with
 independent pilot outcome information; learned transition/configuration fitting
 receives no mitigation-success targets.
 
@@ -96,6 +98,17 @@ state change. Choose their shared configuration by state-transition NMSE across
 both models. With r = x_initial - D(x_initial), score
 
     ||r||² - ||r + predicted_state_change_a||² - validation_error_trace_a.
+
+For a fixed initial residual r, if an action's state change has conditional
+mean mu_a and covariance Sigma_a, then
+
+    E[||r + state_change_a||² | x] = ||r + mu_a||² + trace(Sigma_a).
+
+Thus the score estimates expected improvement in a squared-distance potential.
+Its global validation error trace substitutes for conditional forecast error;
+it includes prediction bias and is not an exact conditional covariance. This
+identity explains the objective, but supplies no link from distance to factual
+correctness. That link must be tested separately.
 
 D(x_initial) stays fixed while comparing actions. This avoids defining progress
 by moving both the corrupted state and its reference. The uncertainty trace is
