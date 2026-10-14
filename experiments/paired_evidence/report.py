@@ -50,7 +50,8 @@ def report():
         'Each backbone: 400 training, 100 validation, 800 fresh test base questions; '
         'three paired versions per base (2,400 test inputs). The 200-base pilot is separate. '
         'The benchmark weights the three conditions equally, not by natural failure prevalence. All test decisions were saved before any mitigation preprocessing. No mitigation-success '
-        'labels were used for fitting or model selection.', '',
+        'targets were used for learned parameter fitting or activation-configuration selection. '
+        'Independent pilot outcomes informed the action definitions and fixed missing-only condition map.', '',
         '## Test answer F1 (%)', '',
         '| Backbone | Keep | Best always-on action | Strategy changes | Condition rule | Public input | Confidence |',
         '|---|---:|---:|---:|---:|---:|---:|']
@@ -61,7 +62,8 @@ def report():
         values=[baseline,fixed]+[r['policies'][p]['f1'] for p in NAMES]
         lines.append('| '+key+' | '+' | '.join(percentage(v) for v in values)+' |')
     lines += ['', 'Best always-on action is chosen in hindsight. Matched-risk fixed controls below '
-        'use at most the same extra-generation-call budget as the policy, including cheaper sham and empty controls; '
+        'optimize action and risk threshold in hindsight within the same extra-generation-call budget, '
+        'including cheaper sham and empty controls and unused calls; '
         'this does not match tokens or latency.', '',
               '## Paired F1 differences (percentage points, 95% intervals)', '',
               'Intervals resample 800 base questions, retaining all three variants. Positive lower bounds '

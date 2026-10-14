@@ -69,3 +69,11 @@ def test_matched_fixed_spends_a_call_budget_on_more_cheaper_actions():
     assert action==4
     np.testing.assert_allclose(per_input,[[1.,1.,0.]])
     assert value==pytest.approx(2/3)
+
+
+def test_hindsight_fixed_can_leave_budget_unused_to_avoid_harm():
+    e=module();f1=np.full((1,3,6),.5);f1[:,:,1]=.6;f1[:,:,4]=[1.,0.,0.]
+    value,action,per_input=e.matched_fixed(f1,np.array([[1,0,0]]),np.array([[3.,2.,1.]]))
+    assert action==4
+    np.testing.assert_allclose(per_input,[[1.,.5,.5]])
+    assert value==pytest.approx(2/3)

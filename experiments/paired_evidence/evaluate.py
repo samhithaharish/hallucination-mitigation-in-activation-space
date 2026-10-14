@@ -56,12 +56,14 @@ def shuffle_interval(f1,choices,risk,draws=4000,bins=10):
 def matched_fixed(f1,choices,risk):
     n=choices.size;budget=2*int((choices>0).sum())
     priority=np.argsort(-risk.ravel(),kind='stable');costs=(0,2,2,2,1,1)
-    candidates=[]
+    flat=f1.reshape(n,f1.shape[-1]);candidates=[]
     for action in range(1,f1.shape[-1]):
-        k=min(n,budget//costs[action])
+        maximum=min(n,budget//costs[action])
+        gains=flat[priority[:maximum],action]-flat[priority[:maximum],0]
+        k=int(np.r_[0.,np.cumsum(gains)].argmax())
         candidate=np.zeros(n,int);candidate[priority[:k]]=action
         value=quality(f1,candidate.reshape(choices.shape))
-        candidates.append((float(value.mean()),action,value))
+        candidates.append((float(value.mean()),action if k else 0,value))
     return max(candidates,key=lambda x:x[0])
 
 

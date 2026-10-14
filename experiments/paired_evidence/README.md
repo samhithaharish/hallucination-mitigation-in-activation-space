@@ -134,11 +134,11 @@ learning strategy changes adds value additionally requires beating the simpler
 condition policy. This distinction prevents calling condition detection evidence
 for a useful learned strategy geometry.
 
-The fixed-remedy control is chosen in hindsight and recomputed in each base
-bootstrap. Its activation-risk gate receives the evaluated policy's extra-generation-call budget. It can use
+The fixed-remedy control chooses the action and best affordable risk threshold
+in hindsight, including doing nothing, and is recomputed in each base bootstrap.
+Its activation-risk gate receives the evaluated policy's extra-generation-call budget. It can use
 retrieve/filter/focus (two calls each) or sham/empty (one call each); cheaper
-actions may cover more inputs, up to all of them. Unused calls are allowed once
-all inputs are covered. This matches a call-budget cap, not token count or latency. Also report the strongest always-on remedy, costs, rescue, harm, and
+actions may cover more inputs, up to all of them. Unused calls are allowed, including when a shorter risk prefix performs better. This matches a call-budget cap, not token count or latency. Also report the strongest always-on remedy, costs, rescue, harm, and
 an oracle ceiling. A positive result would establish controlled evidence-repair
 routing, not a universal hallucination detector, a causal layer pathway, natural
 failure diagnosis, or proof that an unrepaired answer is irrecoverable.
@@ -150,11 +150,14 @@ reproduction instructions. Set ACTIVATION_RUNS to an empty run root. Execute
 `python -m experiments.paired_evidence.data`, then collect each backbone with
 `python -m experiments.paired_evidence.collect --model MODEL --splits pilot train validation`.
 Use separate CUDA_VISIBLE_DEVICES for the two collectors. Review pilot feasibility
-before freezing the predictor; do not fit or tune to pilot mitigation successes.
+before freezing the predictor. Pilot outcomes informed action design and the
+fixed missing-only condition map; this is not an entirely outcome-free design
+process. Learned probe and transition parameters and activation-configuration
+selection do not use mitigation-success targets. The final test is untouched.
 
 From a clean git worktree, with PYTHONHASHSEED=0 and the same ACTIVATION_RUNS,
 run `python -m experiments.paired_evidence.search`. The bounded autoresearch loop
-commits each predictor configuration, verifies activation NMSE, runs the task's
+commits each predictor configuration, verifies activation NMSE, runs the repository's
 CPU tests, and keeps or reverts the change. Its ledger stays in the ignored
 `autoresearch/loop-261013-paired` directory. It freezes fitted/best.joblib and
 metadata separately for each model. Then collect test using `--splits test
