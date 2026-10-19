@@ -1,5 +1,6 @@
 """One baseline generation supplies both observable and activation features."""
 import contextlib
+import os
 import numpy as np
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
@@ -31,6 +32,10 @@ def chat(tok, prompt):
 
 def layer_grid(model):
     n = model.config.num_hidden_layers
+    # ACTIVATION_LAYERS=all captures every block output (layer-wise separability study);
+    # unset keeps the six-depth grid the recorded experiments used.
+    if os.environ.get('ACTIVATION_LAYERS') == 'all':
+        return list(range(1, n + 1))
     return sorted(set(max(1, min(n-1, round(n*f))) for f in (1/6, 1/3, 1/2, 2/3, 5/6, 11/12)))
 
 
