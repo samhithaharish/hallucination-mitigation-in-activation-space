@@ -57,4 +57,9 @@ A failed hypothesis is reported as a result, not reworded. Deviations are logged
 
 ## Deviations
 
-(none yet)
+- 2026-10-20: the single shuffled-label control gave AUROC 0.569 on Llama-3.2-3B (layer 17). Added a 20-seed
+  null (train and validation labels both shuffled, same C selection): mean 0.508, sd 0.030, max 0.569. The
+  single-seed value is the tail of that null, not leakage. The 20-seed null is reported for every model.
+- 2026-10-20: retry logic in the collection runner changed after an OOM (another user's process) and a full
+  disk: retries keep the batch size; complete splits are skipped. Phi-3.5 validation/test were collected at
+  batch size 1 (greedy decoding; batch size only changes padding). No data or analysis choices changed.
