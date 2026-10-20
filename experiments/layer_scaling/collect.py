@@ -59,6 +59,11 @@ def run(key, split, limit, batch_size):
     proto = {'model': MODELS[key], 'split': split, 'limit': limit, 'batch_size': batch_size,
              'layers': 'all', 'engine': 'transformers', 'seed': SEED,
              'data_hash': file_digest(SCALE_RUN / 'data' / f'{split}.json')}
+    done = sum(len(json.loads(p.read_text())['rows']) for p in directory.glob('batch_*.json'))
+    if done == len(raw):   # complete (possibly at another batch size): nothing to collect
+        print(json.dumps({'model': key, 'split': split, 'complete': done}), flush=True)
+        return
+    proto = json.loads(json.dumps(proto))   # tuples -> lists, so a resumed run compares equal to the saved file
     if (directory / 'protocol.json').exists() and json.loads((directory / 'protocol.json').read_text()) != proto:
         raise ValueError('Protocol changed; use a fresh ACTIVATION_RUNS directory')
     dump(directory / 'protocol.json', proto)

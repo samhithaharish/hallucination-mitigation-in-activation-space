@@ -9,7 +9,10 @@ import argparse
 import json
 from pathlib import Path
 
+import os
+
 import numpy as np
+from joblib import Parallel, delayed
 from sklearn.linear_model import LogisticRegression, Ridge
 from sklearn.metrics import roc_auc_score
 from sklearn.neural_network import MLPClassifier
@@ -19,6 +22,7 @@ from experiments.layer_scaling.collect import OUT
 from experiments.recovery_scale.actions import ACTIONS, CALLS
 
 CS = [1e-4, 1e-3, 1e-2, 1e-1, 1.0]
+N_JOBS = int(os.environ.get('ANALYSIS_JOBS', '12'))
 POSITIONS = ('prompt_end', 'answer_end')
 CALLS_A = np.array(CALLS, dtype=float)
 RESULTS = Path(__file__).resolve().parents[2] / 'results' / 'layer_scaling'
@@ -84,14 +88,18 @@ def auc_diff_ci(y, s1, s2, n_boot=2000, seed=0):
 
 
 def layer_curve(tr, va, ytr, yva):
-    """Validation AUROC for every (layer, position)."""
+    """Validation AUROC for every (layer, position); fits run in parallel across CPU cores."""
     L = tr['states'].shape[1]
-    curve = np.zeros((L, 2))
-    for l in range(L):
-        for p in range(2):
-            curve[l, p] = fit_logit(tr['states'][:, l, p].astype(np.float32), ytr,
-                                    va['states'][:, l, p].astype(np.float32), yva)[2]
-    return curve
+    # pass per-layer slices as arguments (joblib memory-maps them) rather than closing over the full array
+    aucs = Parallel(n_jobs=N_JOBS)(
+        delayed(_val_auc)(tr['states'][:, l, p].astype(np.float32), ytr,
+                          va['states'][:, l, p].astype(np.float32), yva)
+        for l in range(L) for p in range(2))
+    return np.array(aucs).reshape(L, 2)
+
+
+def _val_auc(Xtr, ytr, Xva, yva):
+    return fit_logit(Xtr, ytr, Xva, yva)[2]
 
 
 def selector_f1(gain_pred, f1, lam):
