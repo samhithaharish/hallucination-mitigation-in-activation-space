@@ -1,0 +1,280 @@
+{
+ "model": "llama32_3b",
+ "n": 1000,
+ "prompt_end": {
+  "axis_layer": 18,
+  "axis_val_auroc": 0.8718925945452132,
+  "conditions": {
+   "base": {
+    "judged_acc": 0.598,
+    "f1_acc": 0.518,
+    "acc_change_vs_base": {
+     "mean": 0.0,
+     "low": 0.0,
+     "high": 0.0
+    },
+    "drift": {
+     "mean": 0.0,
+     "low": 0.0,
+     "high": 0.0
+    }
+   },
+   "more_evidence": {
+    "judged_acc": 0.684,
+    "f1_acc": 0.585,
+    "acc_change_vs_base": {
+     "mean": 0.086,
+     "low": 0.06,
+     "high": 0.114
+    },
+    "drift": {
+     "mean": 0.2186460386738181,
+     "low": 0.1377345165491104,
+     "high": 0.3005249013690278
+    },
+    "D3_crossed_n": 66,
+    "D3_crossed_still_wrong": 0.3181818181818182,
+    "fix_auroc_of_drift": 0.7291627291627292
+   },
+   "oracle_evidence": {
+    "judged_acc": 0.781,
+    "f1_acc": 0.694,
+    "acc_change_vs_base": {
+     "mean": 0.183,
+     "low": 0.152,
+     "high": 0.213
+    },
+    "drift": {
+     "mean": 0.5419524120092392,
+     "low": 0.4463819378040731,
+     "high": 0.6357895907118917
+    },
+    "D3_crossed_n": 125,
+    "D3_crossed_still_wrong": 0.216,
+    "fix_auroc_of_drift": 0.7680879701348502
+   },
+   "metadata": {
+    "judged_acc": 0.584,
+    "f1_acc": 0.521,
+    "acc_change_vs_base": {
+     "mean": -0.014,
+     "low": -0.031,
+     "high": 0.004
+    },
+    "drift": {
+     "mean": -0.12427412322163582,
+     "low": -0.1559469802884385,
+     "high": -0.09237052129954096
+    },
+    "D3_crossed_n": 5,
+    "D3_crossed_still_wrong": 1.0,
+    "fix_auroc_of_drift": 0.5256631354192329
+   },
+   "warning": {
+    "judged_acc": 0.571,
+    "f1_acc": 0.468,
+    "acc_change_vs_base": {
+     "mean": -0.027,
+     "low": -0.048,
+     "high": -0.006
+    },
+    "drift": {
+     "mean": -0.3803773904517293,
+     "low": -0.42108061501253397,
+     "high": -0.34036026146300136
+    },
+    "D3_crossed_n": 6,
+    "D3_crossed_still_wrong": 0.6666666666666666,
+    "fix_auroc_of_drift": 0.5097765363128491
+   },
+   "filler": {
+    "judged_acc": 0.584,
+    "f1_acc": 0.501,
+    "acc_change_vs_base": {
+     "mean": -0.014,
+     "low": -0.033,
+     "high": 0.006025000000000091
+    },
+    "drift": {
+     "mean": -0.13187747188657523,
+     "low": -0.17964041962102054,
+     "high": -0.08185614098832011
+    },
+    "D3_crossed_n": 22,
+    "D3_crossed_still_wrong": 0.9545454545454546,
+    "fix_auroc_of_drift": 0.6015561780267662
+   },
+   "misleading": {
+    "judged_acc": 0.521,
+    "f1_acc": 0.489,
+    "acc_change_vs_base": {
+     "mean": -0.077,
+     "low": -0.105,
+     "high": -0.05
+    },
+    "drift": {
+     "mean": -0.2515853673815727,
+     "low": -0.312049448049441,
+     "high": -0.1914766673311591
+    },
+    "D3_crossed_n": 14,
+    "D3_crossed_still_wrong": 0.8571428571428571,
+    "fix_auroc_of_drift": 0.4737303881090008
+   }
+  },
+  "D2_pooled": {
+   "auroc": 0.7557619716560114,
+   "low": 0.7192516520655564,
+   "high": 0.7907336738122861,
+   "n_pairs": 1608,
+   "n_fixed": 453
+  },
+  "D2_filler_control": {
+   "auroc": 0.6015561780267662,
+   "low": 0.5110468712102837,
+   "high": 0.6840510873078166,
+   "n_pairs": 402,
+   "n_fixed": 45
+  },
+  "D1_pass": true,
+  "D2_pass": true
+ },
+ "answer_end": {
+  "axis_layer": 15,
+  "axis_val_auroc": 0.88784967743753,
+  "conditions": {
+   "base": {
+    "judged_acc": 0.598,
+    "f1_acc": 0.518,
+    "acc_change_vs_base": {
+     "mean": 0.0,
+     "low": 0.0,
+     "high": 0.0
+    },
+    "drift": {
+     "mean": 0.0,
+     "low": 0.0,
+     "high": 0.0
+    }
+   },
+   "more_evidence": {
+    "judged_acc": 0.684,
+    "f1_acc": 0.585,
+    "acc_change_vs_base": {
+     "mean": 0.086,
+     "low": 0.06,
+     "high": 0.114
+    },
+    "drift": {
+     "mean": 0.3974455000460148,
+     "low": 0.2703253713220358,
+     "high": 0.5221585294917227
+    },
+    "D3_crossed_n": 89,
+    "D3_crossed_still_wrong": 0.34831460674157305,
+    "fix_auroc_of_drift": 0.7033507033507034
+   },
+   "oracle_evidence": {
+    "judged_acc": 0.781,
+    "f1_acc": 0.694,
+    "acc_change_vs_base": {
+     "mean": 0.183,
+     "low": 0.152,
+     "high": 0.213
+    },
+    "drift": {
+     "mean": 0.6678093319833278,
+     "low": 0.5291792137008161,
+     "high": 0.805034180564061
+    },
+    "D3_crossed_n": 135,
+    "D3_crossed_still_wrong": 0.17037037037037037,
+    "fix_auroc_of_drift": 0.7574726363105365
+   },
+   "metadata": {
+    "judged_acc": 0.584,
+    "f1_acc": 0.521,
+    "acc_change_vs_base": {
+     "mean": -0.014,
+     "low": -0.031,
+     "high": 0.004
+    },
+    "drift": {
+     "mean": 0.22236689682304858,
+     "low": 0.14512652003243567,
+     "high": 0.30132797091566027
+    },
+    "D3_crossed_n": 27,
+    "D3_crossed_still_wrong": 0.7777777777777778,
+    "fix_auroc_of_drift": 0.6164901042949824
+   },
+   "warning": {
+    "judged_acc": 0.571,
+    "f1_acc": 0.468,
+    "acc_change_vs_base": {
+     "mean": -0.027,
+     "low": -0.048,
+     "high": -0.006
+    },
+    "drift": {
+     "mean": -0.04402800226211548,
+     "low": -0.14152028040140865,
+     "high": 0.04845760387778282
+    },
+    "D3_crossed_n": 30,
+    "D3_crossed_still_wrong": 0.8666666666666667,
+    "fix_auroc_of_drift": 0.577513966480447
+   },
+   "filler": {
+    "judged_acc": 0.584,
+    "f1_acc": 0.501,
+    "acc_change_vs_base": {
+     "mean": -0.014,
+     "low": -0.033,
+     "high": 0.006025000000000091
+    },
+    "drift": {
+     "mean": -0.12217856043577194,
+     "low": -0.2259250373158604,
+     "high": -0.015586391028389263
+    },
+    "D3_crossed_n": 27,
+    "D3_crossed_still_wrong": 0.7777777777777778,
+    "fix_auroc_of_drift": 0.6207905384375974
+   },
+   "misleading": {
+    "judged_acc": 0.521,
+    "f1_acc": 0.489,
+    "acc_change_vs_base": {
+     "mean": -0.077,
+     "low": -0.105,
+     "high": -0.05
+    },
+    "drift": {
+     "mean": -0.017227584153413772,
+     "low": -0.13786668356843293,
+     "high": 0.10397200949154795
+    },
+    "D3_crossed_n": 22,
+    "D3_crossed_still_wrong": 0.7272727272727273,
+    "fix_auroc_of_drift": 0.6484826589595376
+   }
+  },
+  "D2_pooled": {
+   "auroc": 0.723509455959787,
+   "low": 0.6854268422478743,
+   "high": 0.7606464721075595,
+   "n_pairs": 1608,
+   "n_fixed": 453
+  },
+  "D2_filler_control": {
+   "auroc": 0.6207905384375974,
+   "low": 0.5260067721019885,
+   "high": 0.7122195879832864,
+   "n_pairs": 402,
+   "n_fixed": 45
+  },
+  "D1_pass": false,
+  "D2_pass": true
+ }
+}
