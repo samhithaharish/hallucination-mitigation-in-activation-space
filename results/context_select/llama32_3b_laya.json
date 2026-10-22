@@ -1,0 +1,47 @@
+{
+ "model": "llama32_3b",
+ "n_test_questions": 500,
+ "axis_layer": 18,
+ "pair_trained": {
+  "layer": 15,
+  "C": 0.0001,
+  "cv_auroc": 0.8223987888635007
+ },
+ "accuracy": {
+  "probe_zero_shot": 0.802,
+  "bm25_top2": 0.636,
+  "random": 0.366,
+  "cross_encoder": 0.61,
+  "confidence": 0.68,
+  "probe_pair_trained": 0.808,
+  "gold_pair": 0.858,
+  "oracle": 0.958
+ },
+ "C1_zero_shot_minus_bm25": {
+  "mean": 0.166,
+  "low": 0.122,
+  "high": 0.21
+ },
+ "C2_zero_shot_minus_cross_encoder": {
+  "mean": 0.192,
+  "low": 0.15,
+  "high": 0.234
+ },
+ "C3_trained_minus_zero_shot": {
+  "mean": 0.006,
+  "low": -0.018,
+  "high": 0.032
+ },
+ "zero_shot_minus_confidence": {
+  "mean": 0.122,
+  "low": 0.084,
+  "high": 0.158
+ },
+ "trained_minus_cross_encoder": {
+  "mean": 0.198,
+  "low": 0.154,
+  "high": 0.242
+ },
+ "candidate_auroc_zero_shot_test": 0.7706450749488597,
+ "judge": "laya"
+}

@@ -27,3 +27,4 @@ runs/
 
 # Local research-loop ledger; publish only reviewed scientific artifacts
 autoresearch/
+.venv-laya/

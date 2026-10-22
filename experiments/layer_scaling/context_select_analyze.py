@@ -23,7 +23,7 @@ RESULTS = Path(__file__).resolve().parents[2] / 'results' / 'context_select'
 CROSS_ENCODER = 'cross-encoder/ms-marco-MiniLM-L-6-v2'
 
 
-def load(model):
+def load(model, judge='qwen'):
     rows, states, conf = [], [], []
     layers = None
     for jp in sorted((OUT / model).glob('batch_*.json')):
@@ -33,10 +33,15 @@ def load(model):
         with np.load(jp.with_suffix('.npz')) as z:
             states.append(z['states'])
             conf.append(z['confidence'])
-    j = json.loads((OUT / model / 'judged.json').read_text())
+    if judge == 'laya':     # independent judge (different model family); see laya_judge.py
+        j = json.loads((OUT / model / 'laya_choice.json').read_text())
+        verdicts = (np.array(j['p_same']) > 0.5).astype(int)
+    else:
+        j = json.loads((OUT / model / 'judged.json').read_text())
+        verdicts = np.array(j['correct'])
     if j['keys'] != [[r['id'], *r['pair']] for r in rows]:
         raise ValueError('judge verdicts misaligned')
-    return rows, np.concatenate(states), np.concatenate(conf), np.array(j['correct']), layers
+    return rows, np.concatenate(states), np.concatenate(conf), verdicts, layers
 
 
 def boot_diff(a, b, n=4000, seed=0):
@@ -46,8 +51,8 @@ def boot_diff(a, b, n=4000, seed=0):
     return {'mean': float(d.mean()), 'low': float(np.percentile(bs, 2.5)), 'high': float(np.percentile(bs, 97.5))}
 
 
-def analyze(model):
-    rows, S, conf, y, layers = load(model)
+def analyze(model, judge='qwen'):
+    rows, S, conf, y, layers = load(model, judge)
     by_q = defaultdict(list)
     for k, r in enumerate(rows):
         by_q[r['qi']].append(k)
@@ -131,10 +136,12 @@ def analyze(model):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--model', default='llama32_3b')
+    ap.add_argument('--judge', choices=['qwen', 'laya'], default='qwen')
     a = ap.parse_args()
-    res = analyze(a.model)
+    res = analyze(a.model, a.judge)
+    res['judge'] = a.judge
     RESULTS.mkdir(parents=True, exist_ok=True)
-    (RESULTS / f'{a.model}.json').write_text(json.dumps(res, indent=1))
+    (RESULTS / f"{a.model}{'' if a.judge == 'qwen' else '_laya'}.json").write_text(json.dumps(res, indent=1))
     print(json.dumps(res, indent=1))
 
 

@@ -1,0 +1,24 @@
+{
+ "noul": {
+  "agree_qwen": 0.834,
+  "kappa_qwen": 0.6375672465590723,
+  "agree_string": 0.803,
+  "kappa_string": 0.5478996842182566,
+  "laya_yes_rate": 0.372,
+  "p_mean": 0.40650440000000004
+ },
+ "choice": {
+  "agree_qwen": 0.86,
+  "kappa_qwen": 0.6956415875334794,
+  "agree_string": 0.823,
+  "kappa_string": 0.596586713344091,
+  "laya_yes_rate": 0.378,
+  "p_mean": 0.40990599999999994
+ },
+ "reference": {
+  "n": 1000,
+  "qwen_vs_string_agree": 0.875,
+  "qwen_vs_string_kappa": 0.700722097722615,
+  "qwen_yes_rate": 0.336
+ }
+}
