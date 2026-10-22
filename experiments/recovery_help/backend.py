@@ -34,8 +34,11 @@ def layer_grid(model):
     n = model.config.num_hidden_layers
     # ACTIVATION_LAYERS=all captures every block output (layer-wise separability study);
     # unset keeps the six-depth grid the recorded experiments used.
-    if os.environ.get('ACTIVATION_LAYERS') == 'all':
+    spec = os.environ.get('ACTIVATION_LAYERS')
+    if spec == 'all':
         return list(range(1, n + 1))
+    if spec:                                    # explicit comma list, e.g. "12,15,18"
+        return sorted({int(x) for x in spec.split(',')})
     return sorted(set(max(1, min(n-1, round(n*f))) for f in (1/6, 1/3, 1/2, 2/3, 5/6, 11/12)))
 
 
