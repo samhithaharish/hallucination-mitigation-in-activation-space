@@ -43,4 +43,5 @@ Failed hypotheses are reported as results. Deviations are logged below with date
 
 ## Deviations
 
-(none yet)
+- 2026-10-22 (before any data was analysed): ranker 6 uses prompt-end states only, so that, like ranker 1, it
+  needs no generation. The candidate-level AUROC of ranker 1 on the test questions is also reported.
