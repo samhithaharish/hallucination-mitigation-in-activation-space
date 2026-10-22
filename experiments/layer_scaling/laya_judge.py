@@ -18,7 +18,7 @@ import numpy as np
 from sklearn.metrics import cohen_kappa_score
 
 ROOT = Path(__file__).resolve().parents[2]
-CTX = ROOT / 'runs' / 'context_select' / 'llama32_3b'
+CTX_ROOT = ROOT / 'runs' / 'context_select'
 OUT = ROOT / 'results' / 'context_select'
 
 QUESTIONS = {
@@ -31,7 +31,8 @@ QUESTIONS = {
 }
 
 
-def load_items():
+def load_items(model):
+    CTX = CTX_ROOT / model
     rows = [r for jp in sorted(CTX.glob('batch_*.json')) for r in json.loads(jp.read_text())['rows']]
     qwen = json.loads((CTX / 'judged.json').read_text())['correct']
     for r, v in zip(rows, qwen):
@@ -54,9 +55,9 @@ def p_same(router, r, fmt):
     return float(a['choice'] == 'same')
 
 
-def agree(n):
+def agree(n, model):
     from laya import Router
-    rows = load_items()
+    rows = load_items(model)
     random.Random(0).shuffle(rows)
     sample = rows[:n]
     router = Router()
@@ -72,16 +73,16 @@ def agree(n):
     res['reference'] = {'n': n, 'qwen_vs_string_agree': float((q == f).mean()),
                         'qwen_vs_string_kappa': float(cohen_kappa_score(q, f)), 'qwen_yes_rate': float(q.mean())}
     OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / 'laya_agreement.json').write_text(json.dumps(res, indent=1))
+    (OUT / f'laya_agreement_{model}.json').write_text(json.dumps(res, indent=1))
     print(json.dumps(res, indent=1))
 
 
-def grade(fmt):
+def grade(fmt, model):
     from laya import Router
-    rows = load_items()
+    rows = load_items(model)
     router = Router()
     p = [p_same(router, r, fmt) for r in rows]
-    (CTX / f'laya_{fmt}.json').write_text(json.dumps({'format': fmt, 'keys': [[r['id'], *r['pair']] for r in rows],
+    (CTX_ROOT / model / f'laya_{fmt}.json').write_text(json.dumps({'format': fmt, 'keys': [[r['id'], *r['pair']] for r in rows],
                                                       'p_same': p}))
     print(json.dumps({'graded': len(p), 'yes_rate': float(np.mean(np.array(p) > 0.5))}))
 
@@ -91,5 +92,6 @@ if __name__ == '__main__':
     ap.add_argument('step', choices=['agree', 'grade'])
     ap.add_argument('--n', type=int, default=1000)
     ap.add_argument('--format', choices=list(QUESTIONS), default='choice')
+    ap.add_argument('--model', default='llama32_3b')
     a = ap.parse_args()
-    agree(a.n) if a.step == 'agree' else grade(a.format)
+    agree(a.n, a.model) if a.step == 'agree' else grade(a.format, a.model)
