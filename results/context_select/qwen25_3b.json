@@ -1,0 +1,47 @@
+{
+ "model": "qwen25_3b",
+ "n_test_questions": 500,
+ "axis_layer": 28,
+ "pair_trained": {
+  "layer": 31,
+  "C": 0.0001,
+  "cv_auroc": 0.8054586687714316
+ },
+ "accuracy": {
+  "probe_zero_shot": 0.764,
+  "bm25_top2": 0.59,
+  "random": 0.316,
+  "cross_encoder": 0.566,
+  "confidence": 0.488,
+  "probe_pair_trained": 0.752,
+  "gold_pair": 0.818,
+  "oracle": 0.924
+ },
+ "C1_zero_shot_minus_bm25": {
+  "mean": 0.174,
+  "low": 0.132,
+  "high": 0.218
+ },
+ "C2_zero_shot_minus_cross_encoder": {
+  "mean": 0.198,
+  "low": 0.152,
+  "high": 0.246
+ },
+ "C3_trained_minus_zero_shot": {
+  "mean": -0.012,
+  "low": -0.042,
+  "high": 0.018
+ },
+ "zero_shot_minus_confidence": {
+  "mean": 0.276,
+  "low": 0.228,
+  "high": 0.324
+ },
+ "trained_minus_cross_encoder": {
+  "mean": 0.186,
+  "low": 0.142,
+  "high": 0.23
+ },
+ "candidate_auroc_zero_shot_test": 0.7885499523942201,
+ "judge": "qwen"
+}

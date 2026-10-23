@@ -1,0 +1,47 @@
+{
+ "model": "phi35",
+ "n_test_questions": 500,
+ "axis_layer": 22,
+ "pair_trained": {
+  "layer": 19,
+  "C": 0.0001,
+  "cv_auroc": 0.8053597822770684
+ },
+ "accuracy": {
+  "probe_zero_shot": 0.794,
+  "bm25_top2": 0.618,
+  "random": 0.4,
+  "cross_encoder": 0.592,
+  "confidence": 0.69,
+  "probe_pair_trained": 0.826,
+  "gold_pair": 0.848,
+  "oracle": 0.936
+ },
+ "C1_zero_shot_minus_bm25": {
+  "mean": 0.176,
+  "low": 0.134,
+  "high": 0.218
+ },
+ "C2_zero_shot_minus_cross_encoder": {
+  "mean": 0.202,
+  "low": 0.158,
+  "high": 0.246
+ },
+ "C3_trained_minus_zero_shot": {
+  "mean": 0.032,
+  "low": 0.004,
+  "high": 0.062
+ },
+ "zero_shot_minus_confidence": {
+  "mean": 0.104,
+  "low": 0.066,
+  "high": 0.142
+ },
+ "trained_minus_cross_encoder": {
+  "mean": 0.234,
+  "low": 0.192,
+  "high": 0.276
+ },
+ "candidate_auroc_zero_shot_test": 0.7681371856564883,
+ "judge": "qwen"
+}
