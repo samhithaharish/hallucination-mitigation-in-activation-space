@@ -46,12 +46,13 @@ def pair_items():
 
 
 @torch.no_grad()
-def prompt_end_states(model, tok, prompts, layers, bs=32):
+def prompt_end_states(model, tok, prompts, layers, bs=16):
     out = []
     for s in range(0, len(prompts), bs):
         enc = tok([chat(tok, p) for p in prompts[s:s + bs]], return_tensors='pt', padding=True,
                   add_special_tokens=False).to(model.device)
-        hs = model(**enc, output_hidden_states=True).hidden_states   # hs[l] = output of block l
+        # model.model: hidden states without the vocabulary projection (logits would need ~6 GB per batch)
+        hs = model.model(**enc, output_hidden_states=True).hidden_states   # hs[l] = output of block l
         out.append(torch.stack([hs[l][:, -1] for l in layers], 1).half().cpu().numpy())
     return np.concatenate(out)
 
@@ -100,7 +101,7 @@ def inside_score(Z, alpha=1e-3):
 
 
 @torch.no_grad()
-def seakr(key, k=8, pairs_per_batch=12):
+def seakr(key, k=8, pairs_per_batch=6):
     model, tok = load(key)
     layer = model.config.num_hidden_layers // 2
     d = OUT / key
@@ -122,7 +123,7 @@ def seakr(key, k=8, pairs_per_batch=12):
         n = active_lengths(gen, stops)                             # generated tokens before EOS/pad
         mask = torch.cat([enc.attention_mask.repeat_interleave(k, 0),
                           (torch.arange(gen.shape[1], device=gen.device)[None] < n[:, None] + 1).long()], 1)
-        hs = model(input_ids=seq, attention_mask=mask, output_hidden_states=True).hidden_states[layer]
+        hs = model.model(input_ids=seq, attention_mask=mask, output_hidden_states=True).hidden_states[layer]
         last = (P + n - 1).clamp(min=P - 1)                        # last generated token (prompt end if empty)
         H = hs[torch.arange(len(seq)), last].float().cpu().numpy().reshape(len(chunk), k, -1)
         for it, Z in zip(chunk, H):
