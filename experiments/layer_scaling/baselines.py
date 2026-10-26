@@ -53,7 +53,7 @@ def pair_items():
 
 
 @torch.no_grad()
-def prompt_end_states(model, tok, prompts, layers, bs=16):
+def prompt_end_states(model, tok, prompts, layers, bs=int(os.environ.get('BASELINE_BS', '16'))):
     out = []
     for s in range(0, len(prompts), bs):
         enc = tok([chat(tok, p) for p in prompts[s:s + bs]], return_tensors='pt', padding=True,
