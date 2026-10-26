@@ -46,7 +46,6 @@ Failed comparisons are reported as results. Deviations are logged below with dat
 
 ## Deviations
 
-(none yet)
 - 2026-10-26 (before any Llama-3.1-8B data exists): extended to Llama-3.1-8B-Instruct with the same protocol. Its
   probe is trained on 6,000 `train` / 1,000 `validation` baseline answers collected without the recovery actions
   (`collect.py --keep-only`; same keep prompt and states). Probe layer chosen on validation as before; captured
