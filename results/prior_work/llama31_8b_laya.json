@@ -1,0 +1,41 @@
+{
+ "model": "llama31_8b",
+ "judge": "laya",
+ "n_questions": 500,
+ "mid_layer": 16,
+ "axis_layer": 17,
+ "accuracy": {
+  "ours_pair": 0.818,
+  "ours_single": 0.756,
+  "jin_single": 0.756,
+  "mid_layer_pair": 0.824,
+  "bge": 0.764
+ },
+ "ours_pair_minus_ours_single": {
+  "mean": 0.062,
+  "low": 0.032,
+  "high": 0.094
+ },
+ "ours_pair_minus_jin_single": {
+  "mean": 0.062,
+  "low": 0.028,
+  "high": 0.098
+ },
+ "ours_pair_minus_mid_layer_pair": {
+  "mean": -0.006,
+  "low": -0.024,
+  "high": 0.01
+ },
+ "ours_pair_minus_bge": {
+  "mean": 0.054,
+  "low": 0.022,
+  "high": 0.086
+ },
+ "cost_per_question": {
+  "ours_pair": "45 forward passes",
+  "ours_single": "10 forward passes",
+  "jin_single": "10 forward passes",
+  "mid_layer_pair": "45 forward passes",
+  "bge": "10 reranker passes (no LLM)"
+ }
+}
