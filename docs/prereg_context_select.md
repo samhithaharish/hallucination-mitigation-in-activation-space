@@ -45,3 +45,7 @@ Failed hypotheses are reported as results. Deviations are logged below with date
 
 - 2026-10-22 (before any data was analysed): ranker 6 uses prompt-end states only, so that, like ranker 1, it
   needs no generation. The candidate-level AUROC of ranker 1 on the test questions is also reported.
+- 2026-10-26 (before any Llama-3.1-8B data exists): extended to Llama-3.1-8B-Instruct with the same protocol. Its
+  probe is trained on 6,000 `train` / 1,000 `validation` baseline answers collected without the recovery actions
+  (`collect.py --keep-only`; same keep prompt and states). Probe layer chosen on validation as before; captured
+  pair layers = {L/2, axis-3, axis, axis+3}. Qwen2.5-7B stays the primary judge (no family overlap); Laya secondary.

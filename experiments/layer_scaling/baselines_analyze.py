@@ -12,7 +12,7 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
 
 from experiments.layer_scaling.analyze import fit_logit, load_split
-from experiments.layer_scaling.baselines import AXIS, OUT, TEST_Q
+from experiments.layer_scaling.baselines import OUT, TEST_Q, axis_layer
 from experiments.layer_scaling.context_select_analyze import boot_diff, load as load_ctx
 
 RESULTS = Path(__file__).resolve().parents[2] / 'results' / 'prior_work'
@@ -44,7 +44,7 @@ def analyze(model, judge):
         by_q[r['qi']].append(k)
     sg, pr = np.load(OUT / model / 'singles.npz'), np.load(OUT / model / 'pairs.npz')
     mid, axis = [int(x) for x in sg['layers']]
-    assert axis == AXIS[model]
+    assert axis == axis_layer(model)
 
     ours = baseline_probe(model, axis, 'logit')
     jin = baseline_probe(model, mid, 'mlp')

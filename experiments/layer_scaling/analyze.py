@@ -42,7 +42,8 @@ def load_split(model, split):
         meta += [r['metadata'] for r in b['rows']]
     if not rows:
         raise FileNotFoundError(f'no batches for {model}/{split}')
-    f1 = np.array([[r['actions'][a]['score']['f1'] for a in ACTIONS] for r in rows])
+    # keep-only collections (no recovery actions) leave the other actions as NaN
+    f1 = np.array([[r['actions'][a]['score']['f1'] if a in r['actions'] else np.nan for a in ACTIONS] for r in rows])
     return {'states': np.concatenate(states), 'conf': np.concatenate(conf).astype(np.float64),
             'meta': np.array(meta, dtype=np.float64), 'f1': f1}
 

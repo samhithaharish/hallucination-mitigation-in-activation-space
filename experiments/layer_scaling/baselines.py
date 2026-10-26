@@ -22,6 +22,13 @@ from experiments.recovery_scale.actions import DIRECT_CAP, prompt, public_exampl
 
 OUT = CTX_OUT.parent / 'baselines'
 AXIS = {'llama32_3b': 18, 'phi35': 22, 'qwen25_3b': 28}       # drift-study probe layers (prompt end)
+
+
+def axis_layer(key):
+    """Probe layer: the drift-study value, or the one chosen on validation by runs/axis_<model>.txt."""
+    if key in AXIS:
+        return AXIS[key]
+    return int((CTX_OUT.parent / f'axis_{key}.txt').read_text())
 TEST_Q = range(500, 1000)
 BGE = 'BAAI/bge-reranker-v2-m3'
 
@@ -60,7 +67,7 @@ def prompt_end_states(model, tok, prompts, layers, bs=16):
 def forward(key):
     model, tok = load(key)
     L = model.config.num_hidden_layers
-    layers = [L // 2, AXIS[key]]
+    layers = [L // 2, axis_layer(key)]
     d = OUT / key
     d.mkdir(parents=True, exist_ok=True)
     for name, its in (('singles', single_items()), ('pairs', pair_items())):

@@ -22,6 +22,8 @@ from experiments.recovery_help.data import dump, digest, file_digest
 from experiments.recovery_scale.backend import generate
 from experiments.recovery_scale.collect import collect_batch
 from experiments.recovery_scale.data import SEED
+from experiments.recovery_help.backend import chat
+from experiments.recovery_scale.actions import DIRECT_CAP, extract_answer, prompt, public_example, score_answer
 
 OUT = RUNS / 'layer_scaling'
 # key -> (hub id, pinned revision or None for the cached snapshot)
@@ -50,7 +52,21 @@ def load(key):
     return model, tok
 
 
-def run(key, split, limit, batch_size):
+def keep_batch(model, tok, raw, initial_k):
+    """Baseline (keep) answer only, with all-layer capture: Som's keep prompt, no recovery actions."""
+    public = [public_example(r) for r in raw]
+    res = generate(model, tok, [chat(tok, prompt(e, initial_k=initial_k)) for e in public], DIRECT_CAP, capture=True)
+    rows = []
+    for r, t, il, ol in zip(raw, res['texts'], res['input_lengths'], res['lengths']):
+        a = extract_answer(t)
+        rows.append({'id': r['id'], 'gold': r['answer'], 'level': r.get('level', 'unknown'),
+                     'type': r.get('type', 'unknown'), 'metadata': [],
+                     'actions': {'keep': {'text': t, 'answer': a, 'score': score_answer(a, r['answer']),
+                                          'calls': 0, 'input_tokens': il, 'output_tokens': ol}}})
+    return rows, {'states': res['states'], 'confidence': res['confidence'], 'layers': res['layers']}
+
+
+def run(key, split, limit, batch_size, keep_only=False):
     if os.environ.get('PYTHONHASHSEED') != '0':
         raise ValueError('Run with PYTHONHASHSEED=0 for stable BM25 accumulation')
     raw = json.loads((SCALE_RUN / 'data' / f'{split}.json').read_text())[:limit]
@@ -59,6 +75,8 @@ def run(key, split, limit, batch_size):
     proto = {'model': MODELS[key], 'split': split, 'limit': limit, 'batch_size': batch_size,
              'layers': 'all', 'engine': 'transformers', 'seed': SEED,
              'data_hash': file_digest(SCALE_RUN / 'data' / f'{split}.json')}
+    if keep_only:
+        proto['keep_only'] = True
     done = sum(len(json.loads(p.read_text())['rows']) for p in directory.glob('batch_*.json'))
     if done == len(raw):   # complete (possibly at another batch size): nothing to collect
         print(json.dumps({'model': key, 'split': split, 'complete': done}), flush=True)
@@ -75,7 +93,8 @@ def run(key, split, limit, batch_size):
         if stem.with_suffix('.json').exists() and stem.with_suffix('.npz').exists():
             continue
         chunk = raw[start:start + batch_size]
-        rows, arrays = collect_batch(model, tok, chunk, k, SEED + start, generate=generate)
+        rows, arrays = (keep_batch(model, tok, chunk, k) if keep_only else
+                        collect_batch(model, tok, chunk, k, SEED + start, generate=generate))
         layers = arrays.pop('layers')
         tmp = stem.with_suffix('.npz.tmp')
         with tmp.open('wb') as f:
@@ -92,5 +111,6 @@ if __name__ == '__main__':
     ap.add_argument('--split', default='train')
     ap.add_argument('--limit', type=int, default=None)
     ap.add_argument('--batch-size', type=int, default=32)
+    ap.add_argument('--keep-only', action='store_true', help='baseline answer only (no recovery actions)')
     a = ap.parse_args()
-    run(a.model, a.split, a.limit, a.batch_size)
+    run(a.model, a.split, a.limit, a.batch_size, a.keep_only)
