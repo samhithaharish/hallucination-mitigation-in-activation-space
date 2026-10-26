@@ -1,0 +1,41 @@
+{
+ "model": "phi35",
+ "judge": "laya",
+ "n_questions": 500,
+ "mid_layer": 16,
+ "axis_layer": 22,
+ "accuracy": {
+  "ours_pair": 0.794,
+  "ours_single": 0.748,
+  "jin_single": 0.712,
+  "mid_layer_pair": 0.812,
+  "bge": 0.758
+ },
+ "ours_pair_minus_ours_single": {
+  "mean": 0.046,
+  "low": 0.012,
+  "high": 0.078
+ },
+ "ours_pair_minus_jin_single": {
+  "mean": 0.082,
+  "low": 0.046,
+  "high": 0.118
+ },
+ "ours_pair_minus_mid_layer_pair": {
+  "mean": -0.018,
+  "low": -0.048,
+  "high": 0.01
+ },
+ "ours_pair_minus_bge": {
+  "mean": 0.036,
+  "low": 0.0,
+  "high": 0.07
+ },
+ "cost_per_question": {
+  "ours_pair": "45 forward passes",
+  "ours_single": "10 forward passes",
+  "jin_single": "10 forward passes",
+  "mid_layer_pair": "45 forward passes",
+  "bge": "10 reranker passes (no LLM)"
+ }
+}

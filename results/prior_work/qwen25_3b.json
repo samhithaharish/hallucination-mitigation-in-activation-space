@@ -1,0 +1,41 @@
+{
+ "model": "qwen25_3b",
+ "judge": "qwen",
+ "n_questions": 500,
+ "mid_layer": 18,
+ "axis_layer": 28,
+ "accuracy": {
+  "ours_pair": 0.764,
+  "ours_single": 0.68,
+  "jin_single": 0.532,
+  "mid_layer_pair": 0.71,
+  "bge": 0.708
+ },
+ "ours_pair_minus_ours_single": {
+  "mean": 0.084,
+  "low": 0.048,
+  "high": 0.12
+ },
+ "ours_pair_minus_jin_single": {
+  "mean": 0.232,
+  "low": 0.188,
+  "high": 0.276
+ },
+ "ours_pair_minus_mid_layer_pair": {
+  "mean": 0.054,
+  "low": 0.018,
+  "high": 0.092
+ },
+ "ours_pair_minus_bge": {
+  "mean": 0.056,
+  "low": 0.018,
+  "high": 0.094
+ },
+ "cost_per_question": {
+  "ours_pair": "45 forward passes",
+  "ours_single": "10 forward passes",
+  "jin_single": "10 forward passes",
+  "mid_layer_pair": "45 forward passes",
+  "bge": "10 reranker passes (no LLM)"
+ }
+}

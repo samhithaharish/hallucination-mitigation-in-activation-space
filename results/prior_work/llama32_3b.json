@@ -1,0 +1,48 @@
+{
+ "model": "llama32_3b",
+ "judge": "qwen",
+ "n_questions": 500,
+ "mid_layer": 14,
+ "axis_layer": 18,
+ "accuracy": {
+  "ours_pair": 0.78,
+  "ours_single": 0.692,
+  "jin_single": 0.644,
+  "mid_layer_pair": 0.748,
+  "bge": 0.736,
+  "seakr": 0.52
+ },
+ "ours_pair_minus_ours_single": {
+  "mean": 0.088,
+  "low": 0.052,
+  "high": 0.126
+ },
+ "ours_pair_minus_jin_single": {
+  "mean": 0.136,
+  "low": 0.096,
+  "high": 0.178
+ },
+ "ours_pair_minus_mid_layer_pair": {
+  "mean": 0.032,
+  "low": 0.004,
+  "high": 0.06
+ },
+ "ours_pair_minus_bge": {
+  "mean": 0.044,
+  "low": 0.01,
+  "high": 0.08
+ },
+ "ours_pair_minus_seakr": {
+  "mean": 0.26,
+  "low": 0.216,
+  "high": 0.306
+ },
+ "cost_per_question": {
+  "ours_pair": "45 forward passes",
+  "ours_single": "10 forward passes",
+  "jin_single": "10 forward passes",
+  "mid_layer_pair": "45 forward passes",
+  "bge": "10 reranker passes (no LLM)",
+  "seakr": "45 x 8 sampled generations + 360 forward passes"
+ }
+}
