@@ -1,5 +1,7 @@
 # Pre-registration: do hallucination and concept drift have distinct activation patterns?
 
+**Superseded on 2026-10-28 by `docs/prereg_grounding_errors.md`** (labels spot-checked, no probe fitted).
+
 Written 2026-10-28, before any of the labels below exist.
 
 ## Question
