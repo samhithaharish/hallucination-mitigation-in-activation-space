@@ -51,3 +51,13 @@ A class with fewer than 150 `train` examples makes that model's test exploratory
 Failed hypotheses are reported as results. Deviations are logged below with dates.
 
 ## Deviations
+
+- 2026-10-28 (pilot on 48 then 200 Llama-3.2-3B validation answers, before any labels were frozen or any probe
+  fitted): the single 4-way prompt labelled empty answers "correct" and refusals "hallucination". Replaced by
+  rules plus staged yes/no judge questions: empty -> `no_answer`; gold contained in answer -> correct, else judge
+  "correct?"; wrong answer to a yes/no question -> `yesno_wrong`; refusal phrases (rule) or judge "refusal?" ->
+  `refusal`; wrong answer appearing in the question or passages -> concept drift (rule, per the definition);
+  otherwise judge "real, closely related concept?" -> concept drift, else hallucination. `no_answer` and
+  `yesno_wrong` are excluded from E1-E3. Pilot counts (200): correct 133, drift 41, refusal 12, hallucination 6,
+  no_answer 4, yesno_wrong 4, so hallucination is rare here and the 150-example threshold may bind.
+
