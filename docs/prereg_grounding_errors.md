@@ -67,3 +67,21 @@ A model with fewer than 150 `train` examples of G or U is exploratory for that c
 Failed hypotheses are reported as results. Deviations are logged below with dates.
 
 ## Deviations
+- 2026-10-28 (pilot of the G/U judge question on 120 Llama-3.2-3B wrong answers, before any full labelling or
+  probe): the judge called 117/120 wrong answers "not supported", including 85 whose answer string is in the
+  passages. On clean HotpotQA passages the context almost never *asserts* a wrong answer, so natural G collapses.
+  **Design change (agreed with the user):**
+  - **Primary = controlled counterfactual contexts (B).** For each question answered correctly with its two gold
+    supporting passages (O), build a matched counterfactual (CF): every occurrence of the gold answer in the
+    passages replaced by a type-matched, plausible false answer (years/numbers by rule; entities proposed by
+    Qwen2.5-7B and checked by rule: differs from gold, absent from the original passages, short); question,
+    passage order and prompt otherwise identical. Labels under CF by rule: **G** (context-following) = output
+    contains the planted answer and not the gold; **C** (context-resisting) = contains gold and not planted;
+    **U** (other error) = neither. Primary probe: **G vs C from pre-generation (prompt-end) CF states**; then
+    **Delta h_l = h_l(CF) - h_l(O)** as features for G vs C, compared with h_l(CF) alone and with the lexical,
+    semantic and question-level baselines (H1-H3 restated on G vs C).
+  - **Pilot gate:** ~200 O-correct validation questions on Llama-3.2-3B. Proceed to the full study only if both
+    G and C have at least 40 examples in the pilot.
+  - **Natural data (A), descriptive:** wrong answers under the original top-2 passages split by rule into
+    context-copied (answer string in passages) vs non-context errors, with the same probes and baselines.
+  - A neutral condition (answer-bearing sentence removed) is deferred until the O/CF pilot works.
